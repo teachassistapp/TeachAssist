@@ -1,0 +1,25 @@
+{
+  "cli": {
+    "version": ">= 0.48.1"
+  },
+  "build": {
+    "development": {
+      "ios": {"image": "latest"},
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "wong.markville@gmail.com",
+        "ascAppId": "1614344413",
+        "appleTeamId": "4W5S44W27D"
+      }
+    }
+  }
+}
