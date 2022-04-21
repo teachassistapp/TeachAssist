@@ -737,7 +737,7 @@ const styles = (colors) =>
       width: 60,
       height: 20,
       paddingLeft: 14,
-      marginLeft: 23,
+      marginLeft: 10,
       marginBottom: 4,
       flexDirection: "row",
       alignItems: "center",

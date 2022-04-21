@@ -487,6 +487,7 @@ const styles = (colors) =>
       paddingLeft: 7,
       paddingRight: 12,
       width: "100%",
+      marginBottom: 5,
     },
     notifHeaderTitle: {
       fontFamily: "Poppins_600SemiBold",
@@ -498,6 +499,14 @@ const styles = (colors) =>
       width: "100%",
       paddingHorizontal: 7,
     },
+    updateText: {
+      flexDirection: "row",
+      marginBottom: 2,
+    },
+    updateCourseText: {
+      marginRight: 5,
+      paddingTop: 1,
+    },
     notifBody: {
       flexDirection: "row",
       justifyContent: "space-evenly",
@@ -505,6 +514,8 @@ const styles = (colors) =>
       width: "100%",
       paddingHorizontal: "20%",
       paddingVertical: 7,
+      marginBottom: 10,
+      marginTop: 5,
     },
     notifBodyMarks: {
       fontFamily: "Poppins_600SemiBold",
@@ -525,6 +536,10 @@ const styles = (colors) =>
       width: "100%",
       paddingHorizontal: 7,
       paddingBottom: 16,
+    },
+    seeMore: {
+      marginRight: 8,
+      marginBottom: 2,
     },
     courseTitle: {
       fontFamily: "Poppins_600SemiBold",
