@@ -36,7 +36,7 @@ export default function TeacherSearch({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [valid, setValid] = useState(null);
-
+  const [error, setError] = useState(false);
   const setStoredTeachersChild = (t) => {
     setStoredTeachers(t);
   };
@@ -89,6 +89,11 @@ export default function TeacherSearch({ navigation }) {
   };
   // sends api req
   const searchTeacher = () => {
+    if (teacherName.length < 3) {
+      setError(true);
+      return;
+    }
+    setError(false);
     setResults(null);
     setLoading(true);
     var requestOptions = {
@@ -105,7 +110,7 @@ export default function TeacherSearch({ navigation }) {
         navigateScreens(result);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch((e) => {
         handleFetchError();
         setLoading(false);
       });
@@ -141,6 +146,13 @@ export default function TeacherSearch({ navigation }) {
               style={{ marginBottom: 30 }}
             />
           </>
+        )}
+        {error && (
+          <View style={styles(colors).errorContainer}>
+            <Text style={styles(colors).errorMessage}>
+              Name must be at least 3 letters long.
+            </Text>
+          </View>
         )}
         {results === "NONE" ? (
           <View style={styles(colors).errorContainer}>
