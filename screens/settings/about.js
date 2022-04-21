@@ -44,7 +44,6 @@ export default function About({ navigation }) {
   } else {
     return (
       <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
           <View style={styles(colors).container}>
             <TouchableOpacity
               style={styles(colors).headerIcon}
@@ -88,7 +87,6 @@ export default function About({ navigation }) {
               </View>
             </View>
           </View>
-        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -102,10 +100,6 @@ const styles = (colors) =>
     safeView: {
       flex: 1,
       paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
       backgroundColor: colors.Background,
     },
     container: {
