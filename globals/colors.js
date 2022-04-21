@@ -1,17 +1,3 @@
-export const colors = {
-  PrimaryLight: "#7FCF78",
-  Primary1: "#74B06F",
-  Primary2: "#74A370",
-  Grey1: "#F6F6F6", //backgrounds
-  Grey2: "#E8E8E8", //borders
-  Grey3: "#E5E5E5", //charts (statstics.js)
-  Grey4: "#999999", //text
-  Grey5: "#666666", //text
-  Grey6: "#4B4B4B", //text
-  Black1: "#131313", //text
-  Red1: "#FF3B30", //errors and notifs
-};
-
 export const lightColors = {
   Primary1: "#74B06F",
   Primary2: "#7FCF78",

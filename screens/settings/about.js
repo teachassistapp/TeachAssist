@@ -21,7 +21,6 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
-//import { colors } from "../globals/colors";
 import { useTheme } from "../../globals/theme";
 
 export default function About({ navigation }) {
