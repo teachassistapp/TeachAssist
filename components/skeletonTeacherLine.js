@@ -16,8 +16,8 @@ export default function SkeletonTeacherLine(props) {
         <View style={styles(colors).skeletonTeacher}>
             <SkeletonContent
             containerStyle={{alignItems: 'flex-start'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[
             {
@@ -32,8 +32,8 @@ export default function SkeletonTeacherLine(props) {
             />
             <SkeletonContent
             containerStyle={{ flexDirection: "row"}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[
             {

@@ -16,8 +16,8 @@ export default function SkeletonLoading() {
     <>
         <SkeletonContent
             containerStyle={{alignSelf: 'center', alignItems: 'center'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[{
             key: 'button',

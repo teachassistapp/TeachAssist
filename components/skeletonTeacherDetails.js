@@ -14,8 +14,8 @@ export default function SkeletonTeacherDetails() {
     <>
         <SkeletonContent
             containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[{
             key: 'info',
@@ -28,8 +28,8 @@ export default function SkeletonTeacherDetails() {
         />
         <SkeletonContent
             containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[{
             key: 'info',
@@ -42,8 +42,8 @@ export default function SkeletonTeacherDetails() {
         />
         <SkeletonContent
             containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[{
             key: 'info',
@@ -56,8 +56,8 @@ export default function SkeletonTeacherDetails() {
         />
         <SkeletonContent
             containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Container}
-            highlightColor={colors.Selected}
+            boneColor={colors.Bone}
+            highlightColor={colors.Highlight}
             animationType="pulse"
             layout={[{
             key: 'info',
