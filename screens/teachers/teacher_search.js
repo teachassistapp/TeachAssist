@@ -14,7 +14,9 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
+import SkeletonLoading from "../../components/skeletonLoading";
 
+import SkeletonContent from 'react-native-skeleton-content';
 import { handleFetchError } from "../../globals/alert";
 
 const filterTeachers = (teachers) => {
@@ -137,14 +139,9 @@ export default function TeacherSearch({ navigation }) {
         </View>
         {loading && (
           <>
-            <Text style={styles(colors).loadingText}>
-              Hold on, this might take a while...
-            </Text>
-            <ActivityIndicator
-              size="large"
-              color={colors.Primary1}
-              style={{ marginBottom: 30 }}
-            />
+
+            <SkeletonLoading/>
+
           </>
         )}
         {error && (
@@ -170,8 +167,8 @@ export default function TeacherSearch({ navigation }) {
                 setStoredTeachers={setStoredTeachersChild}
                 actives={true}
               />
-              <Text style={styles(colors).loadingText}>
-                Teacher not listed here? Try searching a full name!
+              <Text style={styles(colors).greenText}>
+                Teacher not here? Try searching a full name!
               </Text>
             </>
           )
@@ -275,14 +272,13 @@ const styles = (colors) =>
       fontFamily: "Poppins_400Regular",
       color: colors.Subtitle,
     },
-    loadingText: {
+    greenText: {
       fontSize: 13,
       marginLeft: "auto",
       marginRight: "auto",
       textAlign: "center",
       width: 0.8 * vw,
-      marginTop: 40,
-      marginBottom: 20,
+      marginTop: 20,
       fontFamily: "Poppins_400Regular",
       color: colors.Primary1,
     },
@@ -303,5 +299,11 @@ const styles = (colors) =>
       color: colors.Red,
       marginTop: 20,
       fontSize: 15,
+    },
+    skeletonTeacher: {
+      alignSelf: 'center', 
+      width: "88%", 
+      flexDirection: "row", 
+      justifyContent: 'space-between'
     },
   });
