@@ -6,7 +6,7 @@ import {
 } from "react-native";
 
 import { useTheme } from "../globals/theme";
-import SkeletonTeacher from './skeletonTeacher';
+import SkeletonTeacherLine from './skeletonTeacherLine';
 import SkeletonContent from 'react-native-skeleton-content';
 
 export default function SkeletonLoading() {
@@ -28,24 +28,11 @@ export default function SkeletonLoading() {
             borderRadius: 20
             }]}
         />
-        <SkeletonTeacher w={180}/>
-        <SkeletonTeacher w={140}/>
-        <SkeletonTeacher w={170}/>
-        <SkeletonTeacher w={180}/>
-        <SkeletonTeacher w={140}/>
+        <SkeletonTeacherLine w={180}/>
+        <SkeletonTeacherLine w={140}/>
+        <SkeletonTeacherLine w={170}/>
+        <SkeletonTeacherLine w={180}/>
+        <SkeletonTeacherLine w={140}/>
     </>
   );
 }
-
-const vw = Dimensions.get("window").width;
-
-const styles = (colors) =>
-  StyleSheet.create({
-
-    skeletonTeacher: {
-      alignSelf: 'center', 
-      width: "88%", 
-      flexDirection: "row", 
-      justifyContent: 'space-between'
-    },
-  });

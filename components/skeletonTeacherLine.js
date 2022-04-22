@@ -8,7 +8,7 @@ import {
 import { useTheme } from "../globals/theme";
 import SkeletonContent from 'react-native-skeleton-content';
 
-export default function SkeletonTeacher(props) {
+export default function SkeletonTeacherLine(props) {
   const { colors } = useTheme();
 
   return (

@@ -14,9 +14,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
-import SkeletonLoading from "../../components/skeletonLoading";
+import SkeletonTeacherLoading from "../../components/skeletonTeacherLoading";
 
-import SkeletonContent from 'react-native-skeleton-content';
 import { handleFetchError } from "../../globals/alert";
 
 const filterTeachers = (teachers) => {
@@ -140,7 +139,7 @@ export default function TeacherSearch({ navigation }) {
         {loading && (
           <>
 
-            <SkeletonLoading/>
+            <SkeletonTeacherLoading/>
 
           </>
         )}

@@ -18,6 +18,8 @@ import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
 
+import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
+
 function parseData(data) {
   const keys = ["degrees", "education", "qualifications"];
   const properties = [
@@ -202,11 +204,13 @@ export default function TeacherDetails({ route, navigation }) {
             )}
           </View>
           {loading && (
-            <ActivityIndicator
-              size="large"
-              color={colors.Primary1}
-              style={{ marginBottom: 20 }}
-            />
+            // <ActivityIndicator
+            //   size="large"
+            //   color={colors.Primary1}
+            //   style={{ marginBottom: 20 }}
+            // />
+
+            <SkeletonTeacherDetails />
           )}
           {res && (
             <View>
