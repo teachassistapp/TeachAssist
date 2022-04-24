@@ -221,9 +221,9 @@ function GuidanceSearch() {
           {!loading && showResults && data && (
             <View>
               <View style={styles(colors).hRule} />
-              <Text style={styles(colors).p}>
-                Select a time under a guidance counsellor to book an appointment
-                with them.
+              <Text style={[styles(colors).p, { fontSize: 12 }]}>
+                Tap on a guidance consellor to reveal their available
+                appointments. Tap on a time to book an appointment with them.
               </Text>
               {data.map((item, index) => {
                 return <GuidanceTime data={item} date={date} key={index} />;

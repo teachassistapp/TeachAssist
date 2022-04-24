@@ -61,7 +61,9 @@ export default function CourseHelp({ navigation }) {
                 return (
                   <AnimatedCollapsible
                     header={d.header}
-                    description={d.description}
+                    description={
+                      <Text style={styles(colors).p}>{d.description}</Text>
+                    }
                     colors={colors}
                     key={String(i)}
                   />
@@ -122,5 +124,12 @@ const styles = (colors) =>
       width: vw,
       marginTop: 25,
       paddingHorizontal: 40,
+    },
+    p: {
+      fontFamily: "Poppins_400Regular",
+      color: colors.Subtitle,
+      fontSize: 14,
+      marginTop: 5,
+      marginBottom: 5,
     },
   });

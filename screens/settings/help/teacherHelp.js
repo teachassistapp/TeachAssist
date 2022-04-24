@@ -61,7 +61,9 @@ export default function TeacherHelp({ navigation }) {
                 return (
                   <AnimatedCollapsible
                     header={d.header}
-                    description={d.description}
+                    description={
+                      <Text style={styles(colors).p}>{d.description}</Text>
+                    }
                     colors={colors}
                     key={String(i)}
                   />
@@ -127,5 +129,12 @@ const styles = (colors) =>
       fontFamily: "Poppins_600SemiBold",
       fontSize: 16,
       color: colors.Primary1,
+    },
+    p: {
+      fontFamily: "Poppins_400Regular",
+      color: colors.Subtitle,
+      fontSize: 14,
+      marginTop: 5,
+      marginBottom: 5,
     },
   });

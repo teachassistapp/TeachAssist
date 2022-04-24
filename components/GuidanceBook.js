@@ -157,8 +157,8 @@ export default function GuidanceBook({ route }) {
   ];
 
   const checkboxes = [
-    "Check this box if your parent will be a part of this meeting",
-    "Request Online Video meeting",
+    "Parent will join meeting",
+    "Request online video meeting",
   ];
 
   return (

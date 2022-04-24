@@ -7,7 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  ActivityIndicator,
+  TouchableOpacity,
   ScrollView,
   Dimensions,
 } from "react-native";
@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
 import SkeletonTeacherLoading from "../../components/skeletonTeacherLoading";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { handleFetchError } from "../../globals/alert";
 
@@ -125,28 +126,56 @@ export default function TeacherSearch({ navigation }) {
             <Text style={styles(colors).headerTitle}>Teachers</Text>
             <Text style={styles(colors).headerSubtitle}>Find Teachers</Text>
           </View>
-          <TextInput
-            style={styles(colors).input}
-            onChangeText={setTeacherName}
-            value={teacherName}
-            placeholder={"Search"}
-            placeholderTextColor={colors.Placeholder}
-            multiline={false}
-            autoCorrect={false}
-            onSubmitEditing={() => searchTeacher()}
-          />
+          <View style={styles(colors).inputContainer}>
+            <TextInput
+              style={styles(colors).input}
+              onChangeText={setTeacherName}
+              value={teacherName}
+              placeholder={"Search"}
+              placeholderTextColor={colors.Placeholder}
+              multiline={false}
+              autoCorrect={false}
+              maxLength={30}
+              onSubmitEditing={() => searchTeacher()}
+            />
+            <TouchableOpacity
+              style={styles(colors).icon}
+              onPress={() => searchTeacher()}
+            >
+              <FontAwesome
+                name="search"
+                size={20}
+                color={colors.Header}
+                style={{ paddingBottom: 7 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         {loading && (
           <>
-
-            <SkeletonTeacherLoading/>
-
+            <SkeletonTeacherLoading />
           </>
         )}
         {error && (
           <View style={styles(colors).errorContainer}>
             <Text style={styles(colors).errorMessage}>
               Name must be at least 3 letters long.
+            </Text>
+          </View>
+        )}
+        {!results && !loading && (
+          <View style={{ width: "100%", alignItems: "center" }}>
+            <Text
+              style={[
+                styles(colors).p,
+                {
+                  color: colors.Placeholder,
+                  textAlign: "center",
+                  maxWidth: "85%",
+                },
+              ]}
+            >
+              Search a teacher, e.g. "Jennifer Wong"
             </Text>
           </View>
         )}
@@ -167,7 +196,7 @@ export default function TeacherSearch({ navigation }) {
                 actives={true}
               />
               <Text style={styles(colors).greenText}>
-                Teacher not here? Try searching a full name!
+                Teacher not listed here? Try searching a full name!
               </Text>
             </>
           )
@@ -238,25 +267,41 @@ const styles = (colors) =>
       color: colors.Subtitle,
       fontSize: 13,
     },
-    input: {
-      alignSelf: "center",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 15,
-      borderWidth: 1,
+    inputContainer: {
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "flex-end",
       width: "90%",
       height: 50,
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 5,
-      margin: 5,
-      color: colors.Header,
-      fontFamily: "Poppins_500Medium",
-      fontSize: 14,
+      paddingLeft: 14,
+      borderWidth: 1,
+      borderColor: colors.Border,
+      borderRadius: 15,
+      marginTop: 5,
+      marginBottom: 15,
+      backgroundColor: colors.Container,
       shadowColor: colors.Shadow,
       shadowOpacity: 0.15,
       shadowRadius: 10,
       elevation: 6,
+    },
+    input: {
+      flex: 11,
+      height: 50,
+      paddingVertical: 0,
+      paddingLeft: 2,
+      paddingTop: 5,
+      fontSize: 14,
+      color: colors.Header,
+      fontFamily: "Poppins_500Medium",
+      textAlignVertical: "center",
+    },
+    icon: {
+      flex: 1,
+      paddingRight: 10,
+      paddingTop: 6,
+      alignItems: "center",
+      justifyContent: "center",
     },
     h: {
       fontSize: 16,
@@ -300,9 +345,9 @@ const styles = (colors) =>
       fontSize: 15,
     },
     skeletonTeacher: {
-      alignSelf: 'center', 
-      width: "88%", 
-      flexDirection: "row", 
-      justifyContent: 'space-between'
+      alignSelf: "center",
+      width: "88%",
+      flexDirection: "row",
+      justifyContent: "space-between",
     },
   });

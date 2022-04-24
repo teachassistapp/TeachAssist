@@ -33,7 +33,7 @@ function AnimatedCollapsible({ header, description, colors }) {
         animation={expanded ? "fadeInDown" : "fadeOutUp"}
         style={styles(colors).expand}
       >
-        <Text style={styles(colors).p}>{description}</Text>
+        {description}
       </Animatable.View>
     </TouchableOpacity>
   );

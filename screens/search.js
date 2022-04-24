@@ -65,7 +65,15 @@ function SearchAssignments({ title, assignments }) {
 
   if (title === null || title === "" || assignments.length === 0) {
     return (
-      <View>
+      <View style={{ alignItems: "center" }}>
+        <Text
+          style={[
+            styles(colors).p,
+            { color: colors.Placeholder, textAlign: "center", maxWidth: "85%" },
+          ]}
+        >
+          Search an assignment, e.g. "Unit 1 Test"
+        </Text>
         <Image source={img} style={styles(colors).graphic} />
       </View>
     );
@@ -314,7 +322,6 @@ export default function search() {
                 setSearch(value);
               }}
             />
-
             <SearchAssignments title={search} assignments={assignments} />
           </View>
         </ScrollView>

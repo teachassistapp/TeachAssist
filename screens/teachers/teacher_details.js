@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
-
+import AnimatedCollapsible from "../../components/AnimatedCollapsible"; //add this
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
 
 function parseData(data) {
@@ -203,15 +203,7 @@ export default function TeacherDetails({ route, navigation }) {
               <View style={{ flex: 1 }} />
             )}
           </View>
-          {loading && (
-            // <ActivityIndicator
-            //   size="large"
-            //   color={colors.Primary1}
-            //   style={{ marginBottom: 20 }}
-            // />
-
-            <SkeletonTeacherDetails />
-          )}
+          {loading && <SkeletonTeacherDetails />}
           {res && (
             <View>
               <View
@@ -276,8 +268,25 @@ export default function TeacherDetails({ route, navigation }) {
                 {parseData(res).map((d, i) => {
                   if (d.content.length > 0) {
                     return (
-                      <TeacherSection
-                        data={d}
+                      <AnimatedCollapsible
+                        header={d.property}
+                        description={d.content.map((e, i) => {
+                          return (
+                            <View key={String(i)}>
+                              <Text style={styles(colors).p}>
+                                {e.slice(0, e.indexOf("/") + 1).trim()}
+                                <Text
+                                  style={[
+                                    styles(colors).p,
+                                    { fontFamily: "Poppins_600SemiBold" },
+                                  ]}
+                                >
+                                  {e.slice(e.indexOf("/") + 1)}
+                                </Text>
+                              </Text>
+                            </View>
+                          );
+                        })}
                         colors={colors}
                         key={String(i)}
                       />
@@ -290,58 +299,6 @@ export default function TeacherDetails({ route, navigation }) {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-function TeacherSection({ data, colors }) {
-  const [expanded, setExpanded] = useState(false);
-  return (
-    <TouchableOpacity
-      style={expanded ? styles(colors).div : styles(colors).divCollapse}
-      onPress={() => setExpanded(!expanded)}
-    >
-      <Animatable.View duration={1} style={styles(colors).propertyHeader}>
-        <Text style={styles(colors).propertyTitle}>{data.property}</Text>
-        {expanded ? (
-          <FontAwesome
-            name="chevron-up"
-            size={20}
-            color={colors.Primary1}
-            style={{ marginTop: -8 }}
-          />
-        ) : (
-          <FontAwesome
-            name="chevron-down"
-            size={20}
-            color={colors.Primary1}
-            style={{ marginTop: -8 }}
-          />
-        )}
-      </Animatable.View>
-      <Animatable.View
-        duration={expanded ? 300 : 100}
-        animation={expanded ? "fadeInDown" : "fadeOutUp"}
-        style={styles(colors).expand}
-      >
-        {data.content.map((e, i) => {
-          return (
-            <View key={String(i)}>
-              <Text style={styles(colors).p}>
-                {e.slice(0, e.indexOf("/") + 1).trim()}
-                <Text
-                  style={[
-                    styles(colors).p,
-                    { fontFamily: "Poppins_600SemiBold" },
-                  ]}
-                >
-                  {e.slice(e.indexOf("/") + 1)}
-                </Text>
-              </Text>
-            </View>
-          );
-        })}
-      </Animatable.View>
-    </TouchableOpacity>
   );
 }
 
