@@ -77,7 +77,7 @@ export default function Feedback({ navigation }) {
               placeholder="Write something..."
               placeholderTextColor={colors.Placeholder}
               multiline={true}
-              numberOfLines={10}
+              numberOfLines={8}
             />
             <TouchableOpacity
               style={styles(colors).submit}
@@ -88,17 +88,23 @@ export default function Feedback({ navigation }) {
               <FontAwesome name="send" size={16} color={colors.Primary1} />
               <Text style={styles(colors).buttonText}> Send</Text>
             </TouchableOpacity>
-            {error && (
+            {error ? (
               <Text style={styles(colors).error}>
                 You cannot send a blank message.
               </Text>
+            ) : (
+              <View style={{ height: 34 }} />
             )}
-            <View style={{ marginTop: 40, alignItems: "center" }}>
+            <View
+              style={{
+                alignItems: "center",
+                marginTop: 10,
+              }}
+            >
               <Text style={styles(colors).p1}>
-                Or send us a message on {""}
+                Or send us a message on{" "}
                 <Text style={styles(colors).p2}>Instagram </Text>
-                or through {""}
-                <Text style={styles(colors).p2}>our website</Text>:
+                or through <Text style={styles(colors).p2}>our website</Text>:
               </Text>
               <TouchableOpacity
                 onPress={() =>
@@ -198,8 +204,8 @@ const styles = (colors) =>
       fontFamily: "Poppins_400Regular",
       color: colors.Subtitle,
       textAlign: "center",
-      fontSize: 15,
-      marginTop: 15,
+      fontSize: 14,
+      marginTop: 10,
       marginBottom: 12,
       maxWidth: 0.75 * vw,
     },
@@ -207,14 +213,14 @@ const styles = (colors) =>
       fontFamily: "Poppins_600SemiBold",
       color: colors.Subtitle,
       textAlign: "center",
-      fontSize: 15,
+      fontSize: 14,
     },
     error: {
       fontFamily: "Poppins_500Medium",
       color: colors.Red,
       textAlign: "center",
       fontSize: 13,
-      marginTop: 10,
+      marginTop: 6,
     },
     input: {
       alignSelf: "center",

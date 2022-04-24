@@ -32,7 +32,7 @@ function join_arrays(a1, a2) {
 
   for (let i = 0; i < arr1.length; i++) {
     const test = arr2.filter((c) => {
-      return c.name === arr1[i].name;
+      return c.code === arr1[i].code;
     });
     if (test.length === 0) {
       combined_array.push(arr1[i]);
@@ -63,9 +63,8 @@ export default function Notifications({ route, navigation }) {
   const storeData = async (data) => {
     try {
       await AsyncStorage.setItem("data", JSON.stringify(data));
-      console.log("stored marks");
     } catch (error) {
-      console.log(error);
+      Alert.alert("Failed to store data.");
     }
   };
 
@@ -76,19 +75,16 @@ export default function Notifications({ route, navigation }) {
       if (datum.length !== 0) {
         setOldData(datum);
         setLoading(false);
-        console.log("retrieved stored marks");
       } else {
         setLoading(true);
         getMarks();
       }
-    } catch (e) {
+    } catch {
       getMarks();
-      console.log(e);
     }
   };
   const getMarks = async () => {
     setLoading(true);
-    console.log("getting marks...");
     const number = await AsyncStorage.getItem("number");
     const password = await AsyncStorage.getItem("password");
     if (number !== null && password !== null) {
@@ -111,7 +107,6 @@ export default function Notifications({ route, navigation }) {
       )
         .then((response) => {
           const status = response.status;
-          console.log("status", status);
           if (status === 200) {
             response.json().then((datum) => {
               setNewData(datum);
@@ -121,11 +116,13 @@ export default function Notifications({ route, navigation }) {
               setRefreshing(false);
             });
           } else {
-            console.log("Wrong credentials");
-            setLoading(true);
+            setLoading(false);
+            Alert.alert("Failed to fetch data.", "Please try again later.");
           }
         })
-        .catch((error) => console.log("error", error));
+        .catch(() =>
+          Alert.alert("Failed to fetch data.", "Please try again later.")
+        );
     }
   };
 
@@ -140,10 +137,10 @@ export default function Notifications({ route, navigation }) {
       const all_courses = join_arrays(newData, oldData);
       for (let i = 0; i < all_courses.length; i++) {
         const old_data = oldData.find((c) => {
-          return c.name === all_courses[i].name;
+          return c.code === all_courses[i].code;
         });
         const new_data = newData.find((c) => {
-          return c.name === all_courses[i].name;
+          return c.code === all_courses[i].code;
         });
         displayNotifs.push(
           <DisplayMarkUpdates
@@ -154,7 +151,7 @@ export default function Notifications({ route, navigation }) {
         );
       }
     } else {
-      displayNotifs = (
+      displayNotifs = !loading && (
         <View>
           <Image source={img} style={styles(colors).graphic} />
           <Text style={[styles(colors).p, { textAlign: "center" }]}>
@@ -205,6 +202,7 @@ export default function Notifications({ route, navigation }) {
               <ActivityIndicator
                 style={{ marginTop: 40 }}
                 color={colors.Primary1}
+                size="large"
               />
             )}
             <View>{displayNotifs}</View>
@@ -232,7 +230,7 @@ const styles = (colors) =>
       alignItems: "center",
       justifyContent: "flex-start",
       backgroundColor: colors.Background,
-      paddingTop: 15,
+      paddingVertical: 15,
     },
     div: {
       alignItems: "center",

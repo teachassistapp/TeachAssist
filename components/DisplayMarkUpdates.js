@@ -174,7 +174,12 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
     let data = newData ? { ...newData } : { ...oldData };
     display = (
       <View style={styles(colors).div} key={data.name}>
-        <View style={styles(colors).notifHeader}>
+        <View
+          style={[
+            styles(colors).notifHeader,
+            { marginBottom: 0, paddingBottom: 0 },
+          ]}
+        >
           <Text style={styles(colors).notifHeaderTitle}>
             {oldData ? "Course Removed" : "Course Added"}
           </Text>
@@ -198,7 +203,12 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             {data.code}
           </Text>
         </View>
-        <View style={[styles(colors).notifSubtitle, { marginBottom: 20 }]}>
+        <View
+          style={[
+            styles(colors).notifSubtitle,
+            { marginBottom: oldData ? 0 : 20 },
+          ]}
+        >
           <Text style={styles(colors).p}>Room {data.room}</Text>
           <Text style={styles(colors).p}>
             {displayDate(data.start_time)} - {displayDate(data.end_time)}
@@ -255,30 +265,25 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  width: 140,
+                  width: 100,
+                  height: 17,
+                  paddingVertical: 0,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "Poppins_700Bold",
-                    color: colors.Primary1,
-                  }}
-                >
+                <Text style={styles(colors).updateMark}>
                   {oldAssignmentMark}%
                 </Text>
                 <Foundation
                   name="arrow-right"
-                  size={16}
+                  size={13}
                   color={colors.Primary1}
-                />
-                <Text
                   style={{
-                    fontFamily: "Poppins_700Bold",
-                    color: colors.Primary1,
+                    marginVertical: 0,
+                    paddingVertical: 0,
+                    marginHorizontal: 10,
                   }}
-                >
-                  {assignmentMark}%
-                </Text>
+                />
+                <Text style={styles(colors).updateMark}>{assignmentMark}%</Text>
               </View>,
             ];
           } else if (!oldTitles.includes(newTitles[i])) {
@@ -311,9 +316,16 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                 </Text>
               </View>
               <View style={styles(colors).notifSubtitle}>
-                <Text style={styles(colors).p}>
-                  {newAssignment.name}: {subDisplay[1]}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles(colors).p}>{newAssignment.name}: </Text>
+                  {subDisplay[1]}
+                </View>
                 <Text style={styles(colors).p}>
                   {courseName} {courseCode}
                 </Text>
@@ -329,7 +341,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   name="arrow-right"
                   size={32}
                   color={colors.Primary1}
-                  style={{ marginTop: -15, marginHorizontal: 46 }}
+                  style={{ marginTop: -23, marginHorizontal: 46 }}
                 />
                 <View style={{ alignItems: "center", marginHorizontal: 10 }}>
                   <Text style={styles(colors).notifBodyMarks}>
@@ -344,7 +356,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   navigation.navigate("Details", newData);
                 }}
               >
-                <Text style={styles(colors).p}>See More </Text>
+                <Text style={styles(colors).p}>See More{"  "}</Text>
                 <FontAwesome
                   name="chevron-right"
                   size={14}
@@ -387,7 +399,6 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   >
                     {oldAssignmentMark}%
                   </Text>
-                  ,
                 </Text>
                 <Text style={styles(colors).p}>
                   {courseName} {courseCode}
@@ -404,7 +415,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   name="arrow-right"
                   size={32}
                   color={colors.Primary1}
-                  style={{ marginTop: -15, marginHorizontal: 46 }}
+                  style={{ marginTop: -23, marginHorizontal: 46 }}
                 />
                 <View style={{ alignItems: "center", marginHorizontal: 10 }}>
                   <Text style={styles(colors).notifBodyMarks}>
@@ -419,7 +430,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   navigation.navigate("Details", newData);
                 }}
               >
-                <Text style={styles(colors).p}>See More </Text>
+                <Text style={styles(colors).p}>See More{"  "}</Text>
                 <FontAwesome
                   name="chevron-right"
                   size={14}
@@ -449,10 +460,9 @@ const styles = (colors) =>
       borderWidth: 1,
       width: 0.9 * vw,
       height: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
+      paddingHorizontal: 17,
       paddingTop: 5,
-      margin: 5,
+      marginVertical: 7,
       shadowColor: colors.Shadow,
       shadowOpacity: 0.15,
       shadowRadius: 10,
@@ -526,8 +536,6 @@ const styles = (colors) =>
       fontFamily: "Poppins_600SemiBold",
       color: colors.Primary1,
       fontSize: 20,
-      marginTop: -15,
-      marginBottom: 15,
     },
     notifFooter: {
       flexDirection: "row",
@@ -547,10 +555,21 @@ const styles = (colors) =>
       color: colors.Primary1,
       maxWidth: "60%",
     },
+    updateMark: {
+      fontFamily: "Poppins_700Bold",
+      color: colors.Primary1,
+      lineHeight: 15,
+      fontSize: 13,
+      textAlignVertical: "center",
+      textAlign: "center",
+    },
     p: {
       fontFamily: "Poppins_400Regular",
       fontSize: 13,
+      lineHeight: 16,
       color: colors.Subtitle,
+      paddingTop: 2,
+      textAlignVertical: "center",
     },
     p2: {
       fontFamily: "Poppins_400Regular",

@@ -153,6 +153,7 @@ export default function Login({ navigation }) {
                       onChangeText={(text) => setNumber(text)}
                       value={number}
                       style={styles(colors).input}
+                      maxLength={20}
                     />
                   </View>
                 </View>
@@ -164,6 +165,7 @@ export default function Login({ navigation }) {
                       value={password}
                       secureTextEntry={hidePass}
                       style={[styles(colors).input, { width: "100%" }]}
+                      maxLength={20}
                     />
                   </View>
                   <TouchableOpacity

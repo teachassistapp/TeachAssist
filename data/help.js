@@ -67,7 +67,7 @@ export const guidanceHelp = [
   {
     header: "How to book",
     description:
-      '1. Pick a valid date you would like to book an appointment on.\n\n2. Press "Find Appointments", and the available appointments from your school\'s guidance counsellors will be displayed. \n\n3. Tap on a time under a guidance counsellor you would like to book an appointment with.\n\n4. Select a reason you are booking the appointment for.\n\n5. Press "Book it!" to book the appointment.',
+      '1. Pick a valid date you would like to book an appointment on.\n\n2. Press "Find Appointments", and the available appointments from your school\'s guidance counsellors will be displayed. \n\n3. Tap on a guidance counsellor to reveal their available appointments. Tap on a time under a time to book an appointment.\n\n4. Select a reason you are booking the appointment for.\n\n5. Press "Book it!" to book the appointment.',
   },
   {
     header: "Appointment not on TeachAssist?",

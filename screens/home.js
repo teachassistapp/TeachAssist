@@ -58,20 +58,20 @@ export default function Home() {
           }}
         />
         <Tab.Screen
-          name="guidance"
-          component={guidance}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="people" size={size + 2} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
           name="search"
           component={search}
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="search" size={size - 2} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="guidance"
+          component={guidance}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="people" size={size + 2} color={color} />
             ),
           }}
         />
