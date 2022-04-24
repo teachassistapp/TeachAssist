@@ -69,10 +69,10 @@ function SearchAssignments({ title, assignments }) {
         <Text
           style={[
             styles(colors).p,
-            { color: colors.Placeholder, textAlign: "center", maxWidth: "85%" },
+            { color: colors.Subtitle, textAlign: "center", maxWidth: "85%" },
           ]}
         >
-          Search an assignment, e.g. "Unit 1 Test"
+          (e.g. "Unit 1 Test")
         </Text>
         <Image source={img} style={styles(colors).graphic} />
       </View>
