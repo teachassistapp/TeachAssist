@@ -208,7 +208,7 @@ function GuidanceSearch() {
             <ActivityIndicator
               size="large"
               color={colors.Primary1}
-              style={{ marginTop: 30, marginBottom: 30 }}
+              style={{ marginVertical: 30 }}
             />
           )}
           {noApps && (

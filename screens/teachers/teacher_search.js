@@ -145,7 +145,7 @@ export default function TeacherSearch({ navigation }) {
               <FontAwesome
                 name="search"
                 size={20}
-                color={colors.Header}
+                color={colors.Primary1}
                 style={{ paddingBottom: 7 }}
               />
             </TouchableOpacity>
@@ -169,13 +169,13 @@ export default function TeacherSearch({ navigation }) {
               style={[
                 styles(colors).p,
                 {
-                  color: colors.Placeholder,
+                  color: colors.Subtitle,
                   textAlign: "center",
                   maxWidth: "85%",
                 },
               ]}
             >
-              Search a teacher, e.g. "Jennifer Wong"
+              (e.g. "Jennifer Wong")
             </Text>
           </View>
         )}
