@@ -6,15 +6,18 @@ import {
 } from "react-native";
 
 import { useTheme } from "../globals/theme";
-import SkeletonContent from 'react-native-skeleton-content';
+// import SkeletonContent from 'react-native-skeleton-content';
+import SkeletonAnimation from "./skeletonAnimation"
 
 export default function SkeletonTeacherLine(props) {
   const { colors } = useTheme();
 
   return (
     <>
+      <SkeletonAnimation>
         <View style={styles(colors).skeletonTeacher}>
-            <SkeletonContent
+
+            {/* <SkeletonContent
             containerStyle={{alignItems: 'flex-start'}}
             boneColor={colors.Bone}
             highlightColor={colors.Highlight}
@@ -29,8 +32,22 @@ export default function SkeletonTeacherLine(props) {
                 borderRadius: 20
             }
             ]}
-            />
-            <SkeletonContent
+            /> */}
+
+            <View style={{alignItems: 'flex-start'}}>
+              <View
+              style={{
+                marginTop: 15,
+                marginBottom: 15,
+                width: props.w,
+                height: 25,
+                borderRadius: 20,
+                backgroundColor: colors.Bone
+              }}
+              />
+            </View>
+
+            {/* <SkeletonContent
             containerStyle={{ flexDirection: "row"}}
             boneColor={colors.Bone}
             highlightColor={colors.Highlight}
@@ -54,8 +71,35 @@ export default function SkeletonTeacherLine(props) {
                 borderRadius: 20
             }
             ]}
-            />
+            /> */}
+
+            <View style={{flexDirection: 'row'}}>
+              <View
+              style={{
+                marginTop: 15,
+                marginBottom: 15,
+                marginRight: 15,
+                width: 25,
+                height: 25,
+                borderRadius: 20,
+                backgroundColor: colors.Bone
+              }}
+              />
+              <View
+              style={{
+                marginTop: 15,
+                marginBottom: 15,
+                marginRight: 15,
+                width: 25,
+                height: 25,
+                borderRadius: 20,
+                backgroundColor: colors.Bone
+              }}
+              />
+            </View>
+
         </View>
+      </SkeletonAnimation>
     </>
   );
 }

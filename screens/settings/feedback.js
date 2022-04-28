@@ -77,7 +77,6 @@ export default function Feedback({ navigation }) {
               placeholder="Write something..."
               placeholderTextColor={colors.Placeholder}
               multiline={true}
-              numberOfLines={8}
             />
             <TouchableOpacity
               style={styles(colors).submit}
@@ -229,6 +228,7 @@ const styles = (colors) =>
       borderRadius: 15,
       borderWidth: 1,
       width: 0.9 * vw,
+      minHeight: 150,
       paddingLeft: 17,
       paddingRight: 17,
       paddingTop: 10,

@@ -5,78 +5,70 @@ import {
 } from "react-native";
 
 import { useTheme } from "../globals/theme";
-import SkeletonContent from 'react-native-skeleton-content';
+import SkeletonAnimation from "./skeletonAnimation";
+
 
 export default function SkeletonTeacherDetails() {
   const { colors } = useTheme();
 
   return (
     <>
-        <SkeletonContent
-            containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Bone}
-            highlightColor={colors.Highlight}
-            animationType="pulse"
-            layout={[{
-            key: 'info',
+      <SkeletonAnimation>
+        <View style={{alignSelf: 'stretch', alignItems: 'center'}}>
+          <View
+          style={{
             marginTop: 13,
             marginBottom: 15,
             width: "88%",
             height: 135,
-            borderRadius: 20
-            }]}
-        />
-        <SkeletonContent
-            containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Bone}
-            highlightColor={colors.Highlight}
-            animationType="pulse"
-            layout={[{
-            key: 'info',
-            marginTop: 10,
-            marginBottom: 15,
-            width: "88%",
-            height: 55,
-            borderRadius: 20
-            }]}
-        />
-        <SkeletonContent
-            containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Bone}
-            highlightColor={colors.Highlight}
-            animationType="pulse"
-            layout={[{
-            key: 'info',
-            marginTop: 10,
-            marginBottom: 15,
-            width: "88%",
-            height: 55,
-            borderRadius: 20
-            }]}
-        />
-        <SkeletonContent
-            containerStyle={{alignSelf: 'stretch', alignItems: 'center'}}
-            boneColor={colors.Bone}
-            highlightColor={colors.Highlight}
-            animationType="pulse"
-            layout={[{
-            key: 'info',
-            marginTop: 10,
-            marginBottom: 15,
-            width: "88%",
-            height: 55,
-            borderRadius: 20
-            }]}
-        />
+            borderRadius: 20,
+            backgroundColor: colors.Bone
+          }}
+          />
+        </View>
+      </SkeletonAnimation>
+      <SkeletonAnimation>
+        <View style={{alignSelf: 'stretch', alignItems: 'center'}}>
+          <View
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              width: "88%",
+              height: 55,
+              borderRadius: 20,
+              backgroundColor: colors.Bone
+            }}
+          />
+        </View>
+      </SkeletonAnimation>
+      <SkeletonAnimation>
+        <View style={{alignSelf: 'stretch', alignItems: 'center'}}>
+          <View
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              width: "88%",
+              height: 55,
+              borderRadius: 20,
+              backgroundColor: colors.Bone
+            }}
+          />
+        </View>
+      </SkeletonAnimation>
+      <SkeletonAnimation>
+        <View style={{alignSelf: 'stretch', alignItems: 'center'}}>
+          <View
+            style={{
+              marginTop: 10,
+              marginBottom: 15,
+              width: "88%",
+              height: 55,
+              borderRadius: 20,
+              backgroundColor: colors.Bone
+            }}
+          />
+        </View>
+      </SkeletonAnimation>
     </>
   );
 }
-
-const styles = (colors) =>
-  StyleSheet.create({
-
-    skeleton: {
-      alignSelf: 'center', 
-      width: "88%", 
-    },
-  });

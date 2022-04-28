@@ -11,8 +11,7 @@ export const lightColors = {
   GraphBackground: "#E8E8E8", // background for circle / bar graphs
   Shadow: "#aaa",
   Red: "#FF3B30",
-  Bone: "#DEDEDE",
-  Highlight: "#E8E8E8"
+  Bone: "#dedede"
 };
 
 export const darkColors = {
@@ -28,6 +27,5 @@ export const darkColors = {
   GraphBackground: "#333333",
   Shadow: "#202323",
   Red: "#FF3B30",
-  Bone: "#202323",
-  Highlight: "#2a2c2c",
+  Bone: "#2a2c2c",
 };

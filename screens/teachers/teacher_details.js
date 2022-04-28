@@ -166,10 +166,9 @@ export default function TeacherDetails({ route, navigation }) {
             <TouchableOpacity
               style={styles(colors).headerIcon}
               onPress={() =>
-                navigation.navigate("Teacher Search", {
-                  starred: id,
-                })
+                navigation.navigate("Teacher Search")
               }
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <FontAwesome
                 name="chevron-left"
