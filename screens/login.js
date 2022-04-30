@@ -19,15 +19,6 @@ import {
   Keyboard,
   Platform,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
@@ -124,87 +115,74 @@ export default function Login({ navigation }) {
       });
   };
 
-  let [fontsLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={[styles(colors).safeView]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView style={[styles(colors).scrollView]}>
-              <View style={styles(colors).container}>
-                <Image source={img} style={styles(colors).logo} />
-                <View style={styles(colors).div}>
-                  <View style={styles(colors).texts}>
-                    <Text style={styles(colors).heading}>Student Number</Text>
-                    <TextInput
-                      onChangeText={(text) => setNumber(text)}
-                      value={number}
-                      style={styles(colors).input}
-                      maxLength={20}
-                    />
-                  </View>
+  return (
+    <SafeAreaView style={[styles(colors).safeView]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={[styles(colors).scrollView]}>
+            <View style={styles(colors).container}>
+              <Image source={img} style={styles(colors).logo} />
+              <View style={styles(colors).div}>
+                <View style={styles(colors).texts}>
+                  <Text style={styles(colors).heading}>Student Number</Text>
+                  <TextInput
+                    onChangeText={(text) => setNumber(text)}
+                    value={number}
+                    style={styles(colors).input}
+                    maxLength={20}
+                  />
                 </View>
-                <View style={styles(colors).div}>
-                  <View style={styles(colors).texts}>
-                    <Text style={styles(colors).heading}>Password</Text>
-                    <TextInput
-                      onChangeText={(text) => setPassword(text)}
-                      value={password}
-                      secureTextEntry={hidePass}
-                      style={[styles(colors).input, { width: "100%" }]}
-                      maxLength={20}
-                    />
-                  </View>
-                  <TouchableOpacity
-                    style={styles(colors).show}
-                    onPress={() => {
-                      setHidePass(!hidePass);
-                      showIcon === "eye"
-                        ? setShowIcon("eye-off")
-                        : setShowIcon("eye");
-                    }}
-                  >
-                    <Ionicons
-                      name={showIcon}
-                      size={24}
-                      color={colors.Header}
-                      style={styles(colors).icon}
-                    />
-                  </TouchableOpacity>
+              </View>
+              <View style={styles(colors).div}>
+                <View style={styles(colors).texts}>
+                  <Text style={styles(colors).heading}>Password</Text>
+                  <TextInput
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    secureTextEntry={hidePass}
+                    style={[styles(colors).input, { width: "100%" }]}
+                    maxLength={20}
+                  />
                 </View>
                 <TouchableOpacity
-                  style={styles(colors).button}
-                  onPress={handleSubmit}
+                  style={styles(colors).show}
+                  onPress={() => {
+                    setHidePass(!hidePass);
+                    showIcon === "eye"
+                      ? setShowIcon("eye-off")
+                      : setShowIcon("eye");
+                  }}
                 >
-                  <Text style={styles(colors).buttonText}>Log In</Text>
-                </TouchableOpacity>
-                {searching && (
-                  <ActivityIndicator
-                    size="large"
-                    color={colors.Primary1}
-                    style={{ marginVertical: 30 }}
+                  <Ionicons
+                    name={showIcon}
+                    size={24}
+                    color={colors.Header}
+                    style={styles(colors).icon}
                   />
-                )}
+                </TouchableOpacity>
               </View>
-            </ScrollView>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
-  }
+              <TouchableOpacity
+                style={styles(colors).button}
+                onPress={handleSubmit}
+              >
+                <Text style={styles(colors).buttonText}>Log In</Text>
+              </TouchableOpacity>
+              {searching && (
+                <ActivityIndicator
+                  size="large"
+                  color={colors.Primary1}
+                  style={{ marginVertical: 30 }}
+                />
+              )}
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
 
 const vh = Dimensions.get("window").height;

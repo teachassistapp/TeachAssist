@@ -5,7 +5,6 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import SwitchSelector from "react-native-switch-selector";
 import {
   Ionicons,
-  Octicons,
   MaterialCommunityIcons,
   AntDesign,
 } from "@expo/vector-icons";
@@ -22,13 +21,6 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
 import { useTheme } from "../../globals/theme";
@@ -55,7 +47,7 @@ function DisplayCourse({
   cached,
   index,
 }) {
-  const { isDark, colors } = useTheme();
+  const { colors } = useTheme();
   if (k === "null") {
     k = 0;
   }
@@ -193,12 +185,6 @@ function DisplayCourse({
 export default function Home() {
   const { isDark, colors } = useTheme();
   const navigation = useNavigation();
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
   const [stored, setStored] = useState([]);
@@ -412,117 +398,113 @@ export default function Home() {
   averages.forEach((value) => partMark.push(value / averages.length));
   let averageOverall =
     Math.round(partMark.reduce((a, b) => a + b, 0) * 10) / 10;
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView
-          style={styles(colors).scrollView}
-          alwaysBounceVertical={"true"}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles(colors).container}>
-            <View style={styles(colors).headerIcons}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Websites")}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 20,
-                  right: 50,
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="web"
-                  size={26}
-                  color={colors.Primary1}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Notifications", notifs);
-                }}
-                style={{
-                  flexDirection: "row",
-                  width: 26,
-                }}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 50,
-                  right: 20,
-                }}
-              >
-                <Ionicons
-                  name="notifications"
-                  size={26}
-                  color={colors.Primary1}
-                />
-                {notifs.isNotifs && (
-                  <View style={styles(colors).notifActive1}>
-                    <View style={styles(colors).notifActive2} />
-                  </View>
-                )}
-              </TouchableOpacity>
-            </View>
-            <AnimatedCircularProgress
-              size={178}
-              width={14.5}
-              fill={averageOverall}
-              tintColorSecondary={colors.Primary1}
-              tintColor={colors.Primary2}
-              backgroundColor={colors.GraphBackground}
-              rotation={0}
-              duration={800}
-            >
-              {() => (
-                <>
-                  <Text style={styles(colors).progressMark}>
-                    {averageOverall}%
-                  </Text>
-                  <Text style={styles(colors).progressLabel}>Average</Text>
-                </>
-              )}
-            </AnimatedCircularProgress>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              textStyle={{ fontFamily: "Poppins_500Medium" }}
-              selectedTextStyle={{ fontFamily: "Poppins_600SemiBold" }}
-              textColor={colors.Subtitle}
-              selectedColor={colors.Primary1}
-              buttonColor={colors.Selected}
-              backgroundColor={colors.Container}
-              borderColor={colors.Border}
-              borderWidth={1}
-              hasPadding
-              style={{ width: "65%", marginTop: 20 }}
-              animationDuration={300}
-              onPress={(event) => {
-                handleToggle(event);
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView
+        style={styles(colors).scrollView}
+        alwaysBounceVertical={"true"}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles(colors).container}>
+          <View style={styles(colors).headerIcons}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Websites")}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 20,
+                right: 50,
               }}
-            />
-            {loading && (
-              <ActivityIndicator
-                size="large"
-                style={{ marginTop: 40 }}
+            >
+              <MaterialCommunityIcons
+                name="web"
+                size={26}
                 color={colors.Primary1}
               />
-            )}
-
-            <View style={styles(colors).blockContainer}>
-              <Text>{isEnabled}</Text>
-              {isEnabled ? displayAverage : displayBreakdown}
-            </View>
-            <ExpoStatusBar style={isDark ? "light" : "dark"} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Notifications", notifs);
+              }}
+              style={{
+                flexDirection: "row",
+                width: 26,
+              }}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 50,
+                right: 20,
+              }}
+            >
+              <Ionicons
+                name="notifications"
+                size={26}
+                color={colors.Primary1}
+              />
+              {notifs.isNotifs && (
+                <View style={styles(colors).notifActive1}>
+                  <View style={styles(colors).notifActive2} />
+                </View>
+              )}
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <AnimatedCircularProgress
+            size={178}
+            width={14.5}
+            fill={averageOverall}
+            tintColorSecondary={colors.Primary1}
+            tintColor={colors.Primary2}
+            backgroundColor={colors.GraphBackground}
+            rotation={0}
+            duration={800}
+          >
+            {() => (
+              <>
+                <Text style={styles(colors).progressMark}>
+                  {averageOverall}%
+                </Text>
+                <Text style={styles(colors).progressLabel}>Average</Text>
+              </>
+            )}
+          </AnimatedCircularProgress>
+          <SwitchSelector
+            options={options}
+            initial={0}
+            textStyle={{ fontFamily: "Poppins_500Medium" }}
+            selectedTextStyle={{ fontFamily: "Poppins_600SemiBold" }}
+            textColor={colors.Subtitle}
+            selectedColor={colors.Primary1}
+            buttonColor={colors.Selected}
+            backgroundColor={colors.Container}
+            borderColor={colors.Border}
+            borderWidth={1}
+            hasPadding
+            style={{ width: "65%", marginTop: 20 }}
+            animationDuration={300}
+            onPress={(event) => {
+              handleToggle(event);
+            }}
+          />
+          {loading && (
+            <ActivityIndicator
+              size="large"
+              style={{ marginTop: 40 }}
+              color={colors.Primary1}
+            />
+          )}
+
+          <View style={styles(colors).blockContainer}>
+            <Text>{isEnabled}</Text>
+            {isEnabled ? displayAverage : displayBreakdown}
+          </View>
+          <ExpoStatusBar style={isDark ? "light" : "dark"} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

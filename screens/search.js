@@ -16,13 +16,6 @@ import {
 } from "react-native";
 import ProgressBar from "../components/ProgressBar";
 import { useNavigation } from "@react-navigation/native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../globals/theme";
 import { calculateAverage } from "../globals/calculators";
 import { test_course_data } from "../data/test";
@@ -267,17 +260,8 @@ function DisplayCourseMatches({ matches }) {
 
 export default function search() {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-
   const [assignments, setAssignments] = useState([]);
   const [search, setSearch] = useState(null);
-
   const retrieveData = async () => {
     try {
       const number = await AsyncStorage.getItem("number");
@@ -299,35 +283,28 @@ export default function search() {
   useEffect(() => {
     retrieveData();
   }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Search</Text>
-              <Text style={styles(colors).headerSubtitle}>
-                Find Assignments
-              </Text>
-            </View>
-            <TextInput
-              style={styles(colors).input}
-              placeholder="Search"
-              placeholderTextColor={colors.Placeholder}
-              multiline={false}
-              onChangeText={(value) => {
-                setSearch(value);
-              }}
-            />
-            <SearchAssignments title={search} assignments={assignments} />
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView style={styles(colors).scrollView}>
+        <View style={styles(colors).container}>
+          <View style={styles(colors).header}>
+            <Text style={styles(colors).headerTitle}>Search</Text>
+            <Text style={styles(colors).headerSubtitle}>Find Assignments</Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <TextInput
+            style={styles(colors).input}
+            placeholder="Search"
+            placeholderTextColor={colors.Placeholder}
+            multiline={false}
+            onChangeText={(value) => {
+              setSearch(value);
+            }}
+          />
+          <SearchAssignments title={search} assignments={assignments} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

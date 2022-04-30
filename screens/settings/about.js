@@ -12,15 +12,6 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../../globals/theme";
 
 export default function About({ navigation }) {
@@ -28,67 +19,45 @@ export default function About({ navigation }) {
   const img = isDark
     ? require("../../assets/logo-dark.png")
     : require("../../assets/logo-light.png");
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <View style={styles(colors).container}>
+        <TouchableOpacity
+          style={styles(colors).headerIcon}
+          onPress={() => navigation.goBack()}
+          hitSlop={{
+            top: 20,
+            bottom: 50,
+            left: 20,
+            right: 50,
+          }}
+        >
+          <FontAwesome name="chevron-left" size={24} color={colors.Primary1} />
+        </TouchableOpacity>
+        <View style={styles(colors).body}>
+          <Image source={img} style={styles(colors).logo} />
+          <Text style={styles(colors).h}>TeachAssist for YRDSB</Text>
+          <Text style={styles(colors).p1}>
+            Powered by the{" "}
+            <Text style={styles(colors).p2}>teachassist foundation</Text>
+          </Text>
+          <Text style={styles(colors).p3}>(Not affiliated with YRDSB)</Text>
+          <Text style={styles(colors).p1}>
+            Teacher search powered by the{" "}
+            <Text style={styles(colors).p2}>Ontario College of Teachers</Text>
+          </Text>
 
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 20,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).body}>
-              <Image source={img} style={styles(colors).logo} />
-              <Text style={styles(colors).h}>TeachAssist for YRDSB</Text>
-              <Text style={styles(colors).p1}>
-                Powered by the{" "}
-                <Text style={styles(colors).p2}>teachassist foundation</Text>
-              </Text>
-              <Text style={styles(colors).p3}>(Not affiliated with YRDSB)</Text>
-              <Text style={styles(colors).p1}>
-                Teacher search powered by the{" "}
-                <Text style={styles(colors).p2}>
-                  Ontario College of Teachers
-                </Text>
-              </Text>
-
-              <View style={styles(colors).hRule} />
-              <Text style={[styles(colors).p1, { marginBottom: 3 }]}>
-                Brought to you by
-              </Text>
-              <View>
-                <Text style={styles(colors).name}>
-                  Students at Markville S.S.
-                </Text>
-              </View>
-            </View>
+          <View style={styles(colors).hRule} />
+          <Text style={[styles(colors).p1, { marginBottom: 3 }]}>
+            Brought to you by
+          </Text>
+          <View>
+            <Text style={styles(colors).name}>Students at Markville S.S.</Text>
           </View>
-      </SafeAreaView>
-    );
-  }
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

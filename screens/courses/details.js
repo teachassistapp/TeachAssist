@@ -11,15 +11,6 @@ import {
   Dimensions,
 } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
@@ -162,80 +153,66 @@ export default function Details({ route, navigation }) {
     { label: "Details", value: 2 },
   ];
 
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 50,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>{name}</Text>
-              <Text style={styles(colors).headerSubtitle}>{code}</Text>
-            </View>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
-              selectedTextStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                fontSize: 12,
-              }}
-              textColor={colors.Subtitle}
-              selectedColor={colors.Primary1}
-              buttonColor={colors.Selected}
-              backgroundColor={colors.Container}
-              borderColor={colors.Border}
-              borderWidth={1}
-              hasPadding
-              style={{ width: "90%" }}
-              onPress={(value) => setIsEnabled(value)}
-              animationDuration={300}
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView style={styles(colors).scrollView}>
+        <View style={styles(colors).container}>
+          <TouchableOpacity
+            style={styles(colors).headerIcon}
+            onPress={() => navigation.goBack()}
+            hitSlop={{
+              top: 50,
+              bottom: 50,
+              left: 20,
+              right: 50,
+            }}
+          >
+            <FontAwesome
+              name="chevron-left"
+              size={24}
+              color={colors.Primary1}
             />
+          </TouchableOpacity>
+          <View style={styles(colors).header}>
+            <Text style={styles(colors).headerTitle}>{name}</Text>
+            <Text style={styles(colors).headerSubtitle}>{code}</Text>
           </View>
-          {DisplayScreen(
-            code,
-            block,
-            room,
-            name,
-            overall_mark,
-            assignments,
-            weight_table,
-            start_time,
-            end_time,
-            cached,
-            isEnabled
-          )}
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <SwitchSelector
+            options={options}
+            initial={0}
+            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
+            selectedTextStyle={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 12,
+            }}
+            textColor={colors.Subtitle}
+            selectedColor={colors.Primary1}
+            buttonColor={colors.Selected}
+            backgroundColor={colors.Container}
+            borderColor={colors.Border}
+            borderWidth={1}
+            hasPadding
+            style={{ width: "90%" }}
+            onPress={(value) => setIsEnabled(value)}
+            animationDuration={300}
+          />
+        </View>
+        {DisplayScreen(
+          code,
+          block,
+          room,
+          name,
+          overall_mark,
+          assignments,
+          weight_table,
+          start_time,
+          end_time,
+          cached,
+          isEnabled
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

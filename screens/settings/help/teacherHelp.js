@@ -10,71 +10,53 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../../../globals/theme";
 import { teacherHelp } from "../../../data/help";
 import AnimatedCollapsible from "../../../components/AnimatedCollapsible";
 
 export default function TeacherHelp({ navigation }) {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 20,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Teachers</Text>
-            </View>
-            <View style={styles(colors).body}>
-              {teacherHelp.map((d, i) => {
-                return (
-                  <AnimatedCollapsible
-                    header={d.header}
-                    description={
-                      <Text style={styles(colors).p}>{d.description}</Text>
-                    }
-                    colors={colors}
-                    key={String(i)}
-                  />
-                );
-              })}
-            </View>
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView style={styles(colors).scrollView}>
+        <View style={styles(colors).container}>
+          <TouchableOpacity
+            style={styles(colors).headerIcon}
+            onPress={() => navigation.goBack()}
+            hitSlop={{
+              top: 20,
+              bottom: 50,
+              left: 20,
+              right: 50,
+            }}
+          >
+            <FontAwesome
+              name="chevron-left"
+              size={24}
+              color={colors.Primary1}
+            />
+          </TouchableOpacity>
+          <View style={styles(colors).header}>
+            <Text style={styles(colors).headerTitle}>Teachers</Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <View style={styles(colors).body}>
+            {teacherHelp.map((d, i) => {
+              return (
+                <AnimatedCollapsible
+                  header={d.header}
+                  description={
+                    <Text style={styles(colors).p}>{d.description}</Text>
+                  }
+                  colors={colors}
+                  key={String(i)}
+                />
+              );
+            })}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

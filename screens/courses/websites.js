@@ -15,12 +15,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
 
@@ -43,12 +37,6 @@ export default function Websites({ navigation }) {
   const [customTitle, setCustomTitle] = useState("");
   const [showError, setShowError] = useState("");
   const [websites, setWebsites] = useState([]);
-
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
 
   const storeData = async (w) => {
     try {
@@ -191,134 +179,129 @@ export default function Websites({ navigation }) {
   useEffect(() => {
     retrieveData();
   }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <View style={styles(colors).header}>
-              <TouchableOpacity
-                style={styles(colors).headerIcon}
-                onPress={() => navigation.goBack()}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 20,
-                  right: 50,
-                }}
-              >
-                <FontAwesome
-                  name="chevron-left"
-                  size={24}
-                  color={colors.Primary1}
-                />
-              </TouchableOpacity>
-              <Text style={styles(colors).headerTitle}>Websites</Text>
-              <TouchableOpacity
-                style={styles(colors).headerIcon}
-                onPress={() => setEditable(!editable)}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 20,
-                  right: 50,
-                }}
-              >
-                <EditIcon />
-              </TouchableOpacity>
-            </View>
-            <AddIcon />
-            {rows}
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView style={styles(colors).scrollView}>
+        <View style={styles(colors).container}>
+          <View style={styles(colors).header}>
+            <TouchableOpacity
+              style={styles(colors).headerIcon}
+              onPress={() => navigation.goBack()}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 20,
+                right: 50,
               }}
             >
-              <TouchableOpacity
-                onPress={() => {
-                  setModalVisible(false); //if user taps outside the calculator, close the modal
-                }}
+              <FontAwesome
+                name="chevron-left"
+                size={24}
+                color={colors.Primary1}
+              />
+            </TouchableOpacity>
+            <Text style={styles(colors).headerTitle}>Websites</Text>
+            <TouchableOpacity
+              style={styles(colors).headerIcon}
+              onPress={() => setEditable(!editable)}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 20,
+                right: 50,
+              }}
+            >
+              <EditIcon />
+            </TouchableOpacity>
+          </View>
+          <AddIcon />
+          {rows}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false); //if user taps outside the calculator, close the modal
+              }}
+              style={{
+                width: "100%",
+                flex: 1,
+                backgroundColor: `${colors.Background}cc`,
+              }}
+            >
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={{
-                  width: "100%",
                   flex: 1,
-                  backgroundColor: `${colors.Background}cc`,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <KeyboardAvoidingView
-                  behavior={Platform.OS === "ios" ? "padding" : "height"}
-                  style={{
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <TouchableWithoutFeedback>
-                    <View
-                      style={[
-                        styles(colors).div,
-                        { marginVertical: "auto", paddingHorizontal: 25 },
-                      ]}
+                <TouchableWithoutFeedback>
+                  <View
+                    style={[
+                      styles(colors).div,
+                      { marginVertical: "auto", paddingHorizontal: 25 },
+                    ]}
+                  >
+                    <TouchableOpacity
+                      onPress={() => setModalVisible(false)}
+                      style={styles(colors).close}
+                      hitSlop={{
+                        top: 20,
+                        left: 20,
+                        bottom: 30,
+                        right: 30,
+                      }}
                     >
-                      <TouchableOpacity
-                        onPress={() => setModalVisible(false)}
-                        style={styles(colors).close}
-                        hitSlop={{
-                          top: 20,
-                          left: 20,
-                          bottom: 30,
-                          right: 30,
+                      <AntDesign
+                        name="close"
+                        size={21}
+                        color={colors.Subtitle}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles(colors).modalTitle}>Add website</Text>
+                    <View style={styles(colors).form}>
+                      <TextInput
+                        style={styles(colors).input}
+                        placeholder="Name"
+                        placeholderTextColor={colors.Placeholder}
+                        multiline={false}
+                        onChangeText={(t) => {
+                          setCustomTitle(t);
                         }}
-                      >
-                        <AntDesign
-                          name="close"
-                          size={21}
-                          color={colors.Subtitle}
-                        />
-                      </TouchableOpacity>
-                      <Text style={styles(colors).modalTitle}>Add website</Text>
-                      <View style={styles(colors).form}>
-                        <TextInput
-                          style={styles(colors).input}
-                          placeholder="Name"
-                          placeholderTextColor={colors.Placeholder}
-                          multiline={false}
-                          onChangeText={(t) => {
-                            setCustomTitle(t);
-                          }}
-                        />
-                        <TextInput
-                          style={styles(colors).input}
-                          placeholder="Link"
-                          placeholderTextColor={colors.Placeholder}
-                          multiline={false}
-                          onChangeText={(w) => {
-                            setCustomWebsite(w);
-                          }}
-                        />
-                      </View>
-                      <TouchableOpacity
-                        style={styles(colors).button}
-                        onPress={() => addWebsite()}
-                      >
-                        <Text style={styles(colors).buttonText}>Create</Text>
-                      </TouchableOpacity>
-                      <Text style={styles(colors).error}>{showError}</Text>
+                      />
+                      <TextInput
+                        style={styles(colors).input}
+                        placeholder="Link"
+                        placeholderTextColor={colors.Placeholder}
+                        multiline={false}
+                        onChangeText={(w) => {
+                          setCustomWebsite(w);
+                        }}
+                      />
                     </View>
-                  </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
-              </TouchableOpacity>
-            </Modal>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+                    <TouchableOpacity
+                      style={styles(colors).button}
+                      onPress={() => addWebsite()}
+                    >
+                      <Text style={styles(colors).buttonText}>Create</Text>
+                    </TouchableOpacity>
+                    <Text style={styles(colors).error}>{showError}</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </KeyboardAvoidingView>
+            </TouchableOpacity>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

@@ -9,83 +9,61 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../../../globals/theme";
 
 export default function HelpHome({ navigation }) {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <View style={styles(colors).container}>
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <View style={styles(colors).container}>
+        <TouchableOpacity
+          style={styles(colors).headerIcon}
+          onPress={() => navigation.goBack()}
+          hitSlop={{
+            top: 20,
+            bottom: 50,
+            left: 20,
+            right: 50,
+          }}
+        >
+          <FontAwesome name="chevron-left" size={24} color={colors.Primary1} />
+        </TouchableOpacity>
+        <View style={styles(colors).header}>
+          <Text style={styles(colors).headerTitle}>Help & FAQ</Text>
+        </View>
+        <View style={styles(colors).itemContainer}>
           <TouchableOpacity
-            style={styles(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 20,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
+            onPress={() => navigation.navigate("CourseHelp")}
+            style={styles(colors).item}
           >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
+            <Ionicons name="school" size={55} color={colors.Primary1} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SearchHelp")}
+            style={styles(colors).item}
+          >
+            <FontAwesome name="search" size={49} color={colors.Primary1} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("GuidanceHelp")}
+            style={styles(colors).item}
+          >
+            <Ionicons name="people" size={58} color={colors.Primary1} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TeacherHelp")}
+            style={styles(colors).item}
+          >
+            <FontAwesome5
+              name="chalkboard-teacher"
+              size={47}
               color={colors.Primary1}
             />
           </TouchableOpacity>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Help & FAQ</Text>
-          </View>
-          <View style={styles(colors).itemContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("CourseHelp")}
-              style={styles(colors).item}
-            >
-              <Ionicons name="school" size={55} color={colors.Primary1} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SearchHelp")}
-              style={styles(colors).item}
-            >
-              <FontAwesome name="search" size={49} color={colors.Primary1} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("GuidanceHelp")}
-              style={styles(colors).item}
-            >
-              <Ionicons name="people" size={58} color={colors.Primary1} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("TeacherHelp")}
-              style={styles(colors).item}
-            >
-              <FontAwesome5
-                name="chalkboard-teacher"
-                size={47}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-          </View>
         </View>
-      </SafeAreaView>
-    );
-  }
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

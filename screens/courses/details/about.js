@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { useTheme } from "../../../globals/theme";
 
 export default function AboutScreen({
@@ -12,11 +11,6 @@ export default function AboutScreen({
   end_time,
 }) {
   const { colors } = useTheme();
-
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-  });
 
   const displayDate = (date) => {
     const months = [
@@ -38,42 +32,33 @@ export default function AboutScreen({
 
     return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
   };
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <View style={styles(colors).about}>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
-            Course Code:
-          </Text>{" "}
-          {code}
-        </Text>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
-            Course Name:
-          </Text>{" "}
-          {name}
-        </Text>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Room:</Text>{" "}
-          {room}
-        </Text>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Period:</Text>{" "}
-          {block}
-        </Text>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Start Time:</Text>{" "}
-          {displayDate(start_time)}
-        </Text>
-        <Text style={styles(colors).aboutText}>
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>End Time:</Text>{" "}
-          {displayDate(end_time)}
-        </Text>
-      </View>
-    );
-  }
+  return (
+    <View style={styles(colors).about}>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Course Code:</Text>{" "}
+        {code}
+      </Text>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Course Name:</Text>{" "}
+        {name}
+      </Text>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Room:</Text> {room}
+      </Text>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Period:</Text>{" "}
+        {block}
+      </Text>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Start Time:</Text>{" "}
+        {displayDate(start_time)}
+      </Text>
+      <Text style={styles(colors).aboutText}>
+        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>End Time:</Text>{" "}
+        {displayDate(end_time)}
+      </Text>
+    </View>
+  );
 }
 const styles = (colors) =>
   StyleSheet.create({

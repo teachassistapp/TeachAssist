@@ -12,13 +12,6 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../../globals/theme";
 import { sendEmail } from "../../components/SendEmail";
 import * as Linking from "expo-linking";
@@ -31,114 +24,102 @@ export default function Feedback({ navigation }) {
   const handleEmail = (body) => {
     sendEmail("ta.app.help@gmail.com", "Teach Assist App Feedback", body);
   };
-
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView style={styles(colors).scrollView}>
+        <View style={styles(colors).container}>
+          <TouchableOpacity
+            style={styles(colors).headerIcon}
+            onPress={() => navigation.goBack()}
+            hitSlop={{
+              top: 20,
+              bottom: 50,
+              left: 20,
+              right: 50,
+            }}
+          >
+            <FontAwesome
+              name="chevron-left"
+              size={24}
+              color={colors.Primary1}
+            />
+          </TouchableOpacity>
+          <View style={styles(colors).header}>
+            <Text style={styles(colors).headerTitle}>Support & Feedback</Text>
+          </View>
+          <View style={styles(colors).body}>
+            <Text style={styles(colors).p1}>
+              Contact us for support or feedback!
+            </Text>
+          </View>
+          <TextInput
+            style={styles(colors).input}
+            onChangeText={(text) => onChangeText(text)}
+            value={text}
+            placeholder="Write something..."
+            placeholderTextColor={colors.Placeholder}
+            multiline={true}
+          />
+          <TouchableOpacity
+            style={styles(colors).submit}
+            onPress={() => {
+              text ? handleEmail(text) : setError(true);
+            }}
+          >
+            <FontAwesome name="send" size={16} color={colors.Primary1} />
+            <Text style={styles(colors).buttonText}> Send</Text>
+          </TouchableOpacity>
+          {error ? (
+            <Text style={styles(colors).error}>
+              You cannot send a blank message.
+            </Text>
+          ) : (
+            <View style={{ height: 34 }} />
+          )}
+          <View
+            style={{
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            <Text style={styles(colors).p1}>
+              Or send us a message on{" "}
+              <Text style={styles(colors).p2}>Instagram </Text>
+              or through <Text style={styles(colors).p2}>our website</Text>:
+            </Text>
             <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
+              onPress={() =>
+                Linking.openURL("https://www.instagram.com/teach.assist.app/")
+              }
               hitSlop={{
                 top: 20,
-                bottom: 50,
+                bottom: 10,
                 left: 20,
-                right: 50,
+                right: 20,
               }}
+              style={{ marginBottom: 10 }}
             >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
+              <Text style={styles(colors).linkText}>@teach.assist.app</Text>
             </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Support & Feedback</Text>
-            </View>
-            <View style={styles(colors).body}>
-              <Text style={styles(colors).p1}>
-                Contact us for support or feedback!
-              </Text>
-            </View>
-            <TextInput
-              style={styles(colors).input}
-              onChangeText={(text) => onChangeText(text)}
-              value={text}
-              placeholder="Write something..."
-              placeholderTextColor={colors.Placeholder}
-              multiline={true}
-            />
             <TouchableOpacity
-              style={styles(colors).submit}
-              onPress={() => {
-                text ? handleEmail(text) : setError(true);
+              onPress={() =>
+                Linking.openURL("https://teachassistapp.github.io/")
+              }
+              hitSlop={{
+                top: 10,
+                bottom: 20,
+                left: 20,
+                right: 20,
               }}
+              style={{ marginBottom: 20 }}
             >
-              <FontAwesome name="send" size={16} color={colors.Primary1} />
-              <Text style={styles(colors).buttonText}> Send</Text>
+              <Text style={styles(colors).linkText}>Visit our website</Text>
             </TouchableOpacity>
-            {error ? (
-              <Text style={styles(colors).error}>
-                You cannot send a blank message.
-              </Text>
-            ) : (
-              <View style={{ height: 34 }} />
-            )}
-            <View
-              style={{
-                alignItems: "center",
-                marginTop: 10,
-              }}
-            >
-              <Text style={styles(colors).p1}>
-                Or send us a message on{" "}
-                <Text style={styles(colors).p2}>Instagram </Text>
-                or through <Text style={styles(colors).p2}>our website</Text>:
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  Linking.openURL("https://www.instagram.com/teach.assist.app/")
-                }
-                hitSlop={{
-                  top: 20,
-                  bottom: 10,
-                  left: 20,
-                  right: 20,
-                }}
-                style={{ marginBottom: 10 }}
-              >
-                <Text style={styles(colors).linkText}>@teach.assist.app</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  Linking.openURL("https://teachassistapp.github.io/")
-                }
-                hitSlop={{
-                  top: 10,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                }}
-                style={{ marginBottom: 20 }}
-              >
-                <Text style={styles(colors).linkText}>Visit our website</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

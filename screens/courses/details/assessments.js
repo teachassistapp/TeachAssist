@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  ScrollView,
   View,
   Text,
   StyleSheet,
@@ -11,12 +10,6 @@ import {
 import Accordion from "../../../components/Accordion";
 import Collapsible from "../../../components/Collapsible";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from "@expo-google-fonts/poppins";
 import SubmitCheck, {
   verifyNumber,
   verifyTitle,
@@ -116,135 +109,111 @@ export default function AssessmentsScreen({
       </View>
     );
   }
-
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <View style={{ width: "100%", alignItems: "center" }}>
-        <View style={styles(colors).blockContainer}>
-          <DisplayProgress value={tempMark} />
-          {cached === true && (
-            <View style={styles(colors).cacheContainer}>
-              <AntDesign
-                name="exclamationcircleo"
-                size={18}
-                color={colors.Subtitle}
-              />
-              <Text style={[styles(colors).pCache]}>
-                Your teacher has cached this course.
-              </Text>
-            </View>
-          )}
-          {assessments && (
-            <View>
-              <Accordion
-                assessments={assessments}
-                setAssessments={setAssessmentsParent}
-                originalAssignments={originalAssessments}
-                editable={true}
-              />
-              <View style={[styles(colors).div, { minHeight: 50 }]}>
-                <TouchableOpacity
-                  style={styles(colors).calculator}
-                  onPress={() => setIsCollapsed(!isCollapsed)}
-                >
-                  <AntDesign
-                    name="pluscircle"
-                    size={24}
-                    color={colors.Primary1}
+  return (
+    <View style={{ width: "100%", alignItems: "center" }}>
+      <View style={styles(colors).blockContainer}>
+        <DisplayProgress value={tempMark} />
+        {cached === true && (
+          <View style={styles(colors).cacheContainer}>
+            <AntDesign
+              name="exclamationcircleo"
+              size={18}
+              color={colors.Subtitle}
+            />
+            <Text style={[styles(colors).pCache]}>
+              Your teacher has cached this course.
+            </Text>
+          </View>
+        )}
+        {assessments && (
+          <View>
+            <Accordion
+              assessments={assessments}
+              setAssessments={setAssessmentsParent}
+              originalAssignments={originalAssessments}
+              editable={true}
+            />
+            <View style={[styles(colors).div, { minHeight: 50 }]}>
+              <TouchableOpacity
+                style={styles(colors).calculator}
+                onPress={() => setIsCollapsed(!isCollapsed)}
+              >
+                <AntDesign
+                  name="pluscircle"
+                  size={24}
+                  color={colors.Primary1}
+                />
+                <Text style={styles(colors).calculatorTitle}>
+                  Add Assignment
+                </Text>
+              </TouchableOpacity>
+              <Collapsible collapsed={isCollapsed}>
+                <View style={styles(colors).form}>
+                  <TextInput
+                    style={[styles(colors).input, styles(colors).inputTitle]}
+                    onChangeText={setTitle}
+                    value={title}
+                    maxLength={30}
                   />
-                  <Text style={styles(colors).calculatorTitle}>
-                    Add Assignment
-                  </Text>
-                </TouchableOpacity>
-                <Collapsible collapsed={isCollapsed}>
-                  <View style={styles(colors).form}>
-                    <TextInput
-                      style={[styles(colors).input, styles(colors).inputTitle]}
-                      onChangeText={setTitle}
-                      value={title}
-                      maxLength={30}
+                  {res}
+                  <TouchableOpacity
+                    style={styles(colors).button}
+                    onPress={() => {
+                      if (
+                        verifyNumber([k, kw, t, tw, c, cw, a, aw, f, fw, o, ow])
+                      ) {
+                        let temp = [...assessments];
+                        const data = {
+                          deletable: true,
+                          index: temp.length,
+                          title: verifyTitle(title, assessments),
+                          comments: null,
+                          k: parseFloat(k),
+                          kWeight: parseFloat(kw),
+                          kMark: "",
+                          t: parseFloat(t),
+                          tWeight: parseFloat(tw),
+                          tMark: "",
+                          c: parseFloat(c),
+                          cWeight: parseFloat(cw),
+                          cMark: "",
+                          a: parseFloat(a),
+                          aWeight: parseFloat(aw),
+                          aMark: "",
+                          f: parseFloat(f),
+                          fWeight: parseFloat(fw),
+                          fMark: "",
+                          o: parseFloat(o),
+                          oWeight: parseFloat(ow),
+                          oMark: "",
+                          finished: true,
+                          weight_table: weight_table,
+                        };
+                        temp.push(data);
+                        setAssessments([...temp]);
+                        updateAssessments(assessmentsState + 1);
+                        setIsValid(true);
+                      } else {
+                        setIsValid(false);
+                      }
+                    }}
+                  >
+                    <Ionicons
+                      name="calculator"
+                      size={22}
+                      color={colors.Background}
                     />
-                    {res}
-                    <TouchableOpacity
-                      style={styles(colors).button}
-                      onPress={() => {
-                        if (
-                          verifyNumber([
-                            k,
-                            kw,
-                            t,
-                            tw,
-                            c,
-                            cw,
-                            a,
-                            aw,
-                            f,
-                            fw,
-                            o,
-                            ow,
-                          ])
-                        ) {
-                          let temp = [...assessments];
-                          const data = {
-                            deletable: true,
-                            index: temp.length,
-                            title: verifyTitle(title, assessments),
-                            comments: null,
-                            k: parseFloat(k),
-                            kWeight: parseFloat(kw),
-                            kMark: "",
-                            t: parseFloat(t),
-                            tWeight: parseFloat(tw),
-                            tMark: "",
-                            c: parseFloat(c),
-                            cWeight: parseFloat(cw),
-                            cMark: "",
-                            a: parseFloat(a),
-                            aWeight: parseFloat(aw),
-                            aMark: "",
-                            f: parseFloat(f),
-                            fWeight: parseFloat(fw),
-                            fMark: "",
-                            o: parseFloat(o),
-                            oWeight: parseFloat(ow),
-                            oMark: "",
-                            finished: true,
-                            weight_table: weight_table,
-                          };
-                          temp.push(data);
-                          setAssessments([...temp]);
-                          updateAssessments(assessmentsState + 1);
-                          setIsValid(true);
-                        } else {
-                          setIsValid(false);
-                        }
-                      }}
-                    >
-                      <Ionicons
-                        name="calculator"
-                        size={22}
-                        color={colors.Background}
-                      />
-                      <Text style={styles(colors).buttonText}>Create</Text>
-                    </TouchableOpacity>
-                    <SubmitCheck check={isValid} colors={colors} />
-                  </View>
-                </Collapsible>
-              </View>
+                    <Text style={styles(colors).buttonText}>Create</Text>
+                  </TouchableOpacity>
+                  <SubmitCheck check={isValid} colors={colors} />
+                </View>
+              </Collapsible>
             </View>
-          )}
-        </View>
+          </View>
+        )}
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const vw = Dimensions.get("window").width;

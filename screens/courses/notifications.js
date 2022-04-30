@@ -15,13 +15,6 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium_Italic,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import DisplayMarkUpdates from "../../components/DisplayMarkUpdates";
 import { useTheme } from "../../globals/theme";
 
@@ -48,13 +41,6 @@ export default function Notifications({ route, navigation }) {
     ? require("../../assets/notif_graphic2.png")
     : require("../../assets/notif_graphic1.png");
   const { isNotifs, current, updated } = route.params;
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium_Italic,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
   const [newData, setNewData] = useState(updated); //updated
   const [oldData, setOldData] = useState(current); //current
   const [loading, setLoading] = useState(false);
@@ -167,50 +153,46 @@ export default function Notifications({ route, navigation }) {
     );
   }
 
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView
-          style={styles(colors).scrollView}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 20,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Notifications</Text>
-            </View>
-            {loading && (
-              <ActivityIndicator
-                style={{ marginTop: 40 }}
-                color={colors.Primary1}
-                size="large"
-              />
-            )}
-            <View>{displayNotifs}</View>
+  return (
+    <SafeAreaView style={styles(colors).safeView}>
+      <ScrollView
+        style={styles(colors).scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles(colors).container}>
+          <TouchableOpacity
+            style={styles(colors).headerIcon}
+            onPress={() => navigation.goBack()}
+            hitSlop={{
+              top: 20,
+              bottom: 50,
+              left: 20,
+              right: 50,
+            }}
+          >
+            <FontAwesome
+              name="chevron-left"
+              size={24}
+              color={colors.Primary1}
+            />
+          </TouchableOpacity>
+          <View style={styles(colors).header}>
+            <Text style={styles(colors).headerTitle}>Notifications</Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          {loading && (
+            <ActivityIndicator
+              style={{ marginTop: 40 }}
+              color={colors.Primary1}
+              size="large"
+            />
+          )}
+          <View>{displayNotifs}</View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;

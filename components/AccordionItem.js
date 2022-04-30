@@ -11,15 +11,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
-import {
   AntDesign,
   MaterialCommunityIcons,
   Ionicons,
@@ -38,15 +29,6 @@ export default function AccordionItem({
   editable,
 }) {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
   const [section, setSection] = useState(data);
   const [expanded, setExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -692,11 +674,7 @@ export default function AccordionItem({
       </TouchableOpacity>
     </View>
   );
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return <View style={styles(colors).div}>{display}</View>;
-  }
+  return <View style={styles(colors).div}>{display}</View>;
 }
 
 const vw = Dimensions.get("window").width;
