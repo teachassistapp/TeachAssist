@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useTheme } from "../globals/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GENERAL_STYLES } from "../globals/styles";
 
 export default function BookedAppointments({
   appointments,
@@ -55,7 +56,16 @@ export default function BookedAppointments({
       {appointments.map((a, i) => {
         const date = new Date(a.date);
         return (
-          <View key={i} style={styles(colors).div}>
+          <View
+            key={i}
+            style={{
+              ...GENERAL_STYLES(colors).div,
+              flexDirection: "row",
+              paddingHorizontal: 20,
+              paddingVertical: 20,
+              margin: 5,
+            }}
+          >
             <View style={styles(colors).content}>
               <Text style={styles(colors).h}>
                 {`${days[date.getDay()]} ${
@@ -89,26 +99,8 @@ export default function BookedAppointments({
     </View>
   );
 }
-
-const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
-    div: {
-      flexDirection: "row",
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingHorizontal: 20,
-      paddingVertical: 20,
-      margin: 5,
-    },
     h: {
       fontFamily: "Poppins_600SemiBold",
       color: colors.Header,

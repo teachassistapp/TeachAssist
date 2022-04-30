@@ -1,18 +1,16 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import {
   View,
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   Image,
-  ScrollView,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 export default function About({ navigation }) {
   const { colors, isDark } = useTheme();
@@ -20,10 +18,10 @@ export default function About({ navigation }) {
     ? require("../../assets/logo-dark.png")
     : require("../../assets/logo-light.png");
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <View style={styles(colors).container}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <View style={GENERAL_STYLES(colors).container}>
         <TouchableOpacity
-          style={styles(colors).headerIcon}
+          style={GENERAL_STYLES(colors).headerIcon}
           onPress={() => navigation.goBack()}
           hitSlop={{
             top: 20,
@@ -34,7 +32,7 @@ export default function About({ navigation }) {
         >
           <FontAwesome name="chevron-left" size={24} color={colors.Primary1} />
         </TouchableOpacity>
-        <View style={styles(colors).body}>
+        <View style={{ ...GENERAL_STYLES(colors).body, alignItems: "center" }}>
           <Image source={img} style={styles(colors).logo} />
           <Text style={styles(colors).h}>TeachAssist for YRDSB</Text>
           <Text style={styles(colors).p1}>
@@ -65,33 +63,11 @@ const vh = Dimensions.get("window").height;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     logo: {
       width: 160,
       height: 160,
       marginTop: 0.1 * vh,
       marginBottom: 15,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 52,
-      left: 27,
-      zIndex: 2,
-    },
-    body: {
-      width: vw,
-      paddingHorizontal: 40,
-      alignItems: "center",
     },
     h: {
       fontFamily: "Poppins_700Bold",

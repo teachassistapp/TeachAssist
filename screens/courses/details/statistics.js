@@ -1,11 +1,14 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Image, Dimensions } from "react-native";
 import {
   calculateAverage,
   calculateCourseAverage,
 } from "../../../globals/calculators";
 import { DisplayLineChart, DisplayTable } from "../../../components/charts";
 import { useTheme } from "../../../globals/theme";
+import { GENERAL_STYLES } from "../../../globals/styles";
+
+const vw = Dimensions.get("window").width;
 
 export default function StatisticsScreen({ assignments, weight_table }) {
   const { colors, isDark } = useTheme();
@@ -15,8 +18,16 @@ export default function StatisticsScreen({ assignments, weight_table }) {
   if (assignments.length === 0 || weight_table === null) {
     return (
       <View style={{ alignItems: "center", marginTop: 50 }}>
-        <Image source={img} style={styles(colors).graphic} />
-        <Text style={styles(colors).p}>Sorry, no data found.</Text>
+        <Image
+          source={img}
+          style={{
+            width: 0.55 * vw,
+            height: 0.536 * vw,
+            marginTop: 60,
+            marginBottom: 40,
+          }}
+        />
+        <Text style={GENERAL_STYLES(colors).p}>Sorry, no data found.</Text>
       </View>
     );
   }
@@ -94,38 +105,3 @@ export default function StatisticsScreen({ assignments, weight_table }) {
     </View>
   );
 }
-
-const vw = Dimensions.get("window").width;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingHorizontal: 25,
-      paddingVertical: 15,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.153,
-      shadowRadius: 20,
-      elevation: 8,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
-      color: colors.Subtitle,
-    },
-    graphic: {
-      width: 0.55 * vw,
-      height: 0.536 * vw,
-      marginTop: 60,
-      marginBottom: 40,
-    },
-  });

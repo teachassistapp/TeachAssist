@@ -18,7 +18,7 @@ import GuidanceBook from "../components/GuidanceBook";
 import { useTheme } from "../globals/theme";
 import GuidanceTime from "../components/GuidanceTime";
 import BookedAppointments from "../components/BookedAppointments";
-
+import { GENERAL_STYLES } from "../globals/styles";
 import { handleFetchError } from "../globals/alert";
 import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
@@ -131,12 +131,14 @@ function GuidanceSearch() {
     retrieveAppointments();
   }, []);
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Guidance</Text>
-            <Text style={styles(colors).headerSubtitle}>Book Appointments</Text>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View style={GENERAL_STYLES(colors).header}>
+            <Text style={GENERAL_STYLES(colors).headerTitle}>Guidance</Text>
+            <Text style={GENERAL_STYLES(colors).headerSubtitle}>
+              Book Appointments
+            </Text>
           </View>
           <TouchableOpacity
             style={styles(colors).button}
@@ -153,7 +155,7 @@ function GuidanceSearch() {
           minimumDate={minDate}
           date={date}
         />
-        <Text style={styles(colors).p}>
+        <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
           Selected Date:{" "}
           <Text
             style={{
@@ -193,7 +195,13 @@ function GuidanceSearch() {
         {!loading && showResults && data && (
           <View>
             <View style={styles(colors).hRule} />
-            <Text style={[styles(colors).p, { fontSize: 12 }]}>
+            <Text
+              style={[
+                GENERAL_STYLES(colors).p,
+                styles(colors).p,
+                { fontSize: 12 },
+              ]}
+            >
               Tap on a guidance consellor to reveal their available
               appointments. Tap on a time to book an appointment with them.
             </Text>
@@ -206,7 +214,9 @@ function GuidanceSearch() {
         {bookedAppointments.length > 0 && (
           <View>
             <View style={styles(colors).hRule} />
-            <Text style={styles(colors).p}>Booked Appointments</Text>
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+              Booked Appointments
+            </Text>
             <BookedAppointments
               appointments={bookedAppointments}
               updateAppointments={updateAppointments}
@@ -222,25 +232,7 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
       flexWrap: "wrap",
       alignSelf: "center",
       textAlign: "center",
@@ -248,27 +240,7 @@ const styles = (colors) =>
       marginBottom: 24,
       maxWidth: 0.8 * vw,
     },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.75 * vw,
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
+
     button: {
       alignSelf: "center",
       marginVertical: 20,

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome, Foundation } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -13,6 +7,7 @@ import {
   calculateAverage,
 } from "../globals/calculators";
 import { useTheme } from "../globals/theme";
+import { GENERAL_STYLES } from "../globals/styles";
 
 const getCurrentDate = () => {
   var date = new Date().getDate();
@@ -172,7 +167,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
   if (!oldData || !newData) {
     let data = newData ? { ...newData } : { ...oldData };
     display = (
-      <View style={styles(colors).div} key={data.name}>
+      <View
+        style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+        key={data.name}
+      >
         <View
           style={[
             styles(colors).notifHeader,
@@ -195,7 +193,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
           <Text style={styles(colors).courseTitle}>{data.name}</Text>
           <Text
             style={[
-              styles(colors).p,
+              [GENERAL_STYLES(colors).p, styles(colors).p],
               { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
             ]}
           >
@@ -208,8 +206,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             { marginBottom: oldData ? 0 : 20 },
           ]}
         >
-          <Text style={styles(colors).p}>Room {data.room}</Text>
-          <Text style={styles(colors).p}>
+          <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+            Room {data.room}
+          </Text>
+          <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
             {displayDate(data.start_time)} - {displayDate(data.end_time)}
           </Text>
         </View>
@@ -225,7 +225,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
   } else {
     if (!oldData.cached && newData.cached) {
       display.push(
-        <View style={styles(colors).div} key={newData.name}>
+        <View
+          style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+          key={newData.name}
+        >
           <View
             style={[
               styles(colors).notifHeader,
@@ -246,7 +249,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             <Text style={styles(colors).courseTitle}>{newData.name}</Text>
             <Text
               style={[
-                styles(colors).p,
+                [GENERAL_STYLES(colors).p, styles(colors).p],
                 { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
               ]}
             >
@@ -259,14 +262,16 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               { marginBottom: oldData ? 0 : 20 },
             ]}
           >
-            <Text style={styles(colors).p}>Room {newData.room}</Text>
-            <Text style={styles(colors).p}>
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+              Room {newData.room}
+            </Text>
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
               {displayDate(newData.start_time)} -{" "}
               {displayDate(newData.end_time)}
             </Text>
           </View>
           <View style={[styles(colors).notifBody, { paddingHorizontal: 2 }]}>
-            <Text style={styles(colors).p}>
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
               Your teacher has cached this course. You can still view any
               previously saved assignments, but your teacher may be making
               changes.
@@ -293,7 +298,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
           JSON.stringify(newData.assignments)
       ) {
         display.push(
-          <View style={styles(colors).div} key={newData.name}>
+          <View
+            style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+            key={newData.name}
+          >
             <View
               style={[
                 styles(colors).notifHeader,
@@ -316,7 +324,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               <Text style={styles(colors).courseTitle}>{newData.name}</Text>
               <Text
                 style={[
-                  styles(colors).p,
+                  [GENERAL_STYLES(colors).p, styles(colors).p],
                   { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
                 ]}
               >
@@ -324,8 +332,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               </Text>
             </View>
             <View style={[styles(colors).notifSubtitle, { marginBottom: 20 }]}>
-              <Text style={styles(colors).p}>Room {newData.room}</Text>
-              <Text style={styles(colors).p}>
+              <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                Room {newData.room}
+              </Text>
+              <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                 {displayDate(newData.start_time)}
                 {" - "}
                 {displayDate(newData.end_time)}
@@ -363,7 +373,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               //assignment was updated
               subDisplay = [
                 "Marks Updated",
-                <Text style={styles(colors).p}>
+                <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                   {newAssignment.name}:{" "}
                   <Text style={styles(colors).updateMark}>
                     {oldAssignmentMark}
@@ -389,7 +399,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               //new assignment released
               subDisplay = [
                 "Marks Released",
-                <Text style={styles(colors).p}>
+                <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                   {newAssignment.name}:{" "}
                   <Text
                     style={{
@@ -404,7 +414,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             }
             display.push(
               <View
-                style={styles(colors).div}
+                style={[GENERAL_STYLES(colors).div, styles(colors).div]}
                 key={newAssignment.name + `_${i}`}
               >
                 <View style={styles(colors).notifHeader}>
@@ -413,7 +423,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   </Text>
                   <Text
                     style={[
-                      styles(colors).p,
+                      [GENERAL_STYLES(colors).p, styles(colors).p],
                       { fontFamily: "Poppins_500Medium_Italic" },
                     ]}
                   >
@@ -430,7 +440,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   >
                     {subDisplay[1]}
                   </View>
-                  <Text style={styles(colors).p}>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                     {courseName} {courseCode}
                   </Text>
                 </View>
@@ -460,7 +470,9 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                     navigation.navigate("Details", newData);
                   }}
                 >
-                  <Text style={styles(colors).p}>See More{"  "}</Text>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    See More{"  "}
+                  </Text>
                   <FontAwesome
                     name="chevron-right"
                     size={14}
@@ -483,7 +495,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             } = getAverages([], oldAssignment, newData, oldData);
             display.push(
               <View
-                style={styles(colors).div}
+                style={[GENERAL_STYLES(colors).div, styles(colors).div]}
                 key={oldAssignment.name + `_${i}`}
               >
                 <View style={styles(colors).notifHeader}>
@@ -492,7 +504,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   </Text>
                   <Text
                     style={[
-                      styles(colors).p,
+                      [GENERAL_STYLES(colors).p, styles(colors).p],
                       { fontFamily: "Poppins_500Medium_Italic" },
                     ]}
                   >
@@ -500,7 +512,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                   </Text>
                 </View>
                 <View style={styles(colors).notifSubtitle}>
-                  <Text style={styles(colors).p}>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                     {oldAssignment.name}:{" "}
                     <Text
                       style={{
@@ -511,7 +523,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                       {oldAssignmentMark}%
                     </Text>
                   </Text>
-                  <Text style={styles(colors).p}>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
                     {courseName} {courseCode}
                   </Text>
                 </View>
@@ -541,7 +553,9 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
                     navigation.navigate("Details", newData);
                   }}
                 >
-                  <Text style={styles(colors).p}>See More{"  "}</Text>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    See More{"  "}
+                  </Text>
                   <FontAwesome
                     name="chevron-right"
                     size={14}
@@ -558,47 +572,18 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
   return display;
 }
 
-const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
     div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
       paddingHorizontal: 17,
       paddingTop: 5,
       marginVertical: 7,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
     },
     notif: {
       alignItems: "flex-end",
       marginBottom: -26,
       width: "100%",
       paddingRight: 23,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
     },
     notifHeader: {
       flexDirection: "row",
@@ -676,10 +661,7 @@ const styles = (colors) =>
       textAlign: "center",
     },
     p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
       lineHeight: 16,
-      color: colors.Subtitle,
       paddingTop: 2,
       textAlignVertical: "center",
     },

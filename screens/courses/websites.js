@@ -17,6 +17,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 const websites_data = [
   ["TeachAssist", "https://ta.yrdsb.ca/yrdsb/"],
@@ -100,11 +101,14 @@ export default function Websites({ navigation }) {
     storeData(websites_data);
   }
   function EditIcon() {
-    if (editable) {
-      return <MaterialIcons name="edit" size={24} color={colors.Primary1} />;
-    } else {
-      return <MaterialIcons name="edit" size={24} color={colors.Header} />;
-    }
+    return (
+      <MaterialIcons
+        name="edit"
+        size={24}
+        color={editable ? colors.Primary1 : colors.Header}
+        style={{ top: -3 }}
+      />
+    );
   }
 
   function AddIcon() {
@@ -180,10 +184,19 @@ export default function Websites({ navigation }) {
     retrieveData();
   }, []);
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <View style={styles(colors).header}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View
+            style={{
+              ...GENERAL_STYLES(colors).header,
+              flexDirection: "row",
+              paddingTop: 20,
+              paddingHorizontal: 20,
+              marginBottom: 35,
+              marginTop: 10,
+            }}
+          >
             <TouchableOpacity
               style={styles(colors).headerIcon}
               onPress={() => navigation.goBack()}
@@ -200,7 +213,14 @@ export default function Websites({ navigation }) {
                 color={colors.Primary1}
               />
             </TouchableOpacity>
-            <Text style={styles(colors).headerTitle}>Websites</Text>
+            <Text
+              style={{
+                ...GENERAL_STYLES(colors).headerTitle,
+                flex: 8,
+              }}
+            >
+              Websites
+            </Text>
             <TouchableOpacity
               style={styles(colors).headerIcon}
               onPress={() => setEditable(!editable)}
@@ -244,14 +264,18 @@ export default function Websites({ navigation }) {
               >
                 <TouchableWithoutFeedback>
                   <View
-                    style={[
-                      styles(colors).div,
-                      { marginVertical: "auto", paddingHorizontal: 25 },
-                    ]}
+                    style={{
+                      ...GENERAL_STYLES(colors).div,
+                      marginVertical: "auto",
+                      margin: 5,
+                      paddingHorizontal: 25,
+                      paddingVertical: 15,
+                      minHeight: 125,
+                    }}
                   >
                     <TouchableOpacity
                       onPress={() => setModalVisible(false)}
-                      style={styles(colors).close}
+                      style={GENERAL_STYLES(colors).close}
                       hitSlop={{
                         top: 20,
                         left: 20,
@@ -265,7 +289,9 @@ export default function Websites({ navigation }) {
                         color={colors.Subtitle}
                       />
                     </TouchableOpacity>
-                    <Text style={styles(colors).modalTitle}>Add website</Text>
+                    <Text style={GENERAL_STYLES(colors).modalTitle}>
+                      Add website
+                    </Text>
                     <View style={styles(colors).form}>
                       <TextInput
                         style={styles(colors).input}
@@ -308,38 +334,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    header: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingTop: 20,
-      paddingHorizontal: 20,
-      width: vw,
-      backgroundColor: colors.Background,
-      marginBottom: 35,
-      marginTop: 10,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      textAlign: "center",
-      color: colors.Header,
-      flex: 8,
-    },
     headerIcon: {
       flex: 2,
       alignItems: "center",
@@ -394,39 +388,6 @@ const styles = (colors) =>
       color: colors.Primary2,
       fontSize: 12,
     },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      minHeight: 125,
-      paddingHorizontal: 17,
-      paddingVertical: 15,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 12,
-    },
-    modalTitle: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 16,
-      color: colors.Header,
-      maxWidth: 0.5 * vw,
-      marginBottom: 20,
-      textAlign: "center",
-      alignSelf: "center",
-    },
     form: {
       justifyContent: "flex-start",
       paddingBottom: 10,
@@ -439,19 +400,13 @@ const styles = (colors) =>
       borderWidth: 1,
       width: 0.8 * vw,
       height: 50,
-      paddingLeft: 17,
-      paddingRight: 17,
+      paddingHorizontal: 17,
       paddingTop: 5,
       margin: 5,
       marginBottom: 15,
       color: colors.Subtitle,
       fontFamily: "Poppins_500Medium",
       fontSize: 14,
-    },
-    close: {
-      alignSelf: "flex-end",
-      marginBottom: -25,
-      marginTop: 10,
     },
     button: {
       alignItems: "center",

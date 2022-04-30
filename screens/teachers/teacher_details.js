@@ -19,6 +19,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
 import AnimatedCollapsible from "../../components/AnimatedCollapsible"; //add this
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 function parseData(data) {
   const keys = ["degrees", "education", "qualifications"];
@@ -159,15 +160,21 @@ export default function TeacherDetails({ route, navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <View style={styles(colors).header}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View
+            style={{
+              ...GENERAL_STYLES(colors).header,
+              flexDirection: "row",
+              paddingTop: 20,
+              marginBottom: 29,
+              paddingHorizontal: 27,
+            }}
+          >
             <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() =>
-                navigation.navigate("Teacher Search")
-              }
+              style={{ flex: 1 }}
+              onPress={() => navigation.navigate("Teacher Search")}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <FontAwesome
@@ -176,7 +183,15 @@ export default function TeacherDetails({ route, navigation }) {
                 color={colors.Primary1}
               />
             </TouchableOpacity>
-            <Text style={styles(colors).headerTitle}>{name}</Text>
+            <Text
+              style={{
+                ...GENERAL_STYLES(colors).headerTitle,
+                textTransform: "capitalize",
+                flex: 8,
+              }}
+            >
+              {name}
+            </Text>
             {starrable ? (
               <TouchableOpacity
                 style={{ flex: 1, alignItems: "center" }}
@@ -206,7 +221,10 @@ export default function TeacherDetails({ route, navigation }) {
           {res && (
             <View>
               <View
-                style={[styles(colors).div, styles(colors).generalContainer]}
+                style={[
+                  GENERAL_STYLES(colors).div,
+                  styles(colors).generalContainer,
+                ]}
               >
                 <View style={styles(colors).generalInfo}>
                   <Text style={styles(colors).generalText}>
@@ -272,13 +290,19 @@ export default function TeacherDetails({ route, navigation }) {
                         description={d.content.map((e, i) => {
                           return (
                             <View key={String(i)}>
-                              <Text style={styles(colors).p}>
+                              <Text
+                                style={[
+                                  GENERAL_STYLES(colors).p,
+                                  styles(colors).p,
+                                ]}
+                              >
                                 {e.slice(0, e.indexOf("/") + 1).trim()}
                                 <Text
-                                  style={[
-                                    styles(colors).p,
-                                    { fontFamily: "Poppins_600SemiBold" },
-                                  ]}
+                                  style={{
+                                    ...GENERAL_STYLES(colors).p,
+                                    ...styles(colors).p,
+                                    fontFamily: "Poppins_600SemiBold",
+                                  }}
                                 >
                                   {e.slice(e.indexOf("/") + 1)}
                                 </Text>
@@ -305,87 +329,15 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingTop: 5,
-      margin: 5,
-      marginBottom: 24,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    divCollapse: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: 55,
-      paddingTop: 5,
-      margin: 5,
-      marginBottom: 24,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    headerIcon: {
-      flex: 1,
-    },
-    header: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-      paddingHorizontal: 27,
-    },
-    headerTitle: {
-      flex: 8,
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      color: colors.Header,
-      maxWidth: "70%",
-      textAlign: "center",
-      textTransform: "capitalize",
-    },
     generalContainer: {
       minHeight: 126,
       color: colors.Header,
       justifyContent: "space-between",
       alignItems: "flex-start",
       paddingHorizontal: 17,
-      paddingTop: 12,
-      paddingBottom: 12,
+      paddingVertical: 12,
+      margin: 5,
+      marginBottom: 24,
     },
     generalInfo: {
       flexDirection: "row",
@@ -397,30 +349,7 @@ const styles = (colors) =>
       fontSize: 16,
       flexWrap: "wrap",
     },
-    propertyHeader: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      alignSelf: "center",
-      width: 0.8 * vw,
-      height: 49,
-    },
-    propertyTitle: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 16,
-      color: colors.Primary1,
-    },
-    expand: {
-      width: "100%",
-      paddingTop: 8,
-      paddingBottom: 12,
-      paddingHorizontal: 17,
-      borderTopColor: colors.GraphBackground,
-      borderTopWidth: 1,
-    },
     p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
       fontSize: 14,
       marginVertical: 4,
     },

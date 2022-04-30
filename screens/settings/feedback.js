@@ -15,6 +15,8 @@ import {
 import { useTheme } from "../../globals/theme";
 import { sendEmail } from "../../components/SendEmail";
 import * as Linking from "expo-linking";
+import { GENERAL_STYLES } from "../../globals/styles";
+import { BackHeader } from "../../components/BackHeader";
 
 export default function Feedback({ navigation }) {
   const { colors } = useTheme();
@@ -25,29 +27,11 @@ export default function Feedback({ navigation }) {
     sendEmail("ta.app.help@gmail.com", "Teach Assist App Feedback", body);
   };
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <TouchableOpacity
-            style={styles(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 20,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
-          >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
-              color={colors.Primary1}
-            />
-          </TouchableOpacity>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Support & Feedback</Text>
-          </View>
-          <View style={styles(colors).body}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <BackHeader header="Support & Feedback" colors={colors} />
+          <View style={GENERAL_STYLES(colors).body}>
             <Text style={styles(colors).p1}>
               Contact us for support or feedback!
             </Text>
@@ -126,52 +110,11 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     notif: {
       alignItems: "flex-end",
       marginBottom: -26,
       width: "100%",
       paddingRight: 23,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 20,
-      marginTop: 10,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 22,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.7 * vw,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 54,
-      left: 27,
-      zIndex: 2,
-    },
-    body: {
-      width: vw,
-      paddingHorizontal: 40,
     },
     h: {
       fontFamily: "Poppins_700Bold",
@@ -210,10 +153,8 @@ const styles = (colors) =>
       borderWidth: 1,
       width: 0.9 * vw,
       minHeight: 150,
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 10,
-      paddingBottom: 10,
+      paddingHorizontal: 17,
+      paddingVertical: 10,
       margin: 5,
       marginBottom: 15,
       color: colors.Subtitle,

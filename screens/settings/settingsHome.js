@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../globals/theme";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 export default function SettingsHome() {
   const navigation = useNavigation();
@@ -45,10 +46,10 @@ export default function SettingsHome() {
     }
   };
   return (
-    <SafeAreaView style={[styles(colors).safeView]}>
-      <View style={styles(colors).container}>
-        <View style={styles(colors).header}>
-          <Text style={styles(colors).headerTitle}>Settings</Text>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <View style={GENERAL_STYLES(colors).container}>
+        <View style={{ ...GENERAL_STYLES(colors).header, marginBottom: 32 }}>
+          <Text style={GENERAL_STYLES(colors).headerTitle}>Settings</Text>
         </View>
         <View style={styles(colors).settingBox}>
           <Ionicons
@@ -153,17 +154,6 @@ const vh = Dimensions.get("window").height;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     settingBox: {
       width: 0.82 * vw,
       display: "flex",
@@ -173,22 +163,6 @@ const styles = (colors) =>
       paddingBottom: 20,
       marginTop: 8,
       marginBottom: 2,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 32,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.75 * vw,
-      textAlign: "center",
     },
     body1: {
       fontFamily: "Poppins_600SemiBold",
@@ -217,10 +191,8 @@ const styles = (colors) =>
       borderWidth: 1,
       height: "auto",
       width: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 8,
-      paddingBottom: 8,
+      paddingHorizontal: 17,
+      paddingVertical: 8,
       margin: 5,
       shadowColor: colors.Shadow,
       shadowOpacity: 0.15,

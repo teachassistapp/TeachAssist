@@ -14,7 +14,6 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   Alert,
   RefreshControl,
   TouchableOpacity,
@@ -28,6 +27,7 @@ import { useTheme } from "../../globals/theme";
 import { handleFetchError } from "../../globals/alert";
 import { test_course_data } from "../../data/test";
 import { TEST_PASS, TEST_USER } from "../../data/keys";
+import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../../globals/styles";
 
 function DisplayCourse({
   breakdown,
@@ -62,12 +62,15 @@ function DisplayCourse({
   }
   const displayMethod =
     breakdown === true ? (
-      <View style={styles(colors).assignmentBarChart} key={index + "Breakdown"}>
-        <View style={styles(colors).assignmentBar}>
+      <View
+        style={ASSIGNMENT_STYLES(colors).assignmentBarChart}
+        key={index + "Breakdown"}
+      >
+        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
           <Text style={styles(colors).barLabelsText}>
             {k ? Math.round(k) : " "}
           </Text>
-          <View style={styles(colors).progressBar}>
+          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
             <ProgressBar
               progress={k}
               height={8}
@@ -77,11 +80,11 @@ function DisplayCourse({
           </View>
           <Text style={styles(colors).barLabelsText}>K</Text>
         </View>
-        <View style={styles(colors).assignmentBar}>
+        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
           <Text style={styles(colors).barLabelsText}>
             {t ? Math.round(t) : " "}
           </Text>
-          <View style={styles(colors).progressBar}>
+          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
             <ProgressBar
               progress={t}
               height={8}
@@ -91,11 +94,11 @@ function DisplayCourse({
           </View>
           <Text style={styles(colors).barLabelsText}>T</Text>
         </View>
-        <View style={styles(colors).assignmentBar}>
+        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
           <Text style={styles(colors).barLabelsText}>
             {c ? Math.round(c) : " "}
           </Text>
-          <View style={styles(colors).progressBar}>
+          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
             <ProgressBar
               progress={c}
               height={8}
@@ -105,11 +108,11 @@ function DisplayCourse({
           </View>
           <Text style={styles(colors).barLabelsText}>C</Text>
         </View>
-        <View style={styles(colors).assignmentBar}>
+        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
           <Text style={styles(colors).barLabelsText}>
             {a ? Math.round(a) : " "}
           </Text>
-          <View style={styles(colors).progressBar}>
+          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
             <ProgressBar
               progress={a}
               height={8}
@@ -143,7 +146,14 @@ function DisplayCourse({
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      style={styles(colors).div}
+      style={{
+        ...GENERAL_STYLES(colors).div,
+        flexDirection: "row",
+        minHeight: 125,
+        paddingHorizontal: 17,
+        paddingVertical: 15,
+        margin: 5,
+      }}
       onPress={() => {
         navigation.navigate("Details", {
           code: code,
@@ -399,15 +409,15 @@ export default function Home() {
   let averageOverall =
     Math.round(partMark.reduce((a, b) => a + b, 0) * 10) / 10;
   return (
-    <SafeAreaView style={styles(colors).safeView}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <ScrollView
-        style={styles(colors).scrollView}
+        style={GENERAL_STYLES(colors).scrollview}
         alwaysBounceVertical={"true"}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={styles(colors).container}>
+        <View style={GENERAL_STYLES(colors).container}>
           <View style={styles(colors).headerIcons}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Websites")}
@@ -495,8 +505,7 @@ export default function Home() {
               color={colors.Primary1}
             />
           )}
-
-          <View style={styles(colors).blockContainer}>
+          <View style={GENERAL_STYLES(colors).blockContainer}>
             <Text>{isEnabled}</Text>
             {isEnabled ? displayAverage : displayBreakdown}
           </View>
@@ -511,25 +520,10 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     headerIcons: {
       flexDirection: "row",
       justifyContent: "space-between",
-      marginBottom: -26,
+      marginBottom: -24,
       width: "100%",
       paddingLeft: 23,
       paddingRight: 23,
@@ -565,33 +559,6 @@ const styles = (colors) =>
       top: 0,
       color: colors.Subtitle,
     },
-    blockContainer: {
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      width: "100%",
-      paddingBottom: 15,
-    },
-    div: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: "90%",
-      height: "auto",
-      minHeight: 125,
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingVertical: 15,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.153,
-      shadowRadius: 20,
-      elevation: 8,
-    },
     title: {
       fontFamily: "Poppins_600SemiBold",
       fontSize: vw < 300 ? 16 : 20,
@@ -616,27 +583,6 @@ const styles = (colors) =>
       fontFamily: "Poppins_600SemiBold",
       fontSize: vw < 300 ? 14 : 16,
       color: colors.Header,
-    },
-    assignmentBar: {
-      height: 90,
-      width: 28,
-      justifyContent: "center",
-    },
-    assignmentBarChart: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      height: 90,
-      width: 120,
-      top: 2,
-    },
-    progressBar: {
-      height: 90,
-      width: 70,
-      transform: [{ rotate: "270deg" }],
-      position: "relative",
-      right: -20,
-      marginTop: -9,
-      marginBottom: -9,
     },
     barLabelsText: {
       fontSize: 10,

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Octicons, FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 // component for the teacher overview we map through, (id,name, and status)
 function TeacherOverview({
@@ -150,7 +151,7 @@ export default function TeacherResults({
     //if no teachers were found
     return (
       <View style={{ alignItems: "center", marginTop: 20 }}>
-        <Text style={styles(colors).p}>No teachers found.</Text>
+        <Text style={GENERAL_STYLES(colors).p}>No teachers found.</Text>
       </View>
     );
   }
@@ -194,9 +195,9 @@ export default function TeacherResults({
         </View>
       )}
       <View style={styles(colors).titles}>
-        <Text style={[styles(colors).p, { flex: 8 }]}>Name</Text>
+        <Text style={[GENERAL_STYLES(colors).p, { flex: 8 }]}>Name</Text>
         <View style={{ flex: 2, alignText: "center", alignItems: "center" }}>
-          <Text style={styles(colors).p}>Status</Text>
+          <Text style={GENERAL_STYLES(colors).p}>Status</Text>
         </View>
         <View style={{ flex: 2 }} />
       </View>
@@ -209,27 +210,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: "90%",
-      height: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 5,
-      margin: 5,
-    },
     button: {
       alignSelf: "center",
       alignItems: "center",
@@ -237,8 +217,7 @@ const styles = (colors) =>
       borderColor: colors.Border,
       borderRadius: 20,
       borderWidth: 1,
-      paddingLeft: 21,
-      paddingRight: 21,
+      paddingHorizontal: 21,
       paddingTop: 5,
       paddingBottom: 5,
       marginTop: -10,
@@ -249,22 +228,6 @@ const styles = (colors) =>
       fontFamily: "Poppins_500Medium",
       color: colors.Subtitle,
     },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.75 * vw,
-      textAlign: "center",
-    },
     teacherContainer: {
       padding: 12,
       margin: 12,
@@ -272,11 +235,6 @@ const styles = (colors) =>
     },
     titles: {
       flexDirection: "row",
-    },
-    p: {
-      fontSize: 13,
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
     },
     teacher: {
       marginVertical: 12,

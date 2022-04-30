@@ -17,6 +17,7 @@ import SubmitCheck, {
 import { calculateCourseAverage } from "../../../globals/calculators";
 import { DisplayProgress } from "../../../components/charts";
 import { useTheme } from "../../../globals/theme";
+import { GENERAL_STYLES } from "../../../globals/styles";
 
 export default function AssessmentsScreen({
   content,
@@ -85,9 +86,9 @@ export default function AssessmentsScreen({
   let res = []; //for the calculator
   for (let i = 0; i < 6; i++) {
     res.push(
-      <View style={styles(colors).inputContainer} key={labels[i]}>
-        <View style={styles(colors).inputSubContainer}>
-          <Text style={styles(colors).inputLabel}>{labels[i]}</Text>
+      <View style={GENERAL_STYLES(colors).inputContainer} key={labels[i]}>
+        <View style={GENERAL_STYLES(colors).inputSubContainer}>
+          <Text style={GENERAL_STYLES(colors).inputLabel}>{labels[i]}</Text>
           <TextInput
             style={styles(colors).input}
             onChangeText={categories[i][0][1]}
@@ -96,8 +97,8 @@ export default function AssessmentsScreen({
             textAlign={"center"}
           />
         </View>
-        <View style={styles(colors).inputSubContainer}>
-          <Text style={styles(colors).inputLabel}>Weight:</Text>
+        <View style={GENERAL_STYLES(colors).inputSubContainer}>
+          <Text style={GENERAL_STYLES(colors).inputLabel}>Weight:</Text>
           <TextInput
             style={styles(colors).input}
             onChangeText={categories[i][1][1]}
@@ -111,7 +112,7 @@ export default function AssessmentsScreen({
   }
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
-      <View style={styles(colors).blockContainer}>
+      <View style={GENERAL_STYLES(colors).blockContainer}>
         <DisplayProgress value={tempMark} />
         {cached === true && (
           <View style={styles(colors).cacheContainer}>
@@ -133,7 +134,15 @@ export default function AssessmentsScreen({
               originalAssignments={originalAssessments}
               editable={true}
             />
-            <View style={[styles(colors).div, { minHeight: 50 }]}>
+            <View
+              style={{
+                ...GENERAL_STYLES(colors).div,
+                paddingHorizontal: 17,
+                paddingVertical: 20,
+                margin: 5,
+                minHeight: 50,
+              }}
+            >
               <TouchableOpacity
                 style={styles(colors).calculator}
                 onPress={() => setIsCollapsed(!isCollapsed)}
@@ -220,37 +229,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    blockContainer: {
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      width: "100%",
-      paddingBottom: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      minHeight: 120,
-      paddingHorizontal: 17,
-      paddingVertical: 20,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 12,
-    },
     cacheContainer: {
       marginVertical: 20,
       flexDirection: "row",
@@ -286,20 +264,6 @@ const styles = (colors) =>
       justifyContent: "flex-start",
       paddingVertical: 20,
     },
-    inputContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      alignSelf: "center",
-      width: "95%",
-      marginBottom: 10,
-    },
-    inputSubContainer: {
-      width: "48%",
-      justifyContent: "space-between",
-      flexDirection: "row",
-      alignItems: "center",
-    },
     input: {
       borderRadius: 10,
       borderWidth: 2,
@@ -308,7 +272,7 @@ const styles = (colors) =>
       width: "45%",
       color: colors.Subtitle,
       fontFamily: "Poppins_500Medium",
-      fontSize: 14,
+      fontSize: 12,
     },
     inputTitle: {
       width: "85%",
@@ -316,12 +280,6 @@ const styles = (colors) =>
       marginBottom: 15,
       fontSize: 16,
       color: colors.Subtitle,
-    },
-    inputLabel: {
-      fontFamily: "Poppins_500Medium",
-      fontSize: 14,
-      color: colors.Subtitle,
-      marginRight: 5,
     },
     buttonText: {
       fontFamily: "Poppins_600SemiBold",

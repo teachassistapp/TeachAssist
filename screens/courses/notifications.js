@@ -17,6 +17,8 @@ import {
 } from "react-native";
 import DisplayMarkUpdates from "../../components/DisplayMarkUpdates";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
+import { BackHeader } from "../../components/BackHeader";
 
 function join_arrays(a1, a2) {
   let combined_array = [];
@@ -140,7 +142,7 @@ export default function Notifications({ route, navigation }) {
       displayNotifs = !loading && (
         <View>
           <Image source={img} style={styles(colors).graphic} />
-          <Text style={[styles(colors).p, { textAlign: "center" }]}>
+          <Text style={{ ...GENERAL_STYLES(colors).p, textAlign: "center" }}>
             No new updates
           </Text>
         </View>
@@ -154,33 +156,17 @@ export default function Notifications({ route, navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles(colors).safeView}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <ScrollView
-        style={styles(colors).scrollView}
+        style={GENERAL_STYLES(colors).scrollview}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={styles(colors).container}>
-          <TouchableOpacity
-            style={styles(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 20,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
-          >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
-              color={colors.Primary1}
-            />
-          </TouchableOpacity>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Notifications</Text>
-          </View>
+        <View
+          style={{ ...GENERAL_STYLES(colors).container, paddingVertical: 15 }}
+        >
+          <BackHeader header="Notifications" colors={colors} />
           {loading && (
             <ActivityIndicator
               style={{ marginTop: 40 }}
@@ -199,71 +185,11 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      backgroundColor: colors.Background,
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingVertical: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 5,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
     notif: {
       alignItems: "flex-end",
       marginBottom: -26,
       width: "100%",
       paddingRight: 23,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-      marginTop: 10,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 54,
-      left: 27,
-      zIndex: 2,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
-      color: colors.Subtitle,
     },
     graphic: {
       width: 0.6 * vw,

@@ -15,6 +15,7 @@ import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 function parseAssignments(data, weight_table) {
   let content = [];
@@ -154,11 +155,11 @@ export default function Details({ route, navigation }) {
   ];
 
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
           <TouchableOpacity
-            style={styles(colors).headerIcon}
+            style={GENERAL_STYLES(colors).headerIcon}
             onPress={() => navigation.goBack()}
             hitSlop={{
               top: 50,
@@ -173,9 +174,15 @@ export default function Details({ route, navigation }) {
               color={colors.Primary1}
             />
           </TouchableOpacity>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>{name}</Text>
-            <Text style={styles(colors).headerSubtitle}>{code}</Text>
+          <View
+            style={{
+              ...GENERAL_STYLES(colors).header,
+              paddingTop: 20,
+              marginBottom: 15,
+            }}
+          >
+            <Text style={GENERAL_STYLES(colors).headerTitle}>{name}</Text>
+            <Text style={GENERAL_STYLES(colors).headerSubtitle}>{code}</Text>
           </View>
           <SwitchSelector
             options={options}
@@ -214,52 +221,3 @@ export default function Details({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const vw = Dimensions.get("window").width;
-const vh = Dimensions.get("window").height;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: "70%",
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 50,
-      left: 27,
-      zIndex: 2,
-    },
-  });

@@ -22,6 +22,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
+import { GENERAL_STYLES } from "../globals/styles";
 export default function Login({ navigation }) {
   const { colors, isDark, setScheme } = useTheme();
   const img = isDark
@@ -116,14 +117,14 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={[styles(colors).safeView]}>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView style={[styles(colors).scrollView]}>
-            <View style={styles(colors).container}>
+          <ScrollView style={[GENERAL_STYLES(colors).scrollview]}>
+            <View style={GENERAL_STYLES(colors).container}>
               <Image source={img} style={styles(colors).logo} />
               <View style={styles(colors).div}>
                 <View style={styles(colors).texts}>
@@ -189,15 +190,6 @@ const vh = Dimensions.get("window").height;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
     container: {
       flex: 1,
       alignItems: "center",
@@ -256,7 +248,7 @@ const styles = (colors) =>
       marginTop: 35,
     },
     buttonText: {
-      color: "#fff",
+      color: colors.Background,
       fontFamily: "Poppins_600SemiBold",
       fontSize: 16,
       alignSelf: "center",

@@ -3,6 +3,7 @@ import { View, Text, Dimensions, StyleSheet } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { LineChart } from "react-native-chart-kit";
 import { useTheme } from "../globals/theme";
+import { GENERAL_STYLES } from "../globals/styles";
 
 export function DisplayTable({ weight_table }) {
   const { colors } = useTheme();
@@ -43,7 +44,7 @@ export function DisplayTable({ weight_table }) {
     );
   }
   return (
-    <View style={styles(colors).div}>
+    <View style={[GENERAL_STYLES(colors).div, styles(colors).div]}>
       <Text style={styles(colors).chartTitle}>Course Weighting</Text>
       <View style={styles(colors).row}>
         <Text style={[styles(colors).tableHeader, { flex: 6 }]}>Category</Text>
@@ -77,7 +78,7 @@ export function DisplayLineChart({ marks, color, title }) {
   ];
   const screenWidth = Dimensions.get("window").width;
   return (
-    <View style={styles(colors).div}>
+    <View style={[GENERAL_STYLES(colors).div, styles(colors).div]}>
       <Text style={styles(colors).chartTitle}>{title}</Text>
       <LineChart
         data={{
@@ -160,15 +161,6 @@ const vw = Dimensions.get("window").width;
 const styles = (colors) =>
   StyleSheet.create({
     div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
       paddingHorizontal: 25,
       paddingTop: 15,
       paddingBottom: 20,
@@ -178,11 +170,6 @@ const styles = (colors) =>
       shadowOpacity: 0.153,
       shadowRadius: 20,
       elevation: 8,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
-      color: colors.Subtitle,
     },
     lineChart: {
       fontFamily: "Poppins_400Regular",
