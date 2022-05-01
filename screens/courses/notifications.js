@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView,
@@ -7,10 +6,7 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   Alert,
-  TouchableOpacity,
-  StatusBar,
   Dimensions,
   ActivityIndicator,
   RefreshControl,
@@ -19,6 +15,8 @@ import DisplayMarkUpdates from "../../components/DisplayMarkUpdates";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/BackHeader";
+
+const vw = Dimensions.get("window").width;
 
 function join_arrays(a1, a2) {
   let combined_array = [];
@@ -37,7 +35,7 @@ function join_arrays(a1, a2) {
   combined_array = combined_array.concat(arr2);
   return combined_array;
 }
-export default function Notifications({ route, navigation }) {
+export default function Notifications({ route }) {
   const { colors, isDark } = useTheme();
   const img = isDark
     ? require("../../assets/notif_graphic2.png")
@@ -141,7 +139,15 @@ export default function Notifications({ route, navigation }) {
     } else {
       displayNotifs = !loading && (
         <View>
-          <Image source={img} style={styles(colors).graphic} />
+          <Image
+            source={img}
+            style={{
+              width: 0.6 * vw,
+              height: 0.6 * vw,
+              marginTop: 120,
+              marginBottom: 20,
+            }}
+          />
           <Text style={{ ...GENERAL_STYLES(colors).p, textAlign: "center" }}>
             No new updates
           </Text>
@@ -180,21 +186,3 @@ export default function Notifications({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const vw = Dimensions.get("window").width;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    notif: {
-      alignItems: "flex-end",
-      marginBottom: -26,
-      width: "100%",
-      paddingRight: 23,
-    },
-    graphic: {
-      width: 0.6 * vw,
-      height: 0.6 * vw,
-      marginTop: 120,
-      marginBottom: 20,
-    },
-  });

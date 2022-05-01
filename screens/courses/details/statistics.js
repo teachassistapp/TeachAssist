@@ -69,39 +69,28 @@ export default function StatisticsScreen({ assignments, weight_table }) {
     a_marks.push(assignments[i].a);
   }
 
+  const chart_marks = [course, marks, k_marks, t_marks, c_marks, a_marks];
+  const chart_titles = [
+    "Course Average",
+    "Assignments",
+    "Knowledge",
+    "Thinking",
+    "Communication",
+    "Application",
+  ];
   return (
-    <View>
+    <>
       <DisplayTable weight_table={weight_table} />
-      <DisplayLineChart
-        marks={course}
-        color={colors.Subtitle}
-        title={"Course Average"}
-      />
-      <DisplayLineChart
-        marks={marks}
-        color={colors.Subtitle}
-        title={"Assignments"}
-      />
-      <DisplayLineChart
-        marks={k_marks}
-        color={colors.Subtitle}
-        title={"Knowledge"}
-      />
-      <DisplayLineChart
-        marks={t_marks}
-        color={colors.Subtitle}
-        title={"Thinking"}
-      />
-      <DisplayLineChart
-        marks={c_marks}
-        color={colors.Subtitle}
-        title={"Communication"}
-      />
-      <DisplayLineChart
-        marks={a_marks}
-        color={colors.Subtitle}
-        title={"Application"}
-      />
-    </View>
+      {chart_marks.map((m, i) => {
+        return (
+          <DisplayLineChart
+            marks={m}
+            color={colors.Subtitle}
+            title={chart_titles[i]}
+            key={`${chart_titles[i]}-${String(i)}`}
+          />
+        );
+      })}
+    </>
   );
 }

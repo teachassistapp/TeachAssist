@@ -240,7 +240,6 @@ const styles = (colors) =>
       marginBottom: 24,
       maxWidth: 0.8 * vw,
     },
-
     button: {
       alignSelf: "center",
       marginVertical: 20,

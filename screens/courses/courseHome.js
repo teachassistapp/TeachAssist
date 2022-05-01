@@ -48,6 +48,8 @@ function DisplayCourse({
   index,
 }) {
   const { colors } = useTheme();
+  const navigation = useNavigation();
+
   if (k === "null") {
     k = 0;
   }
@@ -60,68 +62,41 @@ function DisplayCourse({
   if (a === "null") {
     a = 0;
   }
+  const categories = [k, t, c, a];
+  const labels = ["K", "T", "C", "A"];
+  const bar_colors = [
+    colors.Primary2,
+    colors.Primary1,
+    colors.Primary2,
+    colors.Primary1,
+  ];
   const displayMethod =
     breakdown === true ? (
       <View
         style={ASSIGNMENT_STYLES(colors).assignmentBarChart}
         key={index + "Breakdown"}
       >
-        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {k ? Math.round(k) : " "}
-          </Text>
-          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-            <ProgressBar
-              progress={k}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary2}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>K</Text>
-        </View>
-        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {t ? Math.round(t) : " "}
-          </Text>
-          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-            <ProgressBar
-              progress={t}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary1}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>T</Text>
-        </View>
-        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {c ? Math.round(c) : " "}
-          </Text>
-          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-            <ProgressBar
-              progress={c}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary2}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>C</Text>
-        </View>
-        <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {a ? Math.round(a) : " "}
-          </Text>
-          <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-            <ProgressBar
-              progress={a}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary1}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>A</Text>
-        </View>
+        {categories.map((cat, i) => {
+          return (
+            <View
+              style={ASSIGNMENT_STYLES(colors).assignmentBar}
+              key={String(i)}
+            >
+              <Text style={styles(colors).barLabelsText}>
+                {cat ? Math.round(cat) : " "}
+              </Text>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
+                <ProgressBar
+                  progress={cat}
+                  height={8}
+                  trackColor={colors.GraphBackground}
+                  backgroundColor={bar_colors[i]}
+                />
+              </View>
+              <Text style={styles(colors).barLabelsText}>{labels[i]}</Text>
+            </View>
+          );
+        })}
       </View>
     ) : (
       <AnimatedCircularProgress
@@ -135,7 +110,7 @@ function DisplayCourse({
         duration={800}
         key={index + "CircleProgress"}
       >
-        {(fill) => (
+        {() => (
           <Text style={styles(colors).marks} key={index + "CircleProgressText"}>
             {overall_mark === "N/A" ? "N/A" : overall_mark.toString() + "%"}
           </Text>
@@ -143,7 +118,6 @@ function DisplayCourse({
       </AnimatedCircularProgress>
     );
 
-  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={{

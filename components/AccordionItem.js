@@ -715,7 +715,6 @@ export default function AccordionItem({
 }
 
 const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
     barLabelsText: {

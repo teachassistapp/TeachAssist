@@ -6,7 +6,6 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -18,7 +17,7 @@ import * as Linking from "expo-linking";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/BackHeader";
 
-export default function Feedback({ navigation }) {
+export default function Feedback() {
   const { colors } = useTheme();
   const [error, setError] = useState(false);
   const [text, onChangeText] = useState(null);

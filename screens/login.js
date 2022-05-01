@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ScrollView,
   SafeAreaView,
-  StatusBar,
   View,
   Image,
   Text,
@@ -107,7 +106,7 @@ export default function Login({ navigation }) {
           Alert.alert("Invalid Login.", "Please try again.");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         Alert.alert(
           "Login failed.",
           "Your network connection may be unstable, or the server may be experiencing interruptions. Please try again later."

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import {
   View,
@@ -7,7 +6,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Switch,
-  StatusBar,
   Alert,
   TouchableOpacity,
   Dimensions,
@@ -45,6 +43,11 @@ export default function SettingsHome() {
       Alert.alert("Failed to save scheme.");
     }
   };
+
+  const labels = ["About", "Support & Feedback", "Help & FAQ"];
+  const navs = ["About", "Feedback", "HelpHome"];
+  const icons = ["info", "message", "help"];
+
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <View style={GENERAL_STYLES(colors).container}>
@@ -54,7 +57,7 @@ export default function SettingsHome() {
         <View style={styles(colors).settingBox}>
           <Ionicons
             name="ios-moon"
-            size={20}
+            size={18}
             color={colors.Header}
             style={{ marginRight: 5 }}
           />
@@ -69,63 +72,30 @@ export default function SettingsHome() {
             />
           </View>
         </View>
-        <TouchableOpacity
-          style={styles(colors).settingBox}
-          onPress={() => navigation.navigate("About")}
-        >
-          <Ionicons
-            style={styles(colors).iconTitle}
-            name="information-circle"
-            size={22}
-            color={colors.Header}
-          />
-          <Text style={styles(colors).body1}>About</Text>
-          <View style={styles(colors).arrow}>
-            <FontAwesome
-              name="chevron-right"
-              size={18}
-              color={colors.Primary1}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles(colors).settingBox}
-          onPress={() => navigation.navigate("Feedback")}
-        >
-          <MaterialIcons
-            style={styles(colors).iconTitle}
-            name="message"
-            size={20}
-            color={colors.Header}
-          />
-          <Text style={styles(colors).body1}>Support & Feedback</Text>
-          <View style={styles(colors).arrow}>
-            <FontAwesome
-              name="chevron-right"
-              size={18}
-              color={colors.Primary1}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles(colors).settingBox}
-          onPress={() => navigation.navigate("HelpHome")}
-        >
-          <Ionicons
-            style={styles(colors).iconTitle}
-            name="help-circle"
-            size={22}
-            color={colors.Header}
-          />
-          <Text style={styles(colors).body1}>Help & FAQ</Text>
-          <View style={styles(colors).arrow}>
-            <FontAwesome
-              name="chevron-right"
-              size={18}
-              color={colors.Primary1}
-            />
-          </View>
-        </TouchableOpacity>
+        {labels.map((label, i) => {
+          return (
+            <TouchableOpacity
+              style={styles(colors).settingBox}
+              onPress={() => navigation.navigate(navs[i])}
+              key={String(i)}
+            >
+              <MaterialIcons
+                style={styles(colors).iconTitle}
+                name={icons[i]}
+                size={20}
+                color={colors.Header}
+              />
+              <Text style={styles(colors).body1}>{label}</Text>
+              <View style={styles(colors).arrow}>
+                <FontAwesome
+                  name="chevron-right"
+                  size={18}
+                  color={colors.Primary1}
+                />
+              </View>
+            </TouchableOpacity>
+          );
+        })}
         <View style={styles(colors).logOut}>
           <TouchableOpacity
             style={styles(colors).button}
@@ -150,7 +120,6 @@ export default function SettingsHome() {
 }
 
 const vw = Dimensions.get("window").width;
-const vh = Dimensions.get("window").height;
 
 const styles = (colors) =>
   StyleSheet.create({

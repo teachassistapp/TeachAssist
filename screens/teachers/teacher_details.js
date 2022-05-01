@@ -5,14 +5,10 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   Alert,
-  ActivityIndicator,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
-import * as Animatable from "react-native-animatable";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
@@ -133,7 +129,6 @@ export default function TeacherDetails({ route, navigation }) {
       method: "GET",
       redirect: "follow",
     };
-
     fetch(
       "https://oct-api.herokuapp.com/fetch-teacher-id?id=" + id,
       requestOptions
@@ -324,8 +319,6 @@ export default function TeacherDetails({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({

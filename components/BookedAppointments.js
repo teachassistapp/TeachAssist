@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useTheme } from "../globals/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GENERAL_STYLES } from "../globals/styles";

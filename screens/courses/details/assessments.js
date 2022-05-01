@@ -83,7 +83,7 @@ export default function AssessmentsScreen({
     ],
   ];
   const labels = ["K:", "T:", "C:", "A:", "F:", "O:"];
-  let res = []; //for the calculator
+  let res = [];
   for (let i = 0; i < 6; i++) {
     res.push(
       <View style={GENERAL_STYLES(colors).inputContainer} key={labels[i]}>

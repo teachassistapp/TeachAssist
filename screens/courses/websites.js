@@ -8,7 +8,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  StatusBar,
   Modal,
   TextInput,
   KeyboardAvoidingView,

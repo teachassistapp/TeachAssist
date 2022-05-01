@@ -5,10 +5,7 @@ import {
   ScrollView,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
-  StatusBar,
-  Dimensions,
 } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";

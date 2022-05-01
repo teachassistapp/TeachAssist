@@ -11,7 +11,6 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
-  StatusBar,
   Dimensions,
 } from "react-native";
 import ProgressBar from "../components/ProgressBar";

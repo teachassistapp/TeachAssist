@@ -6,7 +6,6 @@ export async function sendEmail(to, subject, body, options = {}) {
 
   let url = `mailto:${to}`;
 
-  // Create email link query
   const query = qs.stringify({
     subject: subject,
     body: body,
@@ -17,8 +16,6 @@ export async function sendEmail(to, subject, body, options = {}) {
   if (query.length) {
     url += `?${query}`;
   }
-
-  // check if we can use this link
   const canOpen = await Linking.canOpenURL(url);
 
   if (!canOpen) {

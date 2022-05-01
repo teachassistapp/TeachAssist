@@ -1,12 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import { GENERAL_STYLES } from "../../../globals/styles";
 import { useTheme } from "../../../globals/theme";
 
 export default function AboutScreen({
   code,
-  block,
-  room,
   name,
+  room,
+  block,
   start_time,
   end_time,
 }) {
@@ -32,57 +33,44 @@ export default function AboutScreen({
 
     return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
   };
+  const titles = [
+    "Course Code:",
+    "Course Name:",
+    "Room:",
+    "Period:",
+    "Start Time:",
+    "End Time:",
+  ];
+  const properties = [
+    code,
+    name,
+    room,
+    block,
+    displayDate(start_time),
+    displayDate(end_time),
+  ];
   return (
-    <View style={styles(colors).about}>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Course Code:</Text>{" "}
-        {code}
-      </Text>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Course Name:</Text>{" "}
-        {name}
-      </Text>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Room:</Text> {room}
-      </Text>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Period:</Text>{" "}
-        {block}
-      </Text>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>Start Time:</Text>{" "}
-        {displayDate(start_time)}
-      </Text>
-      <Text style={styles(colors).aboutText}>
-        <Text style={{ fontFamily: "Poppins_600SemiBold" }}>End Time:</Text>{" "}
-        {displayDate(end_time)}
-      </Text>
+    <View
+      style={{
+        ...GENERAL_STYLES(colors).div,
+        alignItems: "flex-start",
+        padding: 17,
+        marginTop: 25,
+      }}
+    >
+      {properties.map((p, i) => {
+        return (
+          <Text
+            style={{ ...GENERAL_STYLES(colors).p, lineHeight: 25 }}
+            key={String(i)}
+          >
+            <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
+              {titles[i]}
+            </Text>{" "}
+            {p}
+          </Text>
+        );
+      })}
     </View>
   );
 }
-const styles = (colors) =>
-  StyleSheet.create({
-    about: {
-      alignItems: "flex-start",
-      alignSelf: "center",
-      justifyContent: "center",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: "90%",
-      height: "auto",
-      padding: 17,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.153,
-      shadowRadius: 10,
-      elevation: 6,
-      marginTop: 30,
-    },
-    aboutText: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
-      color: colors.Subtitle,
-      lineHeight: 25,
-    },
-  });

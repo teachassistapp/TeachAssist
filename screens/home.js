@@ -1,12 +1,7 @@
 // navbar
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  Ionicons,
-  Entypo,
-  FontAwesome,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { Ionicons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import guidance from "./guidance";
 import search from "./search";
