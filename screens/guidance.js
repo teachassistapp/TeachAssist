@@ -136,9 +136,7 @@ function GuidanceSearch() {
         <View style={GENERAL_STYLES(colors).container}>
           <View style={GENERAL_STYLES(colors).header}>
             <Text style={GENERAL_STYLES(colors).headerTitle}>Guidance</Text>
-            <Text style={GENERAL_STYLES(colors).headerSubtitle}>
-              Book Appointments
-            </Text>
+            <Text style={GENERAL_STYLES(colors).p}>Book Appointments</Text>
           </View>
           <TouchableOpacity
             style={styles(colors).button}

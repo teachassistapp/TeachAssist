@@ -124,9 +124,7 @@ export default function TeacherSearch({ navigation }) {
         <View style={GENERAL_STYLES(colors).container}>
           <View style={GENERAL_STYLES(colors).header}>
             <Text style={GENERAL_STYLES(colors).headerTitle}>Teachers</Text>
-            <Text style={GENERAL_STYLES(colors).headerSubtitle}>
-              Find Teachers
-            </Text>
+            <Text style={GENERAL_STYLES(colors).p}>Find Teachers</Text>
           </View>
           <View style={styles(colors).inputContainer}>
             <TextInput

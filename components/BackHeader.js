@@ -3,7 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { GENERAL_STYLES } from "../globals/styles";
 
-export const BackHeader = ({ header, colors }) => {
+export const BackHeader = ({ header, subtitle, colors }) => {
   const navigation = useNavigation();
   return (
     <View
@@ -11,11 +11,20 @@ export const BackHeader = ({ header, colors }) => {
         ...GENERAL_STYLES(colors).header,
         flexDirection: "row",
         paddingTop: 15,
+        paddingBottom: 15,
+        paddingHorizontal: 5,
         marginBottom: 10,
       }}
     >
       <TouchableOpacity
-        style={{ flex: 1, alignItems: "center" }}
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          marginTop: 22,
+          height: "100%",
+        }}
         onPress={() => navigation.goBack()}
         hitSlop={{
           top: 20,
@@ -28,12 +37,13 @@ export const BackHeader = ({ header, colors }) => {
       </TouchableOpacity>
       <View
         style={{
-          paddingTop: 20,
-          marginBottom: 20,
+          justifyContent: "center",
+          alignItems: "center",
           flex: 4,
         }}
       >
         <Text style={GENERAL_STYLES(colors).headerTitle}>{header}</Text>
+        {subtitle && <Text style={GENERAL_STYLES(colors).p}>{subtitle}</Text>}
       </View>
       <View style={{ flex: 1 }} />
     </View>

@@ -190,10 +190,10 @@ export default function Websites({ navigation }) {
             style={{
               ...GENERAL_STYLES(colors).header,
               flexDirection: "row",
-              paddingTop: 20,
-              paddingHorizontal: 20,
+              paddingTop: 8,
+              paddingHorizontal: 5,
               marginBottom: 35,
-              marginTop: 10,
+              marginTop: 5,
             }}
           >
             <TouchableOpacity
@@ -226,8 +226,8 @@ export default function Websites({ navigation }) {
               hitSlop={{
                 top: 20,
                 bottom: 50,
-                left: 20,
-                right: 50,
+                left: 50,
+                right: 20,
               }}
             >
               <EditIcon />

@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
 import { GENERAL_STYLES } from "../globals/styles";
+import { BackHeader } from "./BackHeader";
 
 function RadioButton({ options, choice, setChoice, box }) {
   const { colors } = useTheme();
@@ -167,34 +168,11 @@ export default function GuidanceBook({ route }) {
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <ScrollView style={GENERAL_STYLES(colors).scrollview}>
         <View style={GENERAL_STYLES(colors).container}>
-          <TouchableOpacity
-            style={GENERAL_STYLES(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 20,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
-          >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
-              color={colors.Primary1}
-            />
-          </TouchableOpacity>
-          <View
-            style={{
-              ...GENERAL_STYLES(colors).header,
-              paddingTop: 28,
-              marginBottom: 20,
-            }}
-          >
-            <Text style={GENERAL_STYLES(colors).headerTitle}>Guidance</Text>
-            <Text style={GENERAL_STYLES(colors).headerSubtitle}>
-              Book Appointments
-            </Text>
-          </View>
+          <BackHeader
+            header="Guidance"
+            subtitle="Book Appointments"
+            colors={colors}
+          />
           <Text
             style={{
               ...GENERAL_STYLES(colors).p,

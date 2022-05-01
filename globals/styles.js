@@ -64,13 +64,8 @@ export const GENERAL_STYLES = (colors) =>
       fontSize: 23,
       alignSelf: "center",
       color: colors.Header,
-      maxWidth: 0.7 * vw,
+      maxWidth: 0.75 * vw,
       textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
     },
     p: {
       fontFamily: "Poppins_400Regular",
@@ -144,15 +139,14 @@ export const ASSIGNMENT_STYLES = (colors) =>
     },
     assignmentMark: {
       fontFamily: "Poppins_600SemiBold",
-      fontSize: 23,
+      fontSize: 21,
       color: colors.Primary1,
     },
     assignmentTitle: {
       fontFamily: "Poppins_600SemiBold",
-      fontSize: 15,
+      fontSize: 14,
       color: colors.Header,
       maxWidth: 0.4 * vw,
-      marginTop: 5,
-      marginBottom: 5,
+      marginVertical: 5,
     },
   });

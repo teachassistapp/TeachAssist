@@ -13,6 +13,7 @@ import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { BackHeader } from "../../components/BackHeader";
 
 function parseAssignments(data, weight_table) {
   let content = [];
@@ -155,32 +156,7 @@ export default function Details({ route, navigation }) {
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <ScrollView style={GENERAL_STYLES(colors).scrollview}>
         <View style={GENERAL_STYLES(colors).container}>
-          <TouchableOpacity
-            style={GENERAL_STYLES(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 50,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
-          >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
-              color={colors.Primary1}
-            />
-          </TouchableOpacity>
-          <View
-            style={{
-              ...GENERAL_STYLES(colors).header,
-              paddingTop: 20,
-              marginBottom: 15,
-            }}
-          >
-            <Text style={GENERAL_STYLES(colors).headerTitle}>{name}</Text>
-            <Text style={GENERAL_STYLES(colors).headerSubtitle}>{code}</Text>
-          </View>
+          <BackHeader header={name} subtitle={code} colors={colors} />
           <SwitchSelector
             options={options}
             initial={0}

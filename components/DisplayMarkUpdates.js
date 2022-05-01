@@ -9,25 +9,31 @@ import {
 import { useTheme } from "../globals/theme";
 import { GENERAL_STYLES } from "../globals/styles";
 
+const months = [
+  "Jan.",
+  "Feb.",
+  "Mar.",
+  "Apr.",
+  "May",
+  "June",
+  "July",
+  "Aug.",
+  "Sept.",
+  "Oct.",
+  "Nov.",
+  "Dec.",
+];
+
 const getCurrentDate = () => {
   var date = new Date().getDate();
-  var month = new Date().getMonth() + 1;
+  var month = new Date().getMonth();
   var year = new Date().getFullYear();
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${months[parseInt(month)]} ${date}, ${year}`;
+  return `${months[month]} ${date}, ${year}`;
+};
+
+const displayDate = (date) => {
+  date = date.split("-");
+  return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
 };
 
 function parseAssignments(data, weight_table) {
@@ -71,25 +77,6 @@ function parseAssignments(data, weight_table) {
   }
   return content;
 }
-
-const displayDate = (date) => {
-  const months = [
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "June",
-    "July",
-    "Aug.",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dec.",
-  ];
-  date = date.split("-");
-  return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
-};
 
 const getAverages = (newAssignment, oldAssignment, newData, oldData) => {
   const marks = [];
@@ -162,7 +149,6 @@ const getAverages = (newAssignment, oldAssignment, newData, oldData) => {
 export default function DisplayMarkUpdates({ oldData, newData }) {
   const navigation = useNavigation();
   const { colors } = useTheme();
-
   let display = [];
   if (!oldData || !newData) {
     let data = newData ? { ...newData } : { ...oldData };
@@ -193,7 +179,8 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
           <Text style={styles(colors).courseTitle}>{data.name}</Text>
           <Text
             style={[
-              [GENERAL_STYLES(colors).p, styles(colors).p],
+              GENERAL_STYLES(colors).p,
+              styles(colors).p,
               { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
             ]}
           >
@@ -226,7 +213,11 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
     if (!oldData.cached && newData.cached) {
       display.push(
         <View
-          style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+          style={[
+            GENERAL_STYLES(colors).div,
+            styles(colors).div,
+            { paddingBottom: 22 },
+          ]}
           key={newData.name}
         >
           <View
@@ -266,15 +257,9 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
               Room {newData.room}
             </Text>
             <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
-              {displayDate(newData.start_time)} -{" "}
+              {displayDate(newData.start_time)}
+              {" - "}
               {displayDate(newData.end_time)}
-            </Text>
-          </View>
-          <View style={[styles(colors).notifBody, { paddingHorizontal: 2 }]}>
-            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
-              Your teacher has cached this course. You can still view any
-              previously saved assignments, but your teacher may be making
-              changes.
             </Text>
           </View>
         </View>
@@ -290,7 +275,6 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
       }
 
       const date = getCurrentDate();
-
       if (
         oldData.cached &&
         !newData.cached &&

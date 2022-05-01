@@ -390,7 +390,7 @@ export default function Home() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={GENERAL_STYLES(colors).container}>
+        <View style={{ ...GENERAL_STYLES(colors).container, paddingTop: 22 }}>
           <View style={styles(colors).headerIcons}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Websites")}

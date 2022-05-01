@@ -175,9 +175,8 @@ function DisplayCourseMatches({ matches }) {
         key={`${section.name} ${i}`}
         style={{
           ...GENERAL_STYLES(colors).div,
-          minHeight: 120,
-          paddingHorizontal: 17,
-          paddingVertical: 18,
+          minHeight: 150,
+          justifyContent: "center",
           margin: 5,
         }}
       >
@@ -305,9 +304,7 @@ export default function search() {
         <View style={GENERAL_STYLES(colors).container}>
           <View style={GENERAL_STYLES(colors).header}>
             <Text style={GENERAL_STYLES(colors).headerTitle}>Search</Text>
-            <Text style={GENERAL_STYLES(colors).headerSubtitle}>
-              Find Assignments
-            </Text>
+            <Text style={GENERAL_STYLES(colors).p}>Find Assignments</Text>
           </View>
           <TextInput
             style={styles(colors).input}
@@ -382,7 +379,7 @@ const styles = (colors) =>
       justifyContent: "space-between",
       alignSelf: "center",
       width: 0.8 * vw,
-      height: 115,
+      marginVertical: 8,
     },
     hRule: {
       borderBottomColor: colors.GraphBackground,

@@ -303,7 +303,7 @@ export default function AccordionItem({
       </View>
     </TouchableOpacity>
   ) : (
-    <View>
+    <View style={{ marginTop: 8 }}>
       {editable && (
         <Modal
           animationType="slide"
@@ -705,8 +705,9 @@ export default function AccordionItem({
         ...GENERAL_STYLES(colors).div,
         margin: 5,
         paddingHorizontal: 17,
-        paddingVertical: 25,
-        minHeight: 160,
+        paddingVertical: 10,
+        minHeight: 150,
+        justifyContent: "center",
       }}
     >
       {display}
@@ -744,7 +745,6 @@ const styles = (colors) =>
       justifyContent: "space-between",
       alignSelf: "center",
       width: 0.8 * vw,
-      height: 115,
     },
     expand: {
       width: 0.8 * vw,
