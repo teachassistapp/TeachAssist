@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
   NavigationContainer,
@@ -6,10 +5,8 @@ import {
   DefaultTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./screens/home";
-import Login from "./screens/login";
 import { AppearanceProvider } from "react-native-appearance";
-import { ThemeProvider, useTheme } from "./globals/theme";
+import { ThemeProvider } from "./globals/theme";
 import { useColorScheme } from "react-native";
 import {
   useFonts,
@@ -19,6 +16,9 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+
+import Home from "./screens/home";
+import Login from "./screens/login";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -43,7 +43,6 @@ export default function App() {
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Home" component={Home} />
             </Stack.Navigator>
-            <StatusBar style="auto" />
           </NavigationContainer>
         </ThemeProvider>
       </AppearanceProvider>

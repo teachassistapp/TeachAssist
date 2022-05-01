@@ -17,13 +17,18 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  useColorScheme,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
+
 export default function Login({ navigation }) {
   const { colors, isDark, setScheme } = useTheme();
+  const scheme = useColorScheme();
+
   const img = isDark
     ? require("../assets/logo-dark.png")
     : require("../assets/logo-light.png");
@@ -32,13 +37,6 @@ export default function Login({ navigation }) {
   const [hidePass, setHidePass] = useState(true);
   const [showIcon, setShowIcon] = useState("eye");
   const [searching, setSearching] = useState(false);
-
-  const getScheme = async () => {
-    try {
-      const scheme = await AsyncStorage.getItem("scheme");
-      setScheme(scheme);
-    } catch {}
-  };
 
   const storeAuthData = async (number, password) => {
     try {
@@ -64,8 +62,23 @@ export default function Login({ navigation }) {
     }
   };
 
+  const initScheme = async () => {
+    try {
+      const storedScheme = await AsyncStorage.getItem("scheme");
+      if (storedScheme === null) {
+        if (scheme === "dark") {
+          setScheme("dark");
+        } else {
+          setScheme("light");
+        }
+      } else {
+        setScheme(storedScheme);
+      }
+    } catch {}
+  };
+
   useEffect(() => {
-    getScheme();
+    initScheme();
     isLoggedIn();
   }, []);
 
@@ -123,7 +136,7 @@ export default function Login({ navigation }) {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView style={[GENERAL_STYLES(colors).scrollview]}>
-            <View style={GENERAL_STYLES(colors).container}>
+            <View style={styles(colors).container}>
               <Image source={img} style={styles(colors).logo} />
               <View style={styles(colors).div}>
                 <View style={styles(colors).texts}>
@@ -181,6 +194,7 @@ export default function Login({ navigation }) {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      <StatusBar style={isDark ? "light" : "dark"} />
     </SafeAreaView>
   );
 }

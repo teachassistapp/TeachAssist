@@ -20,7 +20,6 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
 import { useTheme } from "../../globals/theme";
 
@@ -483,7 +482,6 @@ export default function Home() {
             <Text>{isEnabled}</Text>
             {isEnabled ? displayAverage : displayBreakdown}
           </View>
-          <ExpoStatusBar style={isDark ? "light" : "dark"} />
         </View>
       </ScrollView>
     </SafeAreaView>
