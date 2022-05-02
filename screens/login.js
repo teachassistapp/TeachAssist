@@ -50,18 +50,6 @@ export default function Login({ navigation }) {
     }
   };
 
-  const isLoggedIn = async () => {
-    try {
-      const number = await AsyncStorage.getItem("number");
-      const pass = await AsyncStorage.getItem("password");
-      if (number !== null && pass !== null) {
-        navigation.navigate("Home");
-      }
-    } catch (e) {
-      Alert.alert("Failed to login.");
-    }
-  };
-
   const initScheme = async () => {
     try {
       const storedScheme = await AsyncStorage.getItem("scheme");
@@ -79,7 +67,6 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     initScheme();
-    isLoggedIn();
   }, []);
 
   const handleSubmit = () => {
