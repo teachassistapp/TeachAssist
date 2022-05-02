@@ -20,7 +20,9 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
+import { DisplayProgress } from "../../components/charts";
 import { useTheme } from "../../globals/theme";
 
 import { handleFetchError } from "../../globals/alert";
@@ -166,7 +168,7 @@ function DisplayCourse({
 }
 
 export default function Home() {
-  const { isDark, colors } = useTheme();
+  const { isDark, colors, setScheme } = useTheme();
   const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
@@ -200,6 +202,23 @@ export default function Home() {
       }
     }
     return newData;
+  };
+
+  const initScheme = async () => {
+    try {
+      const storedScheme = await AsyncStorage.getItem("scheme");
+      if (storedScheme === null) {
+        if (scheme === "dark") {
+          setScheme("dark");
+        } else {
+          setScheme("light");
+        }
+      } else {
+        setScheme(storedScheme);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const storeData = async (datum) => {
@@ -306,6 +325,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
+    initScheme();
     retrieveData();
   }, []);
 
@@ -390,7 +410,7 @@ export default function Home() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={{ ...GENERAL_STYLES(colors).container, paddingTop: 22 }}>
+        <View style={{ ...GENERAL_STYLES(colors).container, paddingTop: 16 }}>
           <View style={styles(colors).headerIcons}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Websites")}
@@ -434,30 +454,15 @@ export default function Home() {
               )}
             </TouchableOpacity>
           </View>
-          <AnimatedCircularProgress
-            size={178}
-            width={14.5}
-            fill={averageOverall}
-            tintColorSecondary={colors.Primary1}
-            tintColor={colors.Primary2}
-            backgroundColor={colors.GraphBackground}
-            rotation={0}
-            duration={800}
-          >
-            {() => (
-              <>
-                <Text style={styles(colors).progressMark}>
-                  {averageOverall}%
-                </Text>
-                <Text style={styles(colors).progressLabel}>Average</Text>
-              </>
-            )}
-          </AnimatedCircularProgress>
+          <DisplayProgress value={averageOverall} subtitle="Average" />
           <SwitchSelector
             options={options}
             initial={0}
-            textStyle={{ fontFamily: "Poppins_500Medium" }}
-            selectedTextStyle={{ fontFamily: "Poppins_600SemiBold" }}
+            textStyle={{ fontFamily: "Poppins_500Medium", paddingTop: 3 }}
+            selectedTextStyle={{
+              fontFamily: "Poppins_600SemiBold",
+              paddingTop: 3,
+            }}
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
             buttonColor={colors.Selected}
@@ -465,7 +470,7 @@ export default function Home() {
             borderColor={colors.Border}
             borderWidth={1}
             hasPadding
-            style={{ width: "65%", marginTop: 20 }}
+            style={{ width: "65%", marginTop: 1, marginBottom: 17 }}
             animationDuration={300}
             onPress={(event) => {
               handleToggle(event);
@@ -479,10 +484,10 @@ export default function Home() {
             />
           )}
           <View style={GENERAL_STYLES(colors).blockContainer}>
-            <Text>{isEnabled}</Text>
             {isEnabled ? displayAverage : displayBreakdown}
           </View>
         </View>
+        <StatusBar style={isDark ? "light" : "dark"} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -517,20 +522,6 @@ const styles = (colors) =>
       backgroundColor: colors.Red,
       borderRadius: 3.5,
     },
-    progressMark: {
-      position: "relative",
-      fontFamily: "Poppins_700Bold",
-      fontSize: 28,
-      top: 10,
-      color: colors.Header,
-    },
-    progressLabel: {
-      position: "relative",
-      fontFamily: "Poppins_500Medium",
-      fontSize: 12,
-      top: 0,
-      color: colors.Subtitle,
-    },
     title: {
       fontFamily: "Poppins_600SemiBold",
       fontSize: vw < 300 ? 16 : 20,
@@ -553,8 +544,9 @@ const styles = (colors) =>
     },
     marks: {
       fontFamily: "Poppins_600SemiBold",
-      fontSize: vw < 300 ? 14 : 16,
+      fontSize: vw < 300 ? 13 : 15,
       color: colors.Header,
+      top: 1,
     },
     barLabelsText: {
       fontSize: 10,

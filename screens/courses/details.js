@@ -172,7 +172,7 @@ export default function Details({ route, navigation }) {
             borderColor={colors.Border}
             borderWidth={1}
             hasPadding
-            style={{ width: "90%" }}
+            style={{ width: "90%", marginBottom: 10 }}
             onPress={(value) => setIsEnabled(value)}
             animationDuration={300}
           />

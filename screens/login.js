@@ -106,9 +106,7 @@ export default function Login({ navigation }) {
 
     fetch("https://api.pegasis.site/public/yrdsb_ta/getmark_v2", requestOptions)
       .then((response) => {
-        const status = response.status;
-
-        if (status === 200) {
+        if (response.status === 200) {
           setSearching(false);
           storeAuthData(number, password);
           response.json().then(() => {

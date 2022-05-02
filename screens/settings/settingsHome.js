@@ -106,11 +106,7 @@ export default function SettingsHome() {
               size={20}
               color={colors.Primary1}
             />
-            <Text
-              style={[styles(colors).buttonText, { color: colors.Primary1 }]}
-            >
-              Log Out
-            </Text>
+            <Text style={styles(colors).buttonText}>Log Out</Text>
           </TouchableOpacity>
         </View>
         <ExpoStatusBar style={isDark ? "light" : "dark"} />
@@ -150,6 +146,7 @@ const styles = (colors) =>
       fontSize: 16,
       color: colors.Primary1,
       paddingLeft: 8,
+      paddingTop: 2,
     },
     button: {
       flexDirection: "row",

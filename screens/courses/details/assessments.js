@@ -113,7 +113,7 @@ export default function AssessmentsScreen({
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
       <View style={GENERAL_STYLES(colors).blockContainer}>
-        <DisplayProgress value={tempMark} />
+        <DisplayProgress value={tempMark} subtitle="Average" />
         {cached === true && (
           <View style={styles(colors).cacheContainer}>
             <AntDesign

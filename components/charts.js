@@ -5,6 +5,8 @@ import { LineChart } from "react-native-chart-kit";
 import { useTheme } from "../globals/theme";
 import { GENERAL_STYLES } from "../globals/styles";
 
+const vw = Dimensions.get("window").width;
+
 export function DisplayTable({ weight_table }) {
   const { colors } = useTheme();
   function DisplayRow({ name, mark, weight }) {
@@ -76,7 +78,6 @@ export function DisplayLineChart({ marks, color, title }) {
       data: [100.01],
     },
   ];
-  const screenWidth = Dimensions.get("window").width;
   return (
     <View style={[GENERAL_STYLES(colors).div, styles(colors).div]}>
       <Text style={styles(colors).chartTitle}>{title}</Text>
@@ -84,7 +85,7 @@ export function DisplayLineChart({ marks, color, title }) {
         data={{
           datasets: chart_data,
         }}
-        width={screenWidth * 0.86}
+        width={vw * 0.86}
         height={220}
         yAxisSuffix="%"
         yAxisInterval={1}
@@ -98,7 +99,6 @@ export function DisplayLineChart({ marks, color, title }) {
           color: () => colors.Primary1,
           color: () => color,
           labelColor: () => color,
-
           propsForDots: {
             r: "3",
           },
@@ -130,10 +130,10 @@ export function DisplayLineChart({ marks, color, title }) {
   );
 }
 
-export function DisplayProgress({ value }) {
+export function DisplayProgress({ value, subtitle }) {
   const { colors } = useTheme();
   return (
-    <View style={{ marginVertical: 25 }}>
+    <View style={{ marginTop: 16, marginBottom: 20 }}>
       <AnimatedCircularProgress
         size={178}
         width={14.5}
@@ -144,19 +144,24 @@ export function DisplayProgress({ value }) {
         rotation={0}
         duration={800}
       >
-        {(fill) => (
-          <Text style={styles(colors).progressMark}>
-            {value === "N/A"
-              ? "N/A"
-              : String(Math.round(value * 10) / 10) + "%"}
-          </Text>
+        {() => (
+          <>
+            <Text
+              style={[styles(colors).progressMark, { top: subtitle ? 10 : 0 }]}
+            >
+              {value === "N/A"
+                ? "N/A"
+                : String(Math.round(value * 10) / 10) + "%"}
+            </Text>
+            {subtitle && (
+              <Text style={styles(colors).progressLabel}>{subtitle}</Text>
+            )}
+          </>
         )}
       </AnimatedCircularProgress>
     </View>
   );
 }
-
-const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
@@ -165,7 +170,7 @@ const styles = (colors) =>
       paddingTop: 15,
       paddingBottom: 20,
       marginHorizontal: 5,
-      marginVertical: 10,
+      marginTop: 11,
       shadowColor: colors.Shadow,
       shadowOpacity: 0.153,
       shadowRadius: 20,
@@ -205,5 +210,12 @@ const styles = (colors) =>
       fontFamily: "Poppins_700Bold",
       fontSize: 28,
       color: colors.Header,
+    },
+    progressLabel: {
+      position: "relative",
+      fontFamily: "Poppins_500Medium",
+      fontSize: 12,
+      top: 0,
+      color: colors.Subtitle,
     },
   });

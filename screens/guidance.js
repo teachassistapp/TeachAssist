@@ -153,7 +153,13 @@ function GuidanceSearch() {
           minimumDate={minDate}
           date={date}
         />
-        <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+        <Text
+          style={[
+            GENERAL_STYLES(colors).p,
+            styles(colors).p,
+            { marginBottom: 7 },
+          ]}
+        >
           Selected Date:{" "}
           <Text
             style={{

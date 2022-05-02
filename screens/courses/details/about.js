@@ -55,7 +55,7 @@ export default function AboutScreen({
         ...GENERAL_STYLES(colors).div,
         alignItems: "flex-start",
         padding: 17,
-        marginTop: 25,
+        marginTop: 11,
       }}
     >
       {properties.map((p, i) => {
