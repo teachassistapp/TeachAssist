@@ -366,7 +366,7 @@ const styles = (colors) =>
       paddingRight: 25,
     },
     websiteLabel: {
-      fontFamily: "Poppins_700Bold",
+      fontFamily: "Poppins_600SemiBold",
       color: colors.Header,
       fontSize: 16,
       flex: 7,
@@ -384,7 +384,7 @@ const styles = (colors) =>
     },
     websiteButtonText: {
       fontFamily: "Poppins_600SemiBold",
-      color: colors.Primary2,
+      color: colors.Primary1,
       fontSize: 12,
     },
     form: {

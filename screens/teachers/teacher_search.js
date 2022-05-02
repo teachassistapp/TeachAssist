@@ -303,7 +303,7 @@ const styles = (colors) =>
     errorMessage: {
       fontFamily: "Poppins_500Medium",
       color: colors.Red,
-      marginTop: 20,
+      marginVertical: 15,
       fontSize: 15,
     },
     skeletonTeacher: {

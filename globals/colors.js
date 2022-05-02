@@ -1,17 +1,18 @@
 export const lightColors = {
-  Primary1: "#74B06F",
-  Primary2: "#7FCF78",
-  Background: "#fafafa", // bg colour
-  Header: "#131313", // main text
-  Subtitle: "#999999", // sub text AND unselected bottom navigation icons
+  Primary1: "#69A863",
+  Primary2: "#70C269",
+  Background: "#FAFAFA", // bg colour
+  Header: "#2f2f2f", // main text
+  Subtitle: "#888888", // sub text AND unselected bottom navigation icons
   Placeholder: "#CECECE", // placeholder for log in text boxes / search bar
-  Container: "#fafafa", // bg colour for boxes that are everywhere
-  Border: "#E8E8E8", // border for boxes that are everywhere
+  Container: "#FDFDFD", // bg colour for boxes that are everywhere
+  Border: "#EEEEEE", // border for boxes that are everywhere
   Selected: "#fdfdfd", // for sliders (i.e. assignments/statistics/details)
-  GraphBackground: "#E8E8E8", // background for circle / bar graphs
-  Shadow: "#aaa",
+  GraphBackground: "#EEEEEE", // background for circle / bar graphs
+  Shadow: "#ddd",
   Red: "#FF3B30",
-  Bone: "#dedede"
+  Bone: "#dedede",
+  SwitchBg: "#f7f7f7"
 };
 
 export const darkColors = {
@@ -28,4 +29,5 @@ export const darkColors = {
   Shadow: "#202323",
   Red: "#FF3B30",
   Bone: "#2a2c2c",
+  SwitchBg: "#202323"
 };

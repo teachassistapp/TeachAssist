@@ -466,7 +466,7 @@ export default function Home() {
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
             buttonColor={colors.Selected}
-            backgroundColor={colors.Container}
+            backgroundColor={colors.SwitchBg}
             borderColor={colors.Border}
             borderWidth={1}
             hasPadding

@@ -168,7 +168,7 @@ export default function Details({ route, navigation }) {
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
             buttonColor={colors.Selected}
-            backgroundColor={colors.Container}
+            backgroundColor={colors.SwitchBg}
             borderColor={colors.Border}
             borderWidth={1}
             hasPadding
