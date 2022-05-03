@@ -428,49 +428,53 @@ export default function AccordionItem({
       <TouchableOpacity onPress={() => setExpanded(!expanded)}>
         <View style={styles(colors).expand}>
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            {edited && !section.deletable && (
-              <TouchableOpacity
-                style={styles(colors).edit}
-                onPress={() => {
-                  updateAssignments(originalAssignment);
-                  setEdited(false);
-                }}
-              >
-                <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
-                  Undo
-                </Text>
-                <FontAwesome
-                  name="undo"
-                  size={12}
-                  color={colors.Subtitle}
-                  style={{ marginLeft: 5 }}
-                />
-              </TouchableOpacity>
-            )}
-            {editable && (
-              <TouchableOpacity
-                style={styles(colors).edit}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
-                  Edit
-                </Text>
-                <MaterialCommunityIcons
-                  name="pencil-outline"
-                  size={13}
-                  color={colors.Subtitle}
-                  style={{ marginLeft: 5 }}
-                />
-              </TouchableOpacity>
-            )}
           </View>
           <View style={styles(colors).expandHeader}>
             <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
               {section.title}
             </Text>
-            <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
-              {average === "N/A" ? average : `${average}%`}
-            </Text>
+            <View style={styles(colors).editWrapper}>
+              <View style={styles(colors).editOptions}>
+                {edited && !section.deletable && (
+                  <TouchableOpacity
+                    style={styles(colors).edit}
+                    onPress={() => {
+                      updateAssignments(originalAssignment);
+                      setEdited(false);
+                    }}
+                  >
+                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                      Undo
+                    </Text>
+                    <FontAwesome
+                      name="undo"
+                      size={11}
+                      color={colors.Subtitle}
+                      style={{ marginLeft: 5 }}
+                    />
+                  </TouchableOpacity>
+                )}
+                {editable && (
+                  <TouchableOpacity
+                    style={styles(colors).edit}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                      Edit
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="pencil-outline"
+                      size={13}
+                      color={colors.Subtitle}
+                      style={{ marginLeft: 5 }}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
+                {average === "N/A" ? average : `${average}%`}
+              </Text>
+            </View>
           </View>
           {section.f != " " && (
             <>
@@ -729,7 +733,6 @@ const styles = (colors) =>
       height: 20,
       paddingLeft: 14,
       marginLeft: 10,
-      marginBottom: 4,
       flexDirection: "row",
       alignItems: "center",
     },
@@ -854,4 +857,11 @@ const styles = (colors) =>
       paddingVertical: 8,
       margin: 5,
     },
+    editOptions: {
+      marginRight: 13,
+    },
+    editWrapper: {
+      flexDirection: "row",
+      alignItems: "center",
+    }
   });
