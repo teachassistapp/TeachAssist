@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome, Foundation } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -13,26 +7,33 @@ import {
   calculateAverage,
 } from "../globals/calculators";
 import { useTheme } from "../globals/theme";
+import { GENERAL_STYLES } from "../globals/styles";
+
+const months = [
+  "Jan.",
+  "Feb.",
+  "Mar.",
+  "Apr.",
+  "May",
+  "June",
+  "July",
+  "Aug.",
+  "Sept.",
+  "Oct.",
+  "Nov.",
+  "Dec.",
+];
 
 const getCurrentDate = () => {
   var date = new Date().getDate();
-  var month = new Date().getMonth() + 1;
+  var month = new Date().getMonth();
   var year = new Date().getFullYear();
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${months[parseInt(month)]} ${date}, ${year}`;
+  return `${months[month]} ${date}, ${year}`;
+};
+
+const displayDate = (date) => {
+  date = date.split("-");
+  return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
 };
 
 function parseAssignments(data, weight_table) {
@@ -76,25 +77,6 @@ function parseAssignments(data, weight_table) {
   }
   return content;
 }
-
-const displayDate = (date) => {
-  const months = [
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "June",
-    "July",
-    "Aug.",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dec.",
-  ];
-  date = date.split("-");
-  return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
-};
 
 const getAverages = (newAssignment, oldAssignment, newData, oldData) => {
   const marks = [];
@@ -167,13 +149,14 @@ const getAverages = (newAssignment, oldAssignment, newData, oldData) => {
 export default function DisplayMarkUpdates({ oldData, newData }) {
   const navigation = useNavigation();
   const { colors } = useTheme();
-
   let display = [];
-
   if (!oldData || !newData) {
     let data = newData ? { ...newData } : { ...oldData };
     display = (
-      <View style={styles(colors).div} key={data.name}>
+      <View
+        style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+        key={data.name}
+      >
         <View
           style={[
             styles(colors).notifHeader,
@@ -196,6 +179,7 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
           <Text style={styles(colors).courseTitle}>{data.name}</Text>
           <Text
             style={[
+              GENERAL_STYLES(colors).p,
               styles(colors).p,
               { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
             ]}
@@ -209,8 +193,10 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
             { marginBottom: oldData ? 0 : 20 },
           ]}
         >
-          <Text style={styles(colors).p}>Room {data.room}</Text>
-          <Text style={styles(colors).p}>
+          <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+            Room {data.room}
+          </Text>
+          <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
             {displayDate(data.start_time)} - {displayDate(data.end_time)}
           </Text>
         </View>
@@ -224,221 +210,345 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
       </View>
     );
   } else {
-    let oldTitles = [];
-    let newTitles = [];
-    for (let i = 0; i < oldData.assignments.length; i++) {
-      oldTitles.push(oldData.assignments[i].name);
-    }
-    for (let i = 0; i < newData.assignments.length; i++) {
-      newTitles.push(newData.assignments[i].name);
-    }
-
-    const date = getCurrentDate();
-
-    if (oldData !== newData) {
-      const courseName =
-        newData.name === null ? "Unnamed Course" : newData.name;
-      const courseCode =
-        newData.code === null ? "(Unknown Code)" : `(${newData.code})`;
+    if (!oldData.cached && newData.cached) {
+      display.push(
+        <View
+          style={[
+            GENERAL_STYLES(colors).div,
+            styles(colors).div,
+            { paddingBottom: 22 },
+          ]}
+          key={newData.name}
+        >
+          <View
+            style={[
+              styles(colors).notifHeader,
+              { marginBottom: 0, paddingBottom: 0 },
+            ]}
+          >
+            <Text style={styles(colors).notifHeaderTitle}>Course Cached</Text>
+          </View>
+          <View
+            style={[
+              styles(colors).notifSubtitle,
+              {
+                flexDirection: "row",
+                justifyContent: "space-between",
+              },
+            ]}
+          >
+            <Text style={styles(colors).courseTitle}>{newData.name}</Text>
+            <Text
+              style={[
+                [GENERAL_STYLES(colors).p, styles(colors).p],
+                { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
+              ]}
+            >
+              {newData.code}
+            </Text>
+          </View>
+          <View
+            style={[
+              styles(colors).notifSubtitle,
+              { marginBottom: oldData ? 0 : 20 },
+            ]}
+          >
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+              Room {newData.room}
+            </Text>
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+              {displayDate(newData.start_time)}
+              {" - "}
+              {displayDate(newData.end_time)}
+            </Text>
+          </View>
+        </View>
+      );
+    } else {
+      let oldTitles = [];
+      let newTitles = [];
+      for (let i = 0; i < oldData.assignments.length; i++) {
+        oldTitles.push(oldData.assignments[i].name);
+      }
       for (let i = 0; i < newData.assignments.length; i++) {
-        const newAssignment = newData.assignments[i];
-        const oldAssignment = oldData.assignments.find(
-          (a) => a.name === newTitles[i]
-        );
-        if (
-          (oldTitles.includes(newTitles[i]) &&
-            JSON.stringify(newAssignment) !== JSON.stringify(oldAssignment)) ||
-          !oldTitles.includes(newTitles[i])
-        ) {
-          const { newAverage, oldAverage, assignmentMark, oldAssignmentMark } =
-            getAverages(newAssignment, oldAssignment, newData, oldData);
-          let subDisplay = [];
-          if (
-            oldTitles.includes(newTitles[i]) &&
-            JSON.stringify(newAssignment) !== JSON.stringify(oldAssignment)
-          ) {
-            //assignment was updated
-            subDisplay = [
-              "Marks Updated",
-              <View
-                style={{
+        newTitles.push(newData.assignments[i].name);
+      }
+
+      const date = getCurrentDate();
+      if (
+        oldData.cached &&
+        !newData.cached &&
+        JSON.stringify(oldData.assignments) ==
+          JSON.stringify(newData.assignments)
+      ) {
+        display.push(
+          <View
+            style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+            key={newData.name}
+          >
+            <View
+              style={[
+                styles(colors).notifHeader,
+                { marginBottom: 0, paddingBottom: 0 },
+              ]}
+            >
+              <Text style={styles(colors).notifHeaderTitle}>
+                Course Uncached
+              </Text>
+            </View>
+            <View
+              style={[
+                styles(colors).notifSubtitle,
+                {
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  alignItems: "center",
-                  width: 100,
-                  height: 17,
-                  paddingVertical: 0,
-                }}
-              >
-                <Text style={styles(colors).updateMark}>
-                  {oldAssignmentMark}%
-                </Text>
-                <Foundation
-                  name="arrow-right"
-                  size={13}
-                  color={colors.Primary1}
-                  style={{
-                    marginVertical: 0,
-                    paddingVertical: 0,
-                    marginHorizontal: 10,
-                  }}
-                />
-                <Text style={styles(colors).updateMark}>{assignmentMark}%</Text>
-              </View>,
-            ];
-          } else if (!oldTitles.includes(newTitles[i])) {
-            //new assignment released
-            subDisplay = [
-              "Marks Released",
+                },
+              ]}
+            >
+              <Text style={styles(colors).courseTitle}>{newData.name}</Text>
               <Text
-                style={{
-                  fontFamily: "Poppins_700Bold",
-                  color: colors.Primary1,
-                }}
+                style={[
+                  [GENERAL_STYLES(colors).p, styles(colors).p],
+                  { fontFamily: "Poppins_500Medium_Italic", marginTop: 3 },
+                ]}
               >
-                {assignmentMark}%
-              </Text>,
-            ];
-          }
-          display.push(
-            <View style={styles(colors).div} key={newAssignment.name + `_${i}`}>
-              <View style={styles(colors).notifHeader}>
-                <Text style={styles(colors).notifHeaderTitle}>
-                  {subDisplay[0]}{" "}
-                </Text>
-                <Text
-                  style={[
-                    styles(colors).p,
-                    { fontFamily: "Poppins_500Medium_Italic" },
-                  ]}
-                >
-                  {date}
-                </Text>
-              </View>
-              <View style={styles(colors).notifSubtitle}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles(colors).p}>{newAssignment.name}: </Text>
-                  {subDisplay[1]}
-                </View>
-                <Text style={styles(colors).p}>
-                  {courseName} {courseCode}
-                </Text>
-              </View>
-              <View style={styles(colors).notifBody}>
-                <View style={{ alignItems: "center", marginHorizontal: 10 }}>
-                  <Text style={styles(colors).notifBodyMarks}>
-                    {oldAverage}
-                  </Text>
-                  <Text style={styles(colors).p2}>Average</Text>
-                </View>
-                <Foundation
-                  name="arrow-right"
-                  size={32}
-                  color={colors.Primary1}
-                  style={{ marginTop: -23, marginHorizontal: 46 }}
-                />
-                <View style={{ alignItems: "center", marginHorizontal: 10 }}>
-                  <Text style={styles(colors).notifBodyMarks}>
-                    {newAverage}%
-                  </Text>
-                  <Text style={styles(colors).p2}>Average</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={styles(colors).notifFooter}
-                onPress={() => {
-                  navigation.navigate("Details", newData);
-                }}
-              >
-                <Text style={styles(colors).p}>See More{"  "}</Text>
-                <FontAwesome
-                  name="chevron-right"
-                  size={14}
-                  color={colors.Primary1}
-                />
-              </TouchableOpacity>
+                {newData.code}
+              </Text>
             </View>
+            <View style={[styles(colors).notifSubtitle, { marginBottom: 20 }]}>
+              <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                Room {newData.room}
+              </Text>
+              <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                {displayDate(newData.start_time)}
+                {" - "}
+                {displayDate(newData.end_time)}
+              </Text>
+            </View>
+          </View>
+        );
+      } else if (JSON.stringify(oldData) !== JSON.stringify(newData)) {
+        const courseName =
+          newData.name === null ? "Unnamed Course" : newData.name;
+        const courseCode =
+          newData.code === null ? "(Unknown Code)" : `(${newData.code})`;
+        for (let i = 0; i < newData.assignments.length; i++) {
+          const newAssignment = newData.assignments[i];
+          const oldAssignment = oldData.assignments.find(
+            (a) => a.name === newTitles[i]
           );
-        }
-      }
-      for (let i = 0; i < oldData.assignments.length; i++) {
-        // assignment removed
-        if (!newTitles.includes(oldTitles[i])) {
-          const oldAssignment = oldData.assignments[i];
-          const { newAverage, oldAverage, assignmentMark, oldAssignmentMark } =
-            getAverages([], oldAssignment, newData, oldData);
-          display.push(
-            <View style={styles(colors).div} key={oldAssignment.name + `_${i}`}>
-              <View style={styles(colors).notifHeader}>
-                <Text style={styles(colors).notifHeaderTitle}>
-                  Marks Removed{" "}
-                </Text>
-                <Text
-                  style={[
-                    styles(colors).p,
-                    { fontFamily: "Poppins_500Medium_Italic" },
-                  ]}
-                >
-                  {date}
-                </Text>
-              </View>
-              <View style={styles(colors).notifSubtitle}>
-                <Text style={styles(colors).p}>
-                  {oldAssignment.name}:{" "}
+          if (
+            (oldTitles.includes(newTitles[i]) &&
+              JSON.stringify(newAssignment) !==
+                JSON.stringify(oldAssignment)) ||
+            !oldTitles.includes(newTitles[i])
+          ) {
+            const {
+              newAverage,
+              oldAverage,
+              assignmentMark,
+              oldAssignmentMark,
+            } = getAverages(newAssignment, oldAssignment, newData, oldData);
+            let subDisplay = [];
+            if (
+              oldTitles.includes(newTitles[i]) &&
+              JSON.stringify(newAssignment) !== JSON.stringify(oldAssignment)
+            ) {
+              //assignment was updated
+              subDisplay = [
+                "Marks Updated",
+                <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                  {newAssignment.name}:{" "}
+                  <Text style={styles(colors).updateMark}>
+                    {oldAssignmentMark}
+                    {"%  "}
+                  </Text>
+                  <Foundation
+                    name="arrow-right"
+                    size={13}
+                    color={colors.Primary1}
+                    style={{
+                      marginVertical: 0,
+                      paddingVertical: 0,
+                      marginHorizontal: 10,
+                    }}
+                  />
+                  <Text style={styles(colors).updateMark}>
+                    {"  "}
+                    {assignmentMark}%
+                  </Text>
+                </Text>,
+              ];
+            } else if (!oldTitles.includes(newTitles[i])) {
+              //new assignment released
+              subDisplay = [
+                "Marks Released",
+                <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                  {newAssignment.name}:{" "}
                   <Text
                     style={{
                       fontFamily: "Poppins_700Bold",
                       color: colors.Primary1,
                     }}
                   >
-                    {oldAssignmentMark}%
+                    {assignmentMark}%
                   </Text>
-                </Text>
-                <Text style={styles(colors).p}>
-                  {courseName} {courseCode}
-                </Text>
-              </View>
-              <View style={styles(colors).notifBody}>
-                <View style={{ alignItems: "center", marginHorizontal: 10 }}>
-                  <Text style={styles(colors).notifBodyMarks}>
-                    {oldAverage}
-                  </Text>
-                  <Text style={styles(colors).p2}>Average</Text>
-                </View>
-                <Foundation
-                  name="arrow-right"
-                  size={32}
-                  color={colors.Primary1}
-                  style={{ marginTop: -23, marginHorizontal: 46 }}
-                />
-                <View style={{ alignItems: "center", marginHorizontal: 10 }}>
-                  <Text style={styles(colors).notifBodyMarks}>
-                    {newAverage}%
-                  </Text>
-                  <Text style={styles(colors).p2}>Average</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={styles(colors).notifFooter}
-                onPress={() => {
-                  navigation.navigate("Details", newData);
-                }}
+                </Text>,
+              ];
+            }
+            display.push(
+              <View
+                style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+                key={newAssignment.name + `_${i}`}
               >
-                <Text style={styles(colors).p}>See More{"  "}</Text>
-                <FontAwesome
-                  name="chevron-right"
-                  size={14}
-                  color={colors.Primary1}
-                />
-              </TouchableOpacity>
-            </View>
-          );
+                <View style={styles(colors).notifHeader}>
+                  <Text style={styles(colors).notifHeaderTitle}>
+                    {subDisplay[0]}{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      [GENERAL_STYLES(colors).p, styles(colors).p],
+                      { fontFamily: "Poppins_500Medium_Italic" },
+                    ]}
+                  >
+                    {date}
+                  </Text>
+                </View>
+                <View style={styles(colors).notifSubtitle}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                    }}
+                  >
+                    {subDisplay[1]}
+                  </View>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    {courseName} {courseCode}
+                  </Text>
+                </View>
+                <View style={styles(colors).notifBody}>
+                  <View style={{ alignItems: "center", marginHorizontal: 10 }}>
+                    <Text style={styles(colors).notifBodyMarks}>
+                      {oldAverage}
+                    </Text>
+                    <Text style={styles(colors).p2}>Average</Text>
+                  </View>
+                  <Foundation
+                    name="arrow-right"
+                    size={32}
+                    color={colors.Primary1}
+                    style={{ marginTop: -23, marginHorizontal: 46 }}
+                  />
+                  <View style={{ alignItems: "center", marginHorizontal: 10 }}>
+                    <Text style={styles(colors).notifBodyMarks}>
+                      {newAverage}%
+                    </Text>
+                    <Text style={styles(colors).p2}>Average</Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles(colors).notifFooter}
+                  onPress={() => {
+                    navigation.navigate("Details", newData);
+                  }}
+                >
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    See More{"  "}
+                  </Text>
+                  <FontAwesome
+                    name="chevron-right"
+                    size={14}
+                    color={colors.Primary1}
+                  />
+                </TouchableOpacity>
+              </View>
+            );
+          }
+        }
+        for (let i = 0; i < oldData.assignments.length; i++) {
+          // assignment removed
+          if (!newTitles.includes(oldTitles[i])) {
+            const oldAssignment = oldData.assignments[i];
+            const {
+              newAverage,
+              oldAverage,
+              assignmentMark,
+              oldAssignmentMark,
+            } = getAverages([], oldAssignment, newData, oldData);
+            display.push(
+              <View
+                style={[GENERAL_STYLES(colors).div, styles(colors).div]}
+                key={oldAssignment.name + `_${i}`}
+              >
+                <View style={styles(colors).notifHeader}>
+                  <Text style={styles(colors).notifHeaderTitle}>
+                    Marks Removed{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      [GENERAL_STYLES(colors).p, styles(colors).p],
+                      { fontFamily: "Poppins_500Medium_Italic" },
+                    ]}
+                  >
+                    {date}
+                  </Text>
+                </View>
+                <View style={styles(colors).notifSubtitle}>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    {oldAssignment.name}:{" "}
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_700Bold",
+                        color: colors.Primary1,
+                      }}
+                    >
+                      {oldAssignmentMark}%
+                    </Text>
+                  </Text>
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    {courseName} {courseCode}
+                  </Text>
+                </View>
+                <View style={styles(colors).notifBody}>
+                  <View style={{ alignItems: "center", marginHorizontal: 10 }}>
+                    <Text style={styles(colors).notifBodyMarks}>
+                      {oldAverage}
+                    </Text>
+                    <Text style={styles(colors).p2}>Average</Text>
+                  </View>
+                  <Foundation
+                    name="arrow-right"
+                    size={32}
+                    color={colors.Primary1}
+                    style={{ marginTop: -23, marginHorizontal: 46 }}
+                  />
+                  <View style={{ alignItems: "center", marginHorizontal: 10 }}>
+                    <Text style={styles(colors).notifBodyMarks}>
+                      {newAverage}%
+                    </Text>
+                    <Text style={styles(colors).p2}>Average</Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles(colors).notifFooter}
+                  onPress={() => {
+                    navigation.navigate("Details", newData);
+                  }}
+                >
+                  <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+                    See More{"  "}
+                  </Text>
+                  <FontAwesome
+                    name="chevron-right"
+                    size={14}
+                    color={colors.Primary1}
+                  />
+                </TouchableOpacity>
+              </View>
+            );
+          }
         }
       }
     }
@@ -446,47 +556,18 @@ export default function DisplayMarkUpdates({ oldData, newData }) {
   return display;
 }
 
-const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
     div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
       paddingHorizontal: 17,
       paddingTop: 5,
       marginVertical: 7,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
     },
     notif: {
       alignItems: "flex-end",
       marginBottom: -26,
       width: "100%",
       paddingRight: 23,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
     },
     notifHeader: {
       flexDirection: "row",
@@ -564,10 +645,7 @@ const styles = (colors) =>
       textAlign: "center",
     },
     p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
       lineHeight: 16,
-      color: colors.Subtitle,
       paddingTop: 2,
       textAlignVertical: "center",
     },

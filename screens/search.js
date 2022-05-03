@@ -11,22 +11,15 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
-  StatusBar,
   Dimensions,
 } from "react-native";
 import ProgressBar from "../components/ProgressBar";
 import { useNavigation } from "@react-navigation/native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import { useTheme } from "../globals/theme";
 import { calculateAverage } from "../globals/calculators";
 import { test_course_data } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
+import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../globals/styles";
 
 function parseAssignments(data, weight_table) {
   let content = {
@@ -68,7 +61,7 @@ function SearchAssignments({ title, assignments }) {
       <View style={{ alignItems: "center" }}>
         <Text
           style={[
-            styles(colors).p,
+            GENERAL_STYLES(colors).p,
             { color: colors.Subtitle, textAlign: "center", maxWidth: "85%" },
           ]}
         >
@@ -138,7 +131,7 @@ function SearchAssignments({ title, assignments }) {
         >
           {hRule}
           <View style={styles(colors).resultLabel}>
-            <Text style={styles(colors).p}>Results from </Text>
+            <Text style={GENERAL_STYLES(colors).p}>Results from </Text>
             <TouchableOpacity
               style={{ flexDirection: "row", flexWrap: "wrap" }}
               onPress={() => {
@@ -150,7 +143,12 @@ function SearchAssignments({ title, assignments }) {
                   ? assignments[i].name
                   : "Unnamed Course"}{" "}
               </Text>
-              <Text style={styles(colors).p2}>
+              <Text
+                style={{
+                  ...styles(colors).p1,
+                  fontFamily: "Poppins_400Regular",
+                }}
+              >
                 (
                 {typeof assignments[i].code === "string"
                   ? assignments[i].code
@@ -173,11 +171,21 @@ function DisplayCourseMatches({ matches }) {
   for (let i = 0; i < matches.length; i++) {
     const section = matches[i];
     assignments.push(
-      <View key={`${section.name} ${i}`} style={styles(colors).div}>
+      <View
+        key={`${section.name} ${i}`}
+        style={{
+          ...GENERAL_STYLES(colors).div,
+          minHeight: 150,
+          justifyContent: "center",
+          margin: 5,
+        }}
+      >
         <View style={styles(colors).assignmentContainer}>
           <View>
-            <Text style={styles(colors).assignmentTitle}>{section.title}</Text>
-            <Text style={styles(colors).assignmentMark}>
+            <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
+              {section.title}
+            </Text>
+            <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
               {calculateAverage(
                 [
                   section.k,
@@ -200,12 +208,12 @@ function DisplayCourseMatches({ matches }) {
               %
             </Text>
           </View>
-          <View style={styles(colors).assignmentBarChart}>
-            <View style={styles(colors).assignmentBar}>
+          <View style={ASSIGNMENT_STYLES(colors).assignmentBarChart}>
+            <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
               <Text style={styles(colors).barLabelsText}>
                 {section.k === " " ? section.k : Math.round(section.k)}
               </Text>
-              <View style={styles(colors).progressBar}>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                 <ProgressBar
                   progress={section.k}
                   height={8}
@@ -215,11 +223,11 @@ function DisplayCourseMatches({ matches }) {
               </View>
               <Text style={styles(colors).barLabelsText}>K</Text>
             </View>
-            <View style={styles(colors).assignmentBar}>
+            <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
               <Text style={styles(colors).barLabelsText}>
                 {section.t === " " ? section.t : Math.round(section.t)}
               </Text>
-              <View style={styles(colors).progressBar}>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                 <ProgressBar
                   progress={section.t}
                   height={8}
@@ -229,11 +237,11 @@ function DisplayCourseMatches({ matches }) {
               </View>
               <Text style={styles(colors).barLabelsText}>T</Text>
             </View>
-            <View style={styles(colors).assignmentBar}>
+            <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
               <Text style={styles(colors).barLabelsText}>
                 {section.c === " " ? section.c : Math.round(section.c)}
               </Text>
-              <View style={styles(colors).progressBar}>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                 <ProgressBar
                   progress={section.c}
                   height={8}
@@ -243,11 +251,11 @@ function DisplayCourseMatches({ matches }) {
               </View>
               <Text style={styles(colors).barLabelsText}>C</Text>
             </View>
-            <View style={styles(colors).assignmentBar}>
+            <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
               <Text style={styles(colors).barLabelsText}>
                 {section.a === " " ? section.a : Math.round(section.a)}
               </Text>
-              <View style={styles(colors).progressBar}>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                 <ProgressBar
                   progress={section.a}
                   height={8}
@@ -267,17 +275,8 @@ function DisplayCourseMatches({ matches }) {
 
 export default function search() {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-
   const [assignments, setAssignments] = useState([]);
   const [search, setSearch] = useState(null);
-
   const retrieveData = async () => {
     try {
       const number = await AsyncStorage.getItem("number");
@@ -299,114 +298,40 @@ export default function search() {
   useEffect(() => {
     retrieveData();
   }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Search</Text>
-              <Text style={styles(colors).headerSubtitle}>
-                Find Assignments
-              </Text>
-            </View>
-            <TextInput
-              style={styles(colors).input}
-              placeholder="Search"
-              placeholderTextColor={colors.Placeholder}
-              multiline={false}
-              onChangeText={(value) => {
-                setSearch(value);
-              }}
-            />
-            <SearchAssignments title={search} assignments={assignments} />
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View style={GENERAL_STYLES(colors).header}>
+            <Text style={GENERAL_STYLES(colors).headerTitle}>Search</Text>
+            <Text style={GENERAL_STYLES(colors).p}>Find Assignments</Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <TextInput
+            style={styles(colors).input}
+            placeholder="Search"
+            placeholderTextColor={colors.Placeholder}
+            multiline={false}
+            onChangeText={(value) => {
+              setSearch(value);
+            }}
+          />
+          <SearchAssignments title={search} assignments={assignments} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      minHeight: 120,
-      paddingHorizontal: 17,
-      paddingVertical: 18,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
     p1: {
       fontFamily: "Poppins_700Bold",
       color: colors.Primary1,
       fontSize: 13,
       flexWrap: "wrap",
       maxWidth: 0.8 * vw,
-    },
-    p2: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Primary1,
-      fontSize: 13,
-      flexWrap: "wrap",
-      maxWidth: 0.8 * vw,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 75 * vw,
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
     },
     graphic: {
       width: 0.55 * vw,
@@ -421,8 +346,7 @@ const styles = (colors) =>
       borderWidth: 1,
       width: 0.9 * vw,
       height: 50,
-      paddingLeft: 17,
-      paddingRight: 17,
+      paddingHorizontal: 17,
       paddingTop: 5,
       margin: 5,
       marginBottom: 15,
@@ -449,61 +373,13 @@ const styles = (colors) =>
       color: colors.Subtitle,
       alignSelf: "center",
     },
-    assignmentTitle: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 16,
-      color: colors.Header,
-      maxWidth: 0.45 * vw,
-      marginTop: 5,
-    },
-    assignmentMark: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 25,
-      color: colors.Primary1,
-    },
-    assignmentBar: {
-      height: 90,
-      width: 28,
-      justifyContent: "center",
-    },
-    assignmentBarChart: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      height: 90,
-      width: 120,
-      top: 2,
-    },
-    progressBar: {
-      height: 90,
-      width: 70,
-      transform: [{ rotate: "270deg" }],
-      position: "relative",
-      right: -20,
-      marginTop: -9,
-      marginBottom: -9,
-    },
     assignmentContainer: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       alignSelf: "center",
       width: 0.8 * vw,
-      height: 115,
-    },
-    expandComments: {
-      marginTop: 5,
-      lineHeight: 6,
-    },
-    expandCommentsTitle: {
-      fontFamily: "Poppins_600SemiBold",
-      color: colors.Subtitle,
-      fontSize: 16,
-      marginTop: 5,
-    },
-    expandCommentsText: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 12,
+      marginVertical: 8,
     },
     hRule: {
       borderBottomColor: colors.GraphBackground,

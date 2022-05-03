@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ScrollView,
   SafeAreaView,
-  StatusBar,
   View,
   Image,
   Text,
@@ -18,21 +17,18 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  useColorScheme,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
+import { GENERAL_STYLES } from "../globals/styles";
+
 export default function Login({ navigation }) {
   const { colors, isDark, setScheme } = useTheme();
+  const scheme = useColorScheme();
+
   const img = isDark
     ? require("../assets/logo-dark.png")
     : require("../assets/logo-light.png");
@@ -41,13 +37,6 @@ export default function Login({ navigation }) {
   const [hidePass, setHidePass] = useState(true);
   const [showIcon, setShowIcon] = useState("eye");
   const [searching, setSearching] = useState(false);
-
-  const getScheme = async () => {
-    try {
-      const scheme = await AsyncStorage.getItem("scheme");
-      setScheme(scheme);
-    } catch {}
-  };
 
   const storeAuthData = async (number, password) => {
     try {
@@ -61,21 +50,23 @@ export default function Login({ navigation }) {
     }
   };
 
-  const isLoggedIn = async () => {
+  const initScheme = async () => {
     try {
-      const number = await AsyncStorage.getItem("number");
-      const pass = await AsyncStorage.getItem("password");
-      if (number !== null && pass !== null) {
-        navigation.navigate("Home");
+      const storedScheme = await AsyncStorage.getItem("scheme");
+      if (storedScheme === null) {
+        if (scheme === "dark") {
+          setScheme("dark");
+        } else {
+          setScheme("light");
+        }
+      } else {
+        setScheme(storedScheme);
       }
-    } catch (e) {
-      Alert.alert("Failed to login.");
-    }
+    } catch {}
   };
 
   useEffect(() => {
-    getScheme();
-    isLoggedIn();
+    initScheme();
   }, []);
 
   const handleSubmit = () => {
@@ -102,9 +93,7 @@ export default function Login({ navigation }) {
 
     fetch("https://api.pegasis.site/public/yrdsb_ta/getmark_v2", requestOptions)
       .then((response) => {
-        const status = response.status;
-
-        if (status === 200) {
+        if (response.status === 200) {
           setSearching(false);
           storeAuthData(number, password);
           response.json().then(() => {
@@ -115,7 +104,7 @@ export default function Login({ navigation }) {
           Alert.alert("Invalid Login.", "Please try again.");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         Alert.alert(
           "Login failed.",
           "Your network connection may be unstable, or the server may be experiencing interruptions. Please try again later."
@@ -124,102 +113,81 @@ export default function Login({ navigation }) {
       });
   };
 
-  let [fontsLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={[styles(colors).safeView]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView style={[styles(colors).scrollView]}>
-              <View style={styles(colors).container}>
-                <Image source={img} style={styles(colors).logo} />
-                <View style={styles(colors).div}>
-                  <View style={styles(colors).texts}>
-                    <Text style={styles(colors).heading}>Student Number</Text>
-                    <TextInput
-                      onChangeText={(text) => setNumber(text)}
-                      value={number}
-                      style={styles(colors).input}
-                      maxLength={20}
-                    />
-                  </View>
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={[GENERAL_STYLES(colors).scrollview]}>
+            <View style={styles(colors).container}>
+              <Image source={img} style={styles(colors).logo} />
+              <View style={styles(colors).div}>
+                <View style={styles(colors).texts}>
+                  <Text style={styles(colors).heading}>Student Number</Text>
+                  <TextInput
+                    onChangeText={(text) => setNumber(text)}
+                    value={number}
+                    style={styles(colors).input}
+                    maxLength={20}
+                  />
                 </View>
-                <View style={styles(colors).div}>
-                  <View style={styles(colors).texts}>
-                    <Text style={styles(colors).heading}>Password</Text>
-                    <TextInput
-                      onChangeText={(text) => setPassword(text)}
-                      value={password}
-                      secureTextEntry={hidePass}
-                      style={[styles(colors).input, { width: "100%" }]}
-                      maxLength={20}
-                    />
-                  </View>
-                  <TouchableOpacity
-                    style={styles(colors).show}
-                    onPress={() => {
-                      setHidePass(!hidePass);
-                      showIcon === "eye"
-                        ? setShowIcon("eye-off")
-                        : setShowIcon("eye");
-                    }}
-                  >
-                    <Ionicons
-                      name={showIcon}
-                      size={24}
-                      color={colors.Header}
-                      style={styles(colors).icon}
-                    />
-                  </TouchableOpacity>
+              </View>
+              <View style={styles(colors).div}>
+                <View style={styles(colors).texts}>
+                  <Text style={styles(colors).heading}>Password</Text>
+                  <TextInput
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    secureTextEntry={hidePass}
+                    style={[styles(colors).input, { width: "100%" }]}
+                    maxLength={20}
+                  />
                 </View>
                 <TouchableOpacity
-                  style={styles(colors).button}
-                  onPress={handleSubmit}
+                  style={styles(colors).show}
+                  onPress={() => {
+                    setHidePass(!hidePass);
+                    showIcon === "eye"
+                      ? setShowIcon("eye-off")
+                      : setShowIcon("eye");
+                  }}
                 >
-                  <Text style={styles(colors).buttonText}>Log In</Text>
-                </TouchableOpacity>
-                {searching && (
-                  <ActivityIndicator
-                    size="large"
-                    color={colors.Primary1}
-                    style={{ marginVertical: 30 }}
+                  <Ionicons
+                    name={showIcon}
+                    size={24}
+                    color={colors.Header}
+                    style={styles(colors).icon}
                   />
-                )}
+                </TouchableOpacity>
               </View>
-            </ScrollView>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
-  }
+              <TouchableOpacity
+                style={styles(colors).button}
+                onPress={handleSubmit}
+              >
+                <Text style={styles(colors).buttonText}>Log In</Text>
+              </TouchableOpacity>
+              {searching && (
+                <ActivityIndicator
+                  size="large"
+                  color={colors.Primary1}
+                  style={{ marginVertical: 30 }}
+                />
+              )}
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+      <StatusBar style={isDark ? "light" : "dark"} />
+    </SafeAreaView>
+  );
 }
 
 const vh = Dimensions.get("window").height;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
     container: {
       flex: 1,
       alignItems: "center",
@@ -278,7 +246,7 @@ const styles = (colors) =>
       marginTop: 35,
     },
     buttonText: {
-      color: "#fff",
+      color: colors.Background,
       fontFamily: "Poppins_600SemiBold",
       fontSize: 16,
       alignSelf: "center",

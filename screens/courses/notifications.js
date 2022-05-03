@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView,
@@ -7,23 +6,17 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   Alert,
-  TouchableOpacity,
-  StatusBar,
   Dimensions,
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium_Italic,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
 import DisplayMarkUpdates from "../../components/DisplayMarkUpdates";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
+import { BackHeader } from "../../components/BackHeader";
+
+const vw = Dimensions.get("window").width;
 
 function join_arrays(a1, a2) {
   let combined_array = [];
@@ -42,19 +35,12 @@ function join_arrays(a1, a2) {
   combined_array = combined_array.concat(arr2);
   return combined_array;
 }
-export default function Notifications({ route, navigation }) {
+export default function Notifications({ route }) {
   const { colors, isDark } = useTheme();
   const img = isDark
     ? require("../../assets/notif_graphic2.png")
     : require("../../assets/notif_graphic1.png");
   const { isNotifs, current, updated } = route.params;
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium_Italic,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
   const [newData, setNewData] = useState(updated); //updated
   const [oldData, setOldData] = useState(current); //current
   const [loading, setLoading] = useState(false);
@@ -153,8 +139,16 @@ export default function Notifications({ route, navigation }) {
     } else {
       displayNotifs = !loading && (
         <View>
-          <Image source={img} style={styles(colors).graphic} />
-          <Text style={[styles(colors).p, { textAlign: "center" }]}>
+          <Image
+            source={img}
+            style={{
+              width: 0.6 * vw,
+              height: 0.6 * vw,
+              marginTop: 120,
+              marginBottom: 20,
+            }}
+          />
+          <Text style={{ ...GENERAL_STYLES(colors).p, textAlign: "center" }}>
             No new updates
           </Text>
         </View>
@@ -167,126 +161,28 @@ export default function Notifications({ route, navigation }) {
     );
   }
 
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView
-          style={styles(colors).scrollView}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView
+        style={GENERAL_STYLES(colors).scrollview}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View
+          style={{ ...GENERAL_STYLES(colors).container, paddingVertical: 15 }}
         >
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 20,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Notifications</Text>
-            </View>
-            {loading && (
-              <ActivityIndicator
-                style={{ marginTop: 40 }}
-                color={colors.Primary1}
-                size="large"
-              />
-            )}
-            <View>{displayNotifs}</View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <BackHeader header="Notifications" colors={colors} />
+          {loading && (
+            <ActivityIndicator
+              style={{ marginTop: 40 }}
+              color={colors.Primary1}
+              size="large"
+            />
+          )}
+          <View>{displayNotifs}</View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
-
-const vw = Dimensions.get("window").width;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    safeView: {
-      backgroundColor: colors.Background,
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingVertical: 15,
-    },
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 5,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    notif: {
-      alignItems: "flex-end",
-      marginBottom: -26,
-      width: "100%",
-      paddingRight: 23,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-      marginTop: 10,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 54,
-      left: 27,
-      zIndex: 2,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      fontSize: 13,
-      color: colors.Subtitle,
-    },
-    graphic: {
-      width: 0.6 * vw,
-      height: 0.6 * vw,
-      marginTop: 120,
-      marginBottom: 20,
-    },
-  });

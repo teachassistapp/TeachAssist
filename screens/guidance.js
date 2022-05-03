@@ -14,20 +14,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import GuidanceBook from "../components/GuidanceBook";
 import { useTheme } from "../globals/theme";
 import GuidanceTime from "../components/GuidanceTime";
 import BookedAppointments from "../components/BookedAppointments";
-
+import { GENERAL_STYLES } from "../globals/styles";
 import { handleFetchError } from "../globals/alert";
 import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
@@ -69,16 +60,6 @@ function GuidanceSearch() {
     "Dec.",
   ];
   const days = ["Sun.", "Mon.", "Tues.", "Wed.", "Thurs.", "Fri.", "Sat."];
-
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
 
   const retrieveAppointments = async () => {
     try {
@@ -149,154 +130,119 @@ function GuidanceSearch() {
   useEffect(() => {
     retrieveAppointments();
   }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Guidance</Text>
-              <Text style={styles(colors).headerSubtitle}>
-                Book Appointments
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles(colors).button}
-              onPress={() => setShow(!show)}
-            >
-              <Text style={styles(colors).buttonText}>Change Date</Text>
-            </TouchableOpacity>
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View style={GENERAL_STYLES(colors).header}>
+            <Text style={GENERAL_STYLES(colors).headerTitle}>Guidance</Text>
+            <Text style={GENERAL_STYLES(colors).p}>Book Appointments</Text>
           </View>
-          <DateTimePickerModal
-            isVisible={show}
-            mode="date"
-            onConfirm={(date) => onChange(date)}
-            onCancel={() => setShow(false)}
-            minimumDate={minDate}
-            date={date}
-          />
-          <Text style={styles(colors).p}>
-            Selected Date:{" "}
-            <Text
-              style={{
-                color: colors.Primary1,
-                fontFamily: "Poppins_600SemiBold",
-              }}
-            >
-              {`${days[date.getDay()]} ${
-                months[date.getMonth()]
-              } ${date.getDate()}, ${date.getFullYear()}`}
-            </Text>
-          </Text>
           <TouchableOpacity
-            style={[
-              styles(colors).button,
-              { backgroundColor: colors.Primary1 },
-            ]}
-            onPress={() => getAppointment()}
+            style={styles(colors).button}
+            onPress={() => setShow(!show)}
           >
-            <Text
-              style={[styles(colors).buttonText, { color: colors.Background }]}
-            >
-              Find Appointments
-            </Text>
+            <Text style={styles(colors).buttonText}>Change Date</Text>
           </TouchableOpacity>
-          {loading && (
-            <ActivityIndicator
-              size="large"
-              color={colors.Primary1}
-              style={{ marginVertical: 30 }}
-            />
-          )}
-          {noApps && (
-            <View style={styles(colors).errorContainer}>
-              <Text style={styles(colors).errorMessage}>
-                This date is not a school day.
-              </Text>
-            </View>
-          )}
-          {!loading && showResults && data && (
-            <View>
-              <View style={styles(colors).hRule} />
-              <Text style={[styles(colors).p, { fontSize: 12 }]}>
-                Tap on a guidance consellor to reveal their available
-                appointments. Tap on a time to book an appointment with them.
-              </Text>
-              {data.map((item, index) => {
-                return <GuidanceTime data={item} date={date} key={index} />;
-              })}
-            </View>
-          )}
+        </View>
+        <DateTimePickerModal
+          isVisible={show}
+          mode="date"
+          onConfirm={(date) => onChange(date)}
+          onCancel={() => setShow(false)}
+          minimumDate={minDate}
+          date={date}
+        />
+        <Text
+          style={[
+            GENERAL_STYLES(colors).p,
+            styles(colors).p,
+            { marginBottom: 7 },
+          ]}
+        >
+          Selected Date:{" "}
+          <Text
+            style={{
+              color: colors.Primary1,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            {`${days[date.getDay()]} ${
+              months[date.getMonth()]
+            } ${date.getDate()}, ${date.getFullYear()}`}
+          </Text>
+        </Text>
+        <TouchableOpacity
+          style={[styles(colors).button, { backgroundColor: colors.Primary1 }]}
+          onPress={() => getAppointment()}
+        >
+          <Text
+            style={[styles(colors).buttonText, { color: colors.Background }]}
+          >
+            Find Appointments
+          </Text>
+        </TouchableOpacity>
+        {loading && (
+          <ActivityIndicator
+            size="large"
+            color={colors.Primary1}
+            style={{ marginVertical: 30 }}
+          />
+        )}
+        {noApps && (
+          <View style={styles(colors).errorContainer}>
+            <Text style={styles(colors).errorMessage}>
+              This date is not a school day.
+            </Text>
+          </View>
+        )}
+        {!loading && showResults && data && (
+          <View>
+            <View style={styles(colors).hRule} />
+            <Text
+              style={[
+                GENERAL_STYLES(colors).p,
+                styles(colors).p,
+                { fontSize: 12 },
+              ]}
+            >
+              Tap on a guidance consellor to reveal their available
+              appointments. Tap on a time to book an appointment with them.
+            </Text>
+            {data.map((item, index) => {
+              return <GuidanceTime data={item} date={date} key={index} />;
+            })}
+          </View>
+        )}
 
-          {bookedAppointments.length > 0 && (
-            <View>
-              <View style={styles(colors).hRule} />
-              <Text style={styles(colors).p}>Booked Appointments</Text>
-              <BookedAppointments
-                appointments={bookedAppointments}
-                updateAppointments={updateAppointments}
-              />
-            </View>
-          )}
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+        {bookedAppointments.length > 0 && (
+          <View>
+            <View style={styles(colors).hRule} />
+            <Text style={[GENERAL_STYLES(colors).p, styles(colors).p]}>
+              Booked Appointments
+            </Text>
+            <BookedAppointments
+              appointments={bookedAppointments}
+              updateAppointments={updateAppointments}
+            />
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
       flexWrap: "wrap",
       alignSelf: "center",
       textAlign: "center",
       marginTop: 10,
       marginBottom: 24,
       maxWidth: 0.8 * vw,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.75 * vw,
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
     },
     button: {
       alignSelf: "center",

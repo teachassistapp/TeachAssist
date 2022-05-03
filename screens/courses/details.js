@@ -5,25 +5,15 @@ import {
   ScrollView,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
-  StatusBar,
-  Dimensions,
 } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
 import { useTheme } from "../../globals/theme";
+import { GENERAL_STYLES } from "../../globals/styles";
+import { BackHeader } from "../../components/BackHeader";
 
 function parseAssignments(data, weight_table) {
   let content = [];
@@ -162,127 +152,45 @@ export default function Details({ route, navigation }) {
     { label: "Details", value: 2 },
   ];
 
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 50,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>{name}</Text>
-              <Text style={styles(colors).headerSubtitle}>{code}</Text>
-            </View>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
-              selectedTextStyle={{
-                fontFamily: "Poppins_600SemiBold",
-                fontSize: 12,
-              }}
-              textColor={colors.Subtitle}
-              selectedColor={colors.Primary1}
-              buttonColor={colors.Selected}
-              backgroundColor={colors.Container}
-              borderColor={colors.Border}
-              borderWidth={1}
-              hasPadding
-              style={{ width: "90%" }}
-              onPress={(value) => setIsEnabled(value)}
-              animationDuration={300}
-            />
-          </View>
-          {DisplayScreen(
-            code,
-            block,
-            room,
-            name,
-            overall_mark,
-            assignments,
-            weight_table,
-            start_time,
-            end_time,
-            cached,
-            isEnabled
-          )}
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <BackHeader header={name} subtitle={code} colors={colors} />
+          <SwitchSelector
+            options={options}
+            initial={0}
+            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
+            selectedTextStyle={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 12,
+            }}
+            textColor={colors.Subtitle}
+            selectedColor={colors.Primary1}
+            buttonColor={colors.Selected}
+            backgroundColor={colors.SwitchBg}
+            borderColor={colors.Border}
+            borderWidth={1}
+            hasPadding
+            style={{ width: "90%", marginBottom: 10 }}
+            onPress={(value) => setIsEnabled(value)}
+            animationDuration={300}
+          />
+        </View>
+        {DisplayScreen(
+          code,
+          block,
+          room,
+          name,
+          overall_mark,
+          assignments,
+          weight_table,
+          start_time,
+          end_time,
+          cached,
+          isEnabled
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
-
-const vw = Dimensions.get("window").width;
-const vh = Dimensions.get("window").height;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 15,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: "70%",
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 50,
-      left: 27,
-      zIndex: 2,
-    },
-  });

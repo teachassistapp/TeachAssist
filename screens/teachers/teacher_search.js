@@ -5,7 +5,6 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -18,6 +17,7 @@ import SkeletonTeacherLoading from "../../components/skeletonTeacherLoading";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { handleFetchError } from "../../globals/alert";
+import { GENERAL_STYLES } from "../../globals/styles";
 
 const filterTeachers = (teachers) => {
   let validTeachers = [];
@@ -119,12 +119,12 @@ export default function TeacherSearch({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Teachers</Text>
-            <Text style={styles(colors).headerSubtitle}>Find Teachers</Text>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <View style={GENERAL_STYLES(colors).header}>
+            <Text style={GENERAL_STYLES(colors).headerTitle}>Teachers</Text>
+            <Text style={GENERAL_STYLES(colors).p}>Find Teachers</Text>
           </View>
           <View style={styles(colors).inputContainer}>
             <TextInput
@@ -167,7 +167,7 @@ export default function TeacherSearch({ navigation }) {
           <View style={{ width: "100%", alignItems: "center" }}>
             <Text
               style={[
-                styles(colors).p,
+                GENERAL_STYLES(colors).p,
                 {
                   color: colors.Subtitle,
                   textAlign: "center",
@@ -216,7 +216,10 @@ export default function TeacherSearch({ navigation }) {
             />
           ) : (
             <Text
-              style={[styles(colors).p, { textAlign: "center", marginTop: 10 }]}
+              style={[
+                GENERAL_STYLES(colors).p,
+                { textAlign: "center", marginTop: 10 },
+              ]}
             >
               No saved teachers
             </Text>
@@ -231,42 +234,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 39,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 29,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.75 * vw,
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
     inputContainer: {
       alignItems: "center",
       flexDirection: "row",
@@ -311,11 +278,6 @@ const styles = (colors) =>
       width: "90%",
       alignSelf: "center",
     },
-    p: {
-      fontSize: 13,
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-    },
     greenText: {
       fontSize: 13,
       marginLeft: "auto",
@@ -341,7 +303,7 @@ const styles = (colors) =>
     errorMessage: {
       fontFamily: "Poppins_500Medium",
       color: colors.Red,
-      marginTop: 20,
+      marginVertical: 15,
       fontSize: 15,
     },
     skeletonTeacher: {

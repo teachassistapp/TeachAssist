@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
-  StatusBar,
   Alert,
 } from "react-native";
 import { useTheme } from "../globals/theme";
@@ -16,6 +15,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
 import { TEST_USER, TEST_PASS } from "../data/keys";
+import { GENERAL_STYLES } from "../globals/styles";
+import { BackHeader } from "./BackHeader";
 
 function RadioButton({ options, choice, setChoice, box }) {
   const { colors } = useTheme();
@@ -52,7 +53,9 @@ function RadioButton({ options, choice, setChoice, box }) {
                     />
                   )}
             </View>
-            <Text style={styles(colors).p}>{d}</Text>
+            <Text style={{ ...GENERAL_STYLES(colors).p, flexWrap: "wrap" }}>
+              {d}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -163,34 +166,22 @@ export default function GuidanceBook({ route }) {
   ];
 
   return (
-    <SafeAreaView style={styles(colors).safeView}>
-      <ScrollView style={styles(colors).scrollView}>
-        <View style={styles(colors).container}>
-          <TouchableOpacity
-            style={styles(colors).headerIcon}
-            onPress={() => navigation.goBack()}
-            hitSlop={{
-              top: 20,
-              bottom: 50,
-              left: 20,
-              right: 50,
-            }}
-          >
-            <FontAwesome
-              name="chevron-left"
-              size={24}
-              color={colors.Primary1}
-            />
-          </TouchableOpacity>
-          <View style={styles(colors).header}>
-            <Text style={styles(colors).headerTitle}>Guidance</Text>
-            <Text style={styles(colors).headerSubtitle}>Book Appointments</Text>
-          </View>
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <BackHeader
+            header="Guidance"
+            subtitle="Book Appointments"
+            colors={colors}
+          />
           <Text
-            style={[
-              styles(colors).p,
-              { fontSize: 14, marginTop: 9, marginBottom: 5 },
-            ]}
+            style={{
+              ...GENERAL_STYLES(colors).p,
+              fontSize: 14,
+              marginTop: 9,
+              marginBottom: 5,
+              flexWrap: "wrap",
+            }}
           >
             Time:{" "}
             <Text
@@ -202,19 +193,27 @@ export default function GuidanceBook({ route }) {
               {time}
             </Text>
           </Text>
-          <View style={styles(colors).div}>
+          <View
+            style={{
+              ...styles(colors).div,
+              alignItems: "flex-start",
+              minHeight: 120,
+              paddingHorizontal: 20,
+              paddingVertical: 18,
+              marginVertical: 10,
+            }}
+          >
             <Text
-              style={[
-                styles(colors).p,
-                {
-                  fontFamily: "Poppins_600SemiBold",
-                  fontSize: 16,
-                  textAlign: "center",
-                  marginTop: 7,
-                  marginBottom: 10,
-                  alignSelf: "center",
-                },
-              ]}
+              style={{
+                ...GENERAL_STYLES(colors).p,
+                fontFamily: "Poppins_600SemiBold",
+                fontSize: 16,
+                textAlign: "center",
+                marginTop: 7,
+                marginBottom: 10,
+                alignSelf: "center",
+                flexWrap: "wrap",
+              }}
             >
               Please select a reason:
             </Text>
@@ -251,46 +250,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
-    div: {
-      alignItems: "flex-start",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      minHeight: 120,
-      paddingHorizontal: 20,
-      paddingVertical: 18,
-      marginVertical: 10,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-      flexWrap: "wrap",
-    },
     p1: {
       fontFamily: "Poppins_700Bold",
       color: colors.Primary1,
@@ -300,33 +259,6 @@ const styles = (colors) =>
       fontFamily: "Poppins_400Regular",
       color: colors.Primary1,
       fontSize: 13,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 28,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 20,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 24,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 75 * vw,
-      textAlign: "center",
-    },
-    headerSubtitle: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 13,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 54,
-      left: 27,
-      zIndex: 2,
     },
     option: {
       minHeight: 30,

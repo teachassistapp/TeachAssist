@@ -9,13 +9,27 @@ import {
 import GuidanceLinks from "./GuidanceLinks";
 import { useTheme } from "../globals/theme";
 import * as Animatable from "react-native-animatable";
+import { GENERAL_STYLES } from "../globals/styles";
 
 export default function GuidanceTime({ data, date }) {
   const { colors } = useTheme();
   const [expanded, setExpanded] = useState(false);
   return (
     <TouchableOpacity
-      style={expanded ? styles(colors).div : styles(colors).divCollapse}
+      style={
+        expanded
+          ? {
+              ...GENERAL_STYLES(colors).div,
+              paddingTop: 5,
+              margin: 5,
+              marginBottom: 24,
+            }
+          : {
+              ...GENERAL_STYLES(colors).div,
+              marginBottom: 25,
+              justifyContent: "center",
+            }
+      }
       onPress={() => setExpanded(!expanded)}
     >
       <View style={{ marginVertical: 20 }}>
@@ -25,7 +39,7 @@ export default function GuidanceTime({ data, date }) {
         duration={expanded ? 300 : 100}
         animation={expanded ? "fadeInDown" : "fadeOutUp"}
         style={[
-          styles(colors).expand,
+          GENERAL_STYLES(colors).expand,
           { height: expanded ? "auto" : 0, paddingVertical: expanded ? 20 : 0 },
         ]}
       >
@@ -55,46 +69,6 @@ const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      paddingTop: 5,
-      margin: 5,
-      marginBottom: 24,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    divCollapse: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "center",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      marginBottom: 25,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    expand: {
-      width: "100%",
-      paddingHorizontal: 17,
-      borderTopColor: colors.GraphBackground,
-      borderTopWidth: 1,
-    },
     h: {
       fontFamily: "Poppins_400Regular",
       color: colors.Header,

@@ -25,6 +25,16 @@ export const courseHelp = [
       "We have spent a long time experimenting with calculations and ultimately determined what we believe is the exact formula TeachAssist uses to calculate your marks, based on the assignment mark weightings, the course weightings for each category (K/T/C/A), and the marks themselves of course.\n\nWe have compared our formula with marks from TeachAssist, and the results have always matched exactly, down to the last few decimal points.\n\nHowever, if you do notice any discrepencies between a mark shown in the app and on the official website, if you are comfortable, let us know the details of the weightings and marks and we'll take a look!\n\nWhen in doubt, go with the mark shown on the official website. If you have questions about your marks, ask your teacher.",
   },
   {
+    header: "What is a cached course?",
+    description:
+      "If a course is displayed with an exclamation icon, it means your teacher has cached the course, basically hiding the marks on TeachAssist.\n\nThis may be because they are adding new assignments, or they may purposely not want you to have access to your marks.\nThe marks are hidden on the TeachAssist website, but you can still view any marks saved to your device here in the app.\n\nIf you have questions about your marks, consult your teacher.",
+  },
+  {
+    header: "Logging out",
+    description:
+      "You can log out of your account in the settings page. Doing so will clear all locally saved data, including all your course marks and assignments and any saved teacher data.",
+  },
+  {
     header: "What do the letters mean?",
     description:
       "K: Knowledge/Understanding\nT: Thinking/Inquiry\nC: Communication\nA: Application\nO: Other\nF: Final",

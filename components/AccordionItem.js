@@ -11,15 +11,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import {
-  useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-} from "@expo-google-fonts/poppins";
-import {
   AntDesign,
   MaterialCommunityIcons,
   Ionicons,
@@ -29,6 +20,7 @@ import ProgressBar from "./ProgressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
 import { useTheme } from "../globals/theme";
+import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../globals/styles";
 
 export default function AccordionItem({
   data,
@@ -38,15 +30,6 @@ export default function AccordionItem({
   editable,
 }) {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
   const [section, setSection] = useState(data);
   const [expanded, setExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -135,9 +118,9 @@ export default function AccordionItem({
   let res = []; //for the calculator
   for (let i = 0; i < 6; i++) {
     res.push(
-      <View style={styles(colors).inputContainer} key={labels[i]}>
-        <View style={styles(colors).inputSubContainer}>
-          <Text style={styles(colors).inputLabel}>{labels[i]}</Text>
+      <View style={GENERAL_STYLES(colors).inputContainer} key={labels[i]}>
+        <View style={GENERAL_STYLES(colors).inputSubContainer}>
+          <Text style={GENERAL_STYLES(colors).inputLabel}>{labels[i]}</Text>
           <TextInput
             style={styles(colors).input}
             onChangeText={categories[i][0][1]}
@@ -146,8 +129,8 @@ export default function AccordionItem({
             textAlign={"center"}
           />
         </View>
-        <View style={styles(colors).inputSubContainer}>
-          <Text style={styles(colors).inputLabel}>Weight:</Text>
+        <View style={GENERAL_STYLES(colors).inputSubContainer}>
+          <Text style={GENERAL_STYLES(colors).inputLabel}>Weight:</Text>
           <TextInput
             style={styles(colors).input}
             onChangeText={categories[i][1][1]}
@@ -193,12 +176,14 @@ export default function AccordionItem({
     >
       <CheckCustom section={section} />
       <View>
-        <Text style={styles(colors).assignmentTitle}>{section.title}</Text>
-        <Text style={styles(colors).assignmentMark}>
+        <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
+          {section.title}
+        </Text>
+        <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
           {average === "N/A" ? average : `${average}%`}
         </Text>
       </View>
-      <View style={styles(colors).assignmentBarChart}>
+      <View style={ASSIGNMENT_STYLES(colors).assignmentBarChart}>
         {section.finished ? (
           section.f == " " &&
           (section.k != " " ||
@@ -206,11 +191,11 @@ export default function AccordionItem({
             section.c != " " ||
             section.a != " ") && (
             <>
-              <View style={styles(colors).assignmentBar}>
+              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
                 <Text style={styles(colors).barLabelsText}>
                   {section.k === " " ? section.k : Math.round(section.k)}
                 </Text>
-                <View style={styles(colors).progressBar}>
+                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                   <ProgressBar
                     progress={section.k}
                     height={8}
@@ -220,11 +205,11 @@ export default function AccordionItem({
                 </View>
                 <Text style={styles(colors).barLabelsText}>K</Text>
               </View>
-              <View style={styles(colors).assignmentBar}>
+              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
                 <Text style={styles(colors).barLabelsText}>
                   {section.t === " " ? section.t : Math.round(section.t)}
                 </Text>
-                <View style={styles(colors).progressBar}>
+                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                   <ProgressBar
                     progress={section.t}
                     height={8}
@@ -234,11 +219,11 @@ export default function AccordionItem({
                 </View>
                 <Text style={styles(colors).barLabelsText}>T</Text>
               </View>
-              <View style={styles(colors).assignmentBar}>
+              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
                 <Text style={styles(colors).barLabelsText}>
                   {section.c === " " ? section.c : Math.round(section.c)}
                 </Text>
-                <View style={styles(colors).progressBar}>
+                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                   <ProgressBar
                     progress={section.c}
                     height={8}
@@ -248,11 +233,11 @@ export default function AccordionItem({
                 </View>
                 <Text style={styles(colors).barLabelsText}>C</Text>
               </View>
-              <View style={styles(colors).assignmentBar}>
+              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
                 <Text style={styles(colors).barLabelsText}>
                   {section.a === " " ? section.a : Math.round(section.a)}
                 </Text>
-                <View style={styles(colors).progressBar}>
+                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
                   <ProgressBar
                     progress={section.a}
                     height={8}
@@ -266,7 +251,13 @@ export default function AccordionItem({
           )
         ) : (
           <View style={{ width: "100%" }}>
-            <Text style={[styles(colors).p, { textAlign: "center" }]}>
+            <Text
+              style={{
+                ...GENERAL_STYLES(colors).p,
+                textAlign: "center",
+                fontSize: 12,
+              }}
+            >
               <AntDesign
                 name="exclamationcircleo"
                 size={12}
@@ -278,11 +269,11 @@ export default function AccordionItem({
           </View>
         )}
         {section.f != " " && (
-          <View style={styles(colors).assignmentBar}>
+          <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
             <Text style={styles(colors).barLabelsText}>
               {section.f === " " ? section.f : Math.round(section.f)}
             </Text>
-            <View style={styles(colors).progressBar}>
+            <View style={ASSIGNMENT_STYLES(colors).progressBar}>
               <ProgressBar
                 progress={section.f}
                 height={8}
@@ -294,11 +285,11 @@ export default function AccordionItem({
           </View>
         )}
         {section.o != " " && (
-          <View style={styles(colors).assignmentBar}>
+          <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
             <Text style={styles(colors).barLabelsText}>
               {section.f === " " ? section.o : Math.round(section.o)}
             </Text>
-            <View style={styles(colors).progressBar}>
+            <View style={ASSIGNMENT_STYLES(colors).progressBar}>
               <ProgressBar
                 progress={section.o}
                 height={8}
@@ -312,7 +303,7 @@ export default function AccordionItem({
       </View>
     </TouchableOpacity>
   ) : (
-    <View>
+    <View style={{ marginTop: 8 }}>
       {editable && (
         <Modal
           animationType="slide"
@@ -342,10 +333,14 @@ export default function AccordionItem({
             >
               <TouchableWithoutFeedback>
                 <View
-                  style={[
-                    styles(colors).div,
-                    { marginVertical: "auto", paddingHorizontal: 25 },
-                  ]}
+                  style={{
+                    ...GENERAL_STYLES(colors).div,
+                    marginVertical: "auto",
+                    margin: 5,
+                    paddingHorizontal: 25,
+                    paddingVertical: 25,
+                    minHeight: 160,
+                  }}
                 >
                   <TouchableOpacity
                     onPress={() => setModalVisible(false)}
@@ -433,43 +428,53 @@ export default function AccordionItem({
       <TouchableOpacity onPress={() => setExpanded(!expanded)}>
         <View style={styles(colors).expand}>
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            {edited && !section.deletable && (
-              <TouchableOpacity
-                style={styles(colors).edit}
-                onPress={() => {
-                  updateAssignments(originalAssignment);
-                  setEdited(false);
-                }}
-              >
-                <Text style={styles(colors).p}>Undo</Text>
-                <FontAwesome
-                  name="undo"
-                  size={12}
-                  color={colors.Subtitle}
-                  style={{ marginLeft: 5 }}
-                />
-              </TouchableOpacity>
-            )}
-            {editable && (
-              <TouchableOpacity
-                style={styles(colors).edit}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles(colors).p}>Edit</Text>
-                <MaterialCommunityIcons
-                  name="pencil-outline"
-                  size={13}
-                  color={colors.Subtitle}
-                  style={{ marginLeft: 5 }}
-                />
-              </TouchableOpacity>
-            )}
           </View>
           <View style={styles(colors).expandHeader}>
-            <Text style={styles(colors).assignmentTitle}>{section.title}</Text>
-            <Text style={styles(colors).assignmentMark}>
-              {average === "N/A" ? average : `${average}%`}
+            <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
+              {section.title}
             </Text>
+            <View style={styles(colors).editWrapper}>
+              <View style={styles(colors).editOptions}>
+                {edited && !section.deletable && (
+                  <TouchableOpacity
+                    style={styles(colors).edit}
+                    onPress={() => {
+                      updateAssignments(originalAssignment);
+                      setEdited(false);
+                    }}
+                  >
+                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                      Undo
+                    </Text>
+                    <FontAwesome
+                      name="undo"
+                      size={11}
+                      color={colors.Subtitle}
+                      style={{ marginLeft: 5 }}
+                    />
+                  </TouchableOpacity>
+                )}
+                {editable && (
+                  <TouchableOpacity
+                    style={styles(colors).edit}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                      Edit
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="pencil-outline"
+                      size={13}
+                      color={colors.Subtitle}
+                      style={{ marginLeft: 5 }}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
+                {average === "N/A" ? average : `${average}%`}
+              </Text>
+            </View>
           </View>
           {section.f != " " && (
             <>
@@ -676,7 +681,13 @@ export default function AccordionItem({
                 marginBottom: 0,
               }}
             >
-              <Text style={[styles(colors).p, { textAlign: "center" }]}>
+              <Text
+                style={{
+                  ...GENERAL_STYLES(colors).p,
+                  textAlign: "center",
+                  fontSize: 12,
+                }}
+              >
                 <AntDesign
                   name="exclamationcircleo"
                   size={12}
@@ -692,41 +703,25 @@ export default function AccordionItem({
       </TouchableOpacity>
     </View>
   );
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return <View style={styles(colors).div}>{display}</View>;
-  }
+  return (
+    <View
+      style={{
+        ...GENERAL_STYLES(colors).div,
+        margin: 5,
+        paddingHorizontal: 17,
+        paddingVertical: 10,
+        minHeight: 150,
+        justifyContent: "center",
+      }}
+    >
+      {display}
+    </View>
+  );
 }
 
 const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
-    div: {
-      alignItems: "center",
-      alignSelf: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: 0.9 * vw,
-      height: "auto",
-      minHeight: 160,
-      paddingHorizontal: 17,
-      paddingVertical: 25,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.15,
-      shadowRadius: 10,
-      elevation: 6,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 12,
-    },
     barLabelsText: {
       fontSize: 10,
       fontFamily: "Poppins_600SemiBold",
@@ -738,34 +733,8 @@ const styles = (colors) =>
       height: 20,
       paddingLeft: 14,
       marginLeft: 10,
-      marginBottom: 4,
       flexDirection: "row",
       alignItems: "center",
-    },
-    assignmentTitle: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 15,
-      color: colors.Header,
-      maxWidth: 0.4 * vw,
-      marginTop: 5,
-      marginBottom: 5,
-    },
-    assignmentMark: {
-      fontFamily: "Poppins_600SemiBold",
-      fontSize: 23,
-      color: colors.Primary1,
-    },
-    assignmentBar: {
-      height: 90,
-      width: 28,
-      justifyContent: "center",
-    },
-    assignmentBarChart: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      height: 90,
-      width: 120,
-      top: 2,
     },
     barMarks: {
       flexDirection: "row",
@@ -773,22 +742,12 @@ const styles = (colors) =>
       width: 76,
       bottom: -5,
     },
-    progressBar: {
-      height: 90,
-      width: 70,
-      transform: [{ rotate: "270deg" }],
-      position: "relative",
-      right: -20,
-      marginTop: -9,
-      marginBottom: -9,
-    },
     inactive: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       alignSelf: "center",
       width: 0.8 * vw,
-      height: 115,
     },
     expand: {
       width: 0.8 * vw,
@@ -859,20 +818,6 @@ const styles = (colors) =>
       justifyContent: "flex-start",
       paddingBottom: 10,
     },
-    inputContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      alignSelf: "center",
-      width: "95%",
-      marginBottom: 10,
-    },
-    inputSubContainer: {
-      width: "48%",
-      justifyContent: "space-between",
-      flexDirection: "row",
-      alignItems: "center",
-    },
     input: {
       borderRadius: 10,
       borderWidth: 2,
@@ -881,13 +826,7 @@ const styles = (colors) =>
       width: "45%",
       color: colors.Subtitle,
       fontFamily: "Poppins_500Medium",
-      fontSize: 14,
-    },
-    inputLabel: {
-      fontFamily: "Poppins_500Medium",
-      fontSize: 14,
-      color: colors.Subtitle,
-      marginRight: 5,
+      fontSize: 12,
     },
     checkText: {
       fontSize: 12,
@@ -914,10 +853,15 @@ const styles = (colors) =>
       borderWidth: 1,
       height: "auto",
       width: "auto",
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingTop: 8,
-      paddingBottom: 8,
+      paddingHorizontal: 17,
+      paddingVertical: 8,
       margin: 5,
     },
+    editOptions: {
+      marginRight: 13,
+    },
+    editWrapper: {
+      flexDirection: "row",
+      alignItems: "center",
+    }
   });

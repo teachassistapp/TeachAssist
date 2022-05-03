@@ -5,7 +5,6 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import SwitchSelector from "react-native-switch-selector";
 import {
   Ionicons,
-  Octicons,
   MaterialCommunityIcons,
   AntDesign,
 } from "@expo/vector-icons";
@@ -15,27 +14,21 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   Alert,
   RefreshControl,
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
+import { DisplayProgress } from "../../components/charts";
 import { useTheme } from "../../globals/theme";
 
 import { handleFetchError } from "../../globals/alert";
 import { test_course_data } from "../../data/test";
 import { TEST_PASS, TEST_USER } from "../../data/keys";
+import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../../globals/styles";
 
 function DisplayCourse({
   breakdown,
@@ -55,7 +48,9 @@ function DisplayCourse({
   cached,
   index,
 }) {
-  const { isDark, colors } = useTheme();
+  const { colors } = useTheme();
+  const navigation = useNavigation();
+
   if (k === "null") {
     k = 0;
   }
@@ -68,65 +63,41 @@ function DisplayCourse({
   if (a === "null") {
     a = 0;
   }
+  const categories = [k, t, c, a];
+  const labels = ["K", "T", "C", "A"];
+  const bar_colors = [
+    colors.Primary2,
+    colors.Primary1,
+    colors.Primary2,
+    colors.Primary1,
+  ];
   const displayMethod =
     breakdown === true ? (
-      <View style={styles(colors).assignmentBarChart} key={index + "Breakdown"}>
-        <View style={styles(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {k ? Math.round(k) : " "}
-          </Text>
-          <View style={styles(colors).progressBar}>
-            <ProgressBar
-              progress={k}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary2}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>K</Text>
-        </View>
-        <View style={styles(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {t ? Math.round(t) : " "}
-          </Text>
-          <View style={styles(colors).progressBar}>
-            <ProgressBar
-              progress={t}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary1}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>T</Text>
-        </View>
-        <View style={styles(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {c ? Math.round(c) : " "}
-          </Text>
-          <View style={styles(colors).progressBar}>
-            <ProgressBar
-              progress={c}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary2}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>C</Text>
-        </View>
-        <View style={styles(colors).assignmentBar}>
-          <Text style={styles(colors).barLabelsText}>
-            {a ? Math.round(a) : " "}
-          </Text>
-          <View style={styles(colors).progressBar}>
-            <ProgressBar
-              progress={a}
-              height={8}
-              trackColor={colors.GraphBackground}
-              backgroundColor={colors.Primary1}
-            />
-          </View>
-          <Text style={styles(colors).barLabelsText}>A</Text>
-        </View>
+      <View
+        style={ASSIGNMENT_STYLES(colors).assignmentBarChart}
+        key={index + "Breakdown"}
+      >
+        {categories.map((cat, i) => {
+          return (
+            <View
+              style={ASSIGNMENT_STYLES(colors).assignmentBar}
+              key={String(i)}
+            >
+              <Text style={styles(colors).barLabelsText}>
+                {cat ? Math.round(cat) : " "}
+              </Text>
+              <View style={ASSIGNMENT_STYLES(colors).progressBar}>
+                <ProgressBar
+                  progress={cat}
+                  height={8}
+                  trackColor={colors.GraphBackground}
+                  backgroundColor={bar_colors[i]}
+                />
+              </View>
+              <Text style={styles(colors).barLabelsText}>{labels[i]}</Text>
+            </View>
+          );
+        })}
       </View>
     ) : (
       <AnimatedCircularProgress
@@ -140,7 +111,7 @@ function DisplayCourse({
         duration={800}
         key={index + "CircleProgress"}
       >
-        {(fill) => (
+        {() => (
           <Text style={styles(colors).marks} key={index + "CircleProgressText"}>
             {overall_mark === "N/A" ? "N/A" : overall_mark.toString() + "%"}
           </Text>
@@ -148,10 +119,16 @@ function DisplayCourse({
       </AnimatedCircularProgress>
     );
 
-  const navigation = useNavigation();
   return (
     <TouchableOpacity
-      style={styles(colors).div}
+      style={{
+        ...GENERAL_STYLES(colors).div,
+        flexDirection: "row",
+        minHeight: 125,
+        paddingHorizontal: 17,
+        paddingVertical: 15,
+        margin: 5,
+      }}
       onPress={() => {
         navigation.navigate("Details", {
           code: code,
@@ -191,14 +168,8 @@ function DisplayCourse({
 }
 
 export default function Home() {
-  const { isDark, colors } = useTheme();
+  const { isDark, colors, setScheme } = useTheme();
   const navigation = useNavigation();
-  let [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
   const [stored, setStored] = useState([]);
@@ -231,6 +202,23 @@ export default function Home() {
       }
     }
     return newData;
+  };
+
+  const initScheme = async () => {
+    try {
+      const storedScheme = await AsyncStorage.getItem("scheme");
+      if (storedScheme === null) {
+        if (scheme === "dark") {
+          setScheme("dark");
+        } else {
+          setScheme("light");
+        }
+      } else {
+        setScheme(storedScheme);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const storeData = async (datum) => {
@@ -337,6 +325,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
+    initScheme();
     retrieveData();
   }, []);
 
@@ -412,142 +401,106 @@ export default function Home() {
   averages.forEach((value) => partMark.push(value / averages.length));
   let averageOverall =
     Math.round(partMark.reduce((a, b) => a + b, 0) * 10) / 10;
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView
-          style={styles(colors).scrollView}
-          alwaysBounceVertical={"true"}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles(colors).container}>
-            <View style={styles(colors).headerIcons}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Websites")}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 20,
-                  right: 50,
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="web"
-                  size={26}
-                  color={colors.Primary1}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Notifications", notifs);
-                }}
-                style={{
-                  flexDirection: "row",
-                  width: 26,
-                }}
-                hitSlop={{
-                  top: 20,
-                  bottom: 50,
-                  left: 50,
-                  right: 20,
-                }}
-              >
-                <Ionicons
-                  name="notifications"
-                  size={26}
-                  color={colors.Primary1}
-                />
-                {notifs.isNotifs && (
-                  <View style={styles(colors).notifActive1}>
-                    <View style={styles(colors).notifActive2} />
-                  </View>
-                )}
-              </TouchableOpacity>
-            </View>
-            <AnimatedCircularProgress
-              size={178}
-              width={14.5}
-              fill={averageOverall}
-              tintColorSecondary={colors.Primary1}
-              tintColor={colors.Primary2}
-              backgroundColor={colors.GraphBackground}
-              rotation={0}
-              duration={800}
-            >
-              {() => (
-                <>
-                  <Text style={styles(colors).progressMark}>
-                    {averageOverall}%
-                  </Text>
-                  <Text style={styles(colors).progressLabel}>Average</Text>
-                </>
-              )}
-            </AnimatedCircularProgress>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              textStyle={{ fontFamily: "Poppins_500Medium" }}
-              selectedTextStyle={{ fontFamily: "Poppins_600SemiBold" }}
-              textColor={colors.Subtitle}
-              selectedColor={colors.Primary1}
-              buttonColor={colors.Selected}
-              backgroundColor={colors.Container}
-              borderColor={colors.Border}
-              borderWidth={1}
-              hasPadding
-              style={{ width: "65%", marginTop: 20 }}
-              animationDuration={300}
-              onPress={(event) => {
-                handleToggle(event);
+  return (
+    <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
+      <ScrollView
+        style={GENERAL_STYLES(colors).scrollview}
+        alwaysBounceVertical={"true"}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ ...GENERAL_STYLES(colors).container, paddingTop: 16 }}>
+          <View style={styles(colors).headerIcons}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Websites")}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 20,
+                right: 50,
               }}
-            />
-            {loading && (
-              <ActivityIndicator
-                size="large"
-                style={{ marginTop: 40 }}
+            >
+              <MaterialCommunityIcons
+                name="web"
+                size={26}
                 color={colors.Primary1}
               />
-            )}
-
-            <View style={styles(colors).blockContainer}>
-              <Text>{isEnabled}</Text>
-              {isEnabled ? displayAverage : displayBreakdown}
-            </View>
-            <ExpoStatusBar style={isDark ? "light" : "dark"} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Notifications", notifs);
+              }}
+              style={{
+                flexDirection: "row",
+                width: 26,
+              }}
+              hitSlop={{
+                top: 20,
+                bottom: 50,
+                left: 50,
+                right: 20,
+              }}
+            >
+              <Ionicons
+                name="notifications"
+                size={26}
+                color={colors.Primary1}
+              />
+              {notifs.isNotifs && (
+                <View style={styles(colors).notifActive1}>
+                  <View style={styles(colors).notifActive2} />
+                </View>
+              )}
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+          <DisplayProgress value={averageOverall} subtitle="Average" />
+          <SwitchSelector
+            options={options}
+            initial={0}
+            textStyle={{ fontFamily: "Poppins_500Medium", paddingTop: 3 }}
+            selectedTextStyle={{
+              fontFamily: "Poppins_600SemiBold",
+              paddingTop: 3,
+            }}
+            textColor={colors.Subtitle}
+            selectedColor={colors.Primary1}
+            buttonColor={colors.Selected}
+            backgroundColor={colors.SwitchBg}
+            borderColor={colors.Border}
+            borderWidth={1}
+            hasPadding
+            style={{ width: "65%", marginTop: 1, marginBottom: 17 }}
+            animationDuration={300}
+            onPress={(event) => {
+              handleToggle(event);
+            }}
+          />
+          {loading && (
+            <ActivityIndicator
+              size="large"
+              style={{ marginTop: 40 }}
+              color={colors.Primary1}
+            />
+          )}
+          <View style={GENERAL_STYLES(colors).blockContainer}>
+            {isEnabled ? displayAverage : displayBreakdown}
+          </View>
+        </View>
+        <StatusBar style={isDark ? "light" : "dark"} />
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const vw = Dimensions.get("window").width;
 
 const styles = (colors) =>
   StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-    },
     headerIcons: {
       flexDirection: "row",
       justifyContent: "space-between",
-      marginBottom: -26,
+      marginBottom: -24,
       width: "100%",
       paddingLeft: 23,
       paddingRight: 23,
@@ -568,47 +521,6 @@ const styles = (colors) =>
       height: 7,
       backgroundColor: colors.Red,
       borderRadius: 3.5,
-    },
-    progressMark: {
-      position: "relative",
-      fontFamily: "Poppins_700Bold",
-      fontSize: 28,
-      top: 10,
-      color: colors.Header,
-    },
-    progressLabel: {
-      position: "relative",
-      fontFamily: "Poppins_500Medium",
-      fontSize: 12,
-      top: 0,
-      color: colors.Subtitle,
-    },
-    blockContainer: {
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      width: "100%",
-      paddingBottom: 15,
-    },
-    div: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      backgroundColor: colors.Container,
-      borderColor: colors.Border,
-      borderRadius: 20,
-      borderWidth: 1,
-      width: "90%",
-      height: "auto",
-      minHeight: 125,
-      paddingLeft: 17,
-      paddingRight: 17,
-      paddingVertical: 15,
-      margin: 5,
-      shadowColor: colors.Shadow,
-      shadowOpacity: 0.153,
-      shadowRadius: 20,
-      elevation: 8,
     },
     title: {
       fontFamily: "Poppins_600SemiBold",
@@ -632,29 +544,9 @@ const styles = (colors) =>
     },
     marks: {
       fontFamily: "Poppins_600SemiBold",
-      fontSize: vw < 300 ? 14 : 16,
+      fontSize: vw < 300 ? 13 : 15,
       color: colors.Header,
-    },
-    assignmentBar: {
-      height: 90,
-      width: 28,
-      justifyContent: "center",
-    },
-    assignmentBarChart: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      height: 90,
-      width: 120,
-      top: 2,
-    },
-    progressBar: {
-      height: 90,
-      width: 70,
-      transform: [{ rotate: "270deg" }],
-      position: "relative",
-      right: -20,
-      marginTop: -9,
-      marginBottom: -9,
+      top: 1,
     },
     barLabelsText: {
       fontSize: 10,

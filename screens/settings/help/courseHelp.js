@@ -1,135 +1,45 @@
-import React, { useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
+import React from "react";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { useTheme } from "../../../globals/theme";
 import { courseHelp } from "../../../data/help";
 import AnimatedCollapsible from "../../../components/AnimatedCollapsible";
+import { GENERAL_STYLES } from "../../../globals/styles";
+import { BackHeader } from "../../../components/BackHeader";
 
-export default function CourseHelp({ navigation }) {
+export default function CourseHelp() {
   const { colors } = useTheme();
-  let [fontsLoaded] = useFonts({
-    //load custom fonts
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  } else {
-    return (
-      <SafeAreaView style={styles(colors).safeView}>
-        <ScrollView style={styles(colors).scrollView}>
-          <View style={styles(colors).container}>
-            <TouchableOpacity
-              style={styles(colors).headerIcon}
-              onPress={() => navigation.goBack()}
-              hitSlop={{
-                top: 20,
-                bottom: 50,
-                left: 20,
-                right: 50,
-              }}
-            >
-              <FontAwesome
-                name="chevron-left"
-                size={24}
-                color={colors.Primary1}
-              />
-            </TouchableOpacity>
-            <View style={styles(colors).header}>
-              <Text style={styles(colors).headerTitle}>Courses</Text>
-            </View>
-            <View style={styles(colors).body}>
-              {courseHelp.map((d, i) => {
-                return (
-                  <AnimatedCollapsible
-                    header={d.header}
-                    description={
-                      <Text style={styles(colors).p}>{d.description}</Text>
-                    }
-                    colors={colors}
-                    key={String(i)}
-                  />
-                );
-              })}
-            </View>
+  return (
+    <SafeAreaView
+      style={{ ...GENERAL_STYLES(colors).safeView, alignItems: "center" }}
+    >
+      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
+        <View style={GENERAL_STYLES(colors).container}>
+          <BackHeader header="Courses" colors={colors} />
+          <View style={{ ...GENERAL_STYLES(colors).body, marginTop: 25 }}>
+            {courseHelp.map((d, i) => {
+              return (
+                <AnimatedCollapsible
+                  header={d.header}
+                  description={
+                    <Text
+                      style={{
+                        ...GENERAL_STYLES(colors).p,
+                        fontSize: 14,
+                        marginTop: 5,
+                        marginBottom: 5,
+                      }}
+                    >
+                      {d.description}
+                    </Text>
+                  }
+                  colors={colors}
+                  key={String(i)}
+                />
+              );
+            })}
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
-
-const vw = Dimensions.get("window").width;
-
-const styles = (colors) =>
-  StyleSheet.create({
-    safeView: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-      backgroundColor: colors.Background,
-      alignItems: "center",
-    },
-    scrollView: {
-      width: "100%",
-      backgroundColor: colors.Background,
-    },
-    container: {
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor: colors.Background,
-      paddingTop: 15,
-      width: vw,
-    },
-    header: {
-      justifyContent: "center",
-      alignItems: "center",
-      paddingTop: 20,
-      width: "100%",
-      backgroundColor: colors.Background,
-      marginBottom: 20,
-      marginTop: 10,
-    },
-    headerTitle: {
-      fontFamily: "Poppins_700Bold",
-      fontSize: 22,
-      alignSelf: "center",
-      color: colors.Header,
-      maxWidth: 0.7 * vw,
-    },
-    headerIcon: {
-      position: "absolute",
-      top: 54,
-      left: 27,
-      zIndex: 2,
-    },
-    body: {
-      width: vw,
-      marginTop: 25,
-      paddingHorizontal: 40,
-    },
-    p: {
-      fontFamily: "Poppins_400Regular",
-      color: colors.Subtitle,
-      fontSize: 14,
-      marginTop: 5,
-      marginBottom: 5,
-    },
-  });
