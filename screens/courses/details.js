@@ -61,12 +61,12 @@ function parseAssignments(data, weight_table) {
       fWeight: !data[i].F || !data[i].F[0].finished ? 0 : data[i].F[0].weight,
       fMark: !data[i].F ? " " : `(${data[i].F[0].get}/${data[i].F[0].total})`,
       finished: !(
-        (data[i].KU && data[i].KU[0].finished === false) ||
-        (data[i].T && data[i].T[0].finished === false) ||
-        (data[i].C && data[i].C[0].finished === false) ||
-        (data[i].A && data[i].A[0].finished === false) ||
-        (data[i].F && data[i].F[0].finished === false) ||
-        (data[i].O && data[i].O[0].finished === false)
+        (data[i].KU && !data[i].KU[0].finished) ||
+        (data[i].T && !data[i].T[0].finished) ||
+        (data[i].C && !data[i].C[0].finished) ||
+        (data[i].A && !data[i].A[0].finished) ||
+        (data[i].F && !data[i].F[0].finished) ||
+        (data[i].O && !data[i].O[0].finished)
       ),
       weight_table: weight_table,
     });

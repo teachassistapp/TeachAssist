@@ -17,8 +17,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { TEST_USER, TEST_PASS } from "../../data/keys";
 
-const websites_data = [
+var websites_data = [
   ["TeachAssist", "https://ta.yrdsb.ca/yrdsb/"],
   ["MyBlueprint", "https://myblueprint.ca/"],
   ["Google Classroom", "https://classroom.google.com/"],
@@ -26,6 +27,10 @@ const websites_data = [
   ["Moodle", "https://moodle2.yrdsb.ca/"],
   ["YRDSB Website", "https://www2.yrdsb.ca/"],
   ["YRDSB Twitter", "https://twitter.com/YRDSB"],
+  [
+    "YRDSB Report It",
+    "https://secure.yrdsb.ca/Forms/ReportIt/_layouts/FormServer.aspx?XsnLocation=https://secure.yrdsb.ca/FormServerTemplates/ReportItv2.xsn&Source=https://secure.yrdsb.ca&DefaultItemOpen=1",
+  ],
   ["Our website", "https://teachassistapp.github.io/"],
 ];
 
@@ -37,6 +42,8 @@ export default function Websites({ navigation }) {
   const [customTitle, setCustomTitle] = useState("");
   const [showError, setShowError] = useState("");
   const [websites, setWebsites] = useState([]);
+  const [number, setNumber] = useState("");
+  const [pass, setPass] = useState("");
 
   const storeData = async (w) => {
     try {
@@ -48,10 +55,15 @@ export default function Websites({ navigation }) {
 
   const retrieveData = async () => {
     try {
-      let w = await AsyncStorage.getItem("websites");
-      if (w !== null) {
-        w = JSON.parse(w);
-        setWebsites(w);
+      const w = await AsyncStorage.getItem("websites");
+      const n = await AsyncStorage.getItem("number");
+      const p = await AsyncStorage.getItem("password");
+      if (n && p && n !== TEST_USER && p !== TEST_PASS) {
+        setNumber(n);
+        setPass(p);
+      }
+      if (w) {
+        setWebsites(JSON.parse(w));
       } else {
         setWebsites(websites_data);
       }
@@ -61,7 +73,14 @@ export default function Websites({ navigation }) {
   };
 
   function openWebsite(link) {
-    Linking.openURL(link).catch((e) => {
+    if (
+      link === "https://ta.yrdsb.ca/yrdsb/" &&
+      number !== TEST_USER &&
+      pass !== TEST_PASS
+    ) {
+      link = `https://ta.yrdsb.ca/yrdsb/index.php?username=${number}&password=${pass}`;
+    }
+    Linking.openURL(link).catch(() => {
       alert.alert(
         "Failed to open website.",
         "Please check that the URL is valid."
@@ -70,9 +89,9 @@ export default function Websites({ navigation }) {
   }
 
   function addWebsite() {
-    regex =
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-    var regex = new RegExp(regex);
+    var regex = new RegExp(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    );
     let tempWebsites = [...websites];
     if (tempWebsites.includes([customTitle, customWebsite])) {
       setShowError("Website is already saved.");
