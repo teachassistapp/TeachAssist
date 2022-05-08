@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Haptics from 'expo-haptics';
 import ProgressBar from "../components/ProgressBar";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../globals/theme";
@@ -142,6 +143,7 @@ function SearchAssignments({ title, assignments }) {
               style={{ flexDirection: "row", flexWrap: "wrap" }}
               onPress={() => {
                 navigation.navigate("Details", assignments[i]);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
               }}
             >
               <Text style={styles(colors).p1}>

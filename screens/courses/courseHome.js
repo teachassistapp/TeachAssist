@@ -20,6 +20,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
+import * as Haptics from 'expo-haptics';
 import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
 import { DisplayProgress } from "../../components/charts";
@@ -474,6 +475,7 @@ export default function Home() {
             animationDuration={300}
             onPress={(event) => {
               handleToggle(event);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             }}
           />
           {loading && (

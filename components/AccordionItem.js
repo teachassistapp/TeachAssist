@@ -16,6 +16,7 @@ import {
   Ionicons,
   FontAwesome,
 } from "@expo/vector-icons";
+import * as Haptics from 'expo-haptics';
 import ProgressBar from "./ProgressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
@@ -445,6 +446,7 @@ export default function AccordionItem({
                     onPress={() => {
                       updateAssignments(originalAssignment);
                       setEdited(false);
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     }}
                   >
                     <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
@@ -463,7 +465,8 @@ export default function AccordionItem({
                 <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {setModalVisible(!modalVisible); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+                    
                   >
                     <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
                       Edit

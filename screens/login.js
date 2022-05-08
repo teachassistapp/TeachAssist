@@ -19,6 +19,7 @@ import {
   Platform,
   useColorScheme,
 } from "react-native";
+import * as Haptics from 'expo-haptics';
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
@@ -148,6 +149,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                   style={styles(colors).show}
                   onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     setHidePass(!hidePass);
                     showIcon === "eye"
                       ? setShowIcon("eye-off")

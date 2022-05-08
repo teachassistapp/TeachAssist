@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -174,7 +175,7 @@ function GuidanceSearch() {
         </Text>
         <TouchableOpacity
           style={[styles(colors).button, { backgroundColor: colors.Primary1 }]}
-          onPress={() => getAppointment()}
+          onPress={() => {getAppointment(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
         >
           <Text
             style={[styles(colors).buttonText, { color: colors.Background }]}
@@ -280,7 +281,7 @@ const styles = (colors) =>
       fontFamily: "Poppins_500Medium",
       textAlign: "center",
       color: colors.Red,
-      marginTop: 20,
+      marginVertical: 10,
       fontSize: 15,
     },
   });

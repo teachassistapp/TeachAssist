@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
@@ -28,10 +29,10 @@ var websites_data = [
   ["YRDSB Website", "https://www2.yrdsb.ca/"],
   ["YRDSB Twitter", "https://twitter.com/YRDSB"],
   [
-    "YRDSB Report It",
+    "YRDSB Report-It",
     "https://secure.yrdsb.ca/Forms/ReportIt/_layouts/FormServer.aspx?XsnLocation=https://secure.yrdsb.ca/FormServerTemplates/ReportItv2.xsn&Source=https://secure.yrdsb.ca&DefaultItemOpen=1",
   ],
-  ["Our website", "https://teachassistapp.github.io/"],
+  ["Our Website", "https://teachassistapp.github.io/"],
 ];
 
 export default function Websites({ navigation }) {
@@ -135,7 +136,7 @@ export default function Websites({ navigation }) {
         <View style={styles(colors).editIcons}>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => {setModalVisible(!modalVisible); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="plus" size={23} color={colors.Primary1} />
@@ -143,7 +144,7 @@ export default function Websites({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => reset()}
+            onPress={() => {reset(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="undo" size={23} color={colors.Primary1} />
@@ -160,7 +161,7 @@ export default function Websites({ navigation }) {
     if (editable) {
       return (
         <TouchableOpacity
-          onPress={() => removeWebsite(props.name)}
+          onPress={() => {removeWebsite(props.name); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
           hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           style={{ flex: 1, alignItems: "center", paddingRight: 5 }}
         >
@@ -241,7 +242,7 @@ export default function Websites({ navigation }) {
             </Text>
             <TouchableOpacity
               style={styles(colors).headerIcon}
-              onPress={() => setEditable(!editable)}
+              onPress={() => {setEditable(!editable); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
               hitSlop={{
                 top: 20,
                 bottom: 50,

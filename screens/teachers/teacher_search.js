@@ -10,6 +10,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
@@ -140,7 +141,7 @@ export default function TeacherSearch({ navigation }) {
             />
             <TouchableOpacity
               style={styles(colors).icon}
-              onPress={() => searchTeacher()}
+              onPress={() => {searchTeacher(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
             >
               <FontAwesome
                 name="search"

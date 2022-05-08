@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import * as Haptics from 'expo-haptics';
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
@@ -173,7 +174,7 @@ export default function Details({ route, navigation }) {
             borderWidth={1}
             hasPadding
             style={{ width: "90%", marginBottom: 10 }}
-            onPress={(value) => setIsEnabled(value)}
+            onPress={(value) => {setIsEnabled(value); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);}}
             animationDuration={300}
           />
         </View>
