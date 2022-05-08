@@ -12,7 +12,7 @@ export const lightColors = {
   Shadow: "#ddd",
   Red: "#FF3B30",
   Bone: "#dedede",
-  SwitchBg: "#f7f7f7"
+  SwitchBg: "#f5f5f5"
 };
 
 export const darkColors = {

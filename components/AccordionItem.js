@@ -425,14 +425,21 @@ export default function AccordionItem({
         <View style={styles(colors).expand}>
           <View
             style={{ flexDirection: "row", justifyContent: "flex-end" }}
-          ></View>
+          />
           <View style={styles(colors).expandHeader}>
             <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
               {section.title}
             </Text>
-            <View style={styles(colors).editWrapper}>
-              <View style={styles(colors).editOptions}>
-                {edited && !section.deletable && (
+          <View style={{flexDirection: "row", alignItems: "center"}}>
+            <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
+              {average === "N/A" ? average : `${average}%`}
+            </Text>
+          </View>
+          </View>
+          <View style={{alignSelf: "center"}}>
+            <View style={{flexDirection: "row"}}>
+              {edited && !section.deletable && (
+                <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
                     onPress={() => {
@@ -447,11 +454,13 @@ export default function AccordionItem({
                       name="undo"
                       size={11}
                       color={colors.Subtitle}
-                      style={{ marginLeft: 5 }}
+                      style={{ marginLeft: 3 }}
                     />
                   </TouchableOpacity>
-                )}
-                {editable && (
+                </View>
+              )}
+              {editable && (
+                <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
                     onPress={() => setModalVisible(!modalVisible)}
@@ -466,11 +475,8 @@ export default function AccordionItem({
                       style={{ marginLeft: 5 }}
                     />
                   </TouchableOpacity>
-                )}
-              </View>
-              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
-                {average === "N/A" ? average : `${average}%`}
-              </Text>
+                </View>
+              )}
             </View>
           </View>
           {section.f !== " " && (
@@ -718,7 +724,7 @@ const styles = (colors) =>
     edit: {
       width: 60,
       height: 20,
-      paddingLeft: 14,
+      paddingLeft: 6,
       marginLeft: 10,
       flexDirection: "row",
       alignItems: "center",
@@ -844,11 +850,12 @@ const styles = (colors) =>
       paddingVertical: 8,
       margin: 5,
     },
-    editOptions: {
-      marginRight: 13,
-    },
-    editWrapper: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
+    editBtn: {
+      padding: 2,
+      borderRadius: 50,
+      borderWidth: 2,
+      borderColor: colors.Border,
+      marginHorizontal: 5,
+      marginBottom: 6,
+    }
   });
