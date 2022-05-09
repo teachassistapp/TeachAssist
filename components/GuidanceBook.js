@@ -178,7 +178,6 @@ export default function GuidanceBook({ route }) {
               ...GENERAL_STYLES(colors).p,
               fontSize: 14,
               marginTop: 9,
-              marginBottom: 5,
               flexWrap: "wrap",
             }}
           >
@@ -199,17 +198,15 @@ export default function GuidanceBook({ route }) {
               minHeight: 120,
               paddingHorizontal: 20,
               paddingVertical: 18,
-              marginVertical: 10,
             }}
           >
             <Text
               style={{
-                ...GENERAL_STYLES(colors).p,
+                color: colors.Subtitle,
                 fontFamily: "Poppins_600SemiBold",
                 fontSize: 16,
                 textAlign: "center",
-                marginTop: 7,
-                marginBottom: 10,
+                marginVertical: 5,
                 alignSelf: "center",
                 flexWrap: "wrap",
               }}
@@ -285,15 +282,15 @@ const styles = (colors) =>
     hRule: {
       borderBottomColor: colors.GraphBackground,
       borderBottomWidth: 2,
-      marginVertical: 10,
+      marginVertical: 15,
       alignSelf: "center",
-      width: "95%",
-      maxWidth: 0.9 * vw,
+      width: 0.9 * vw,
     },
     button: {
       alignItems: "center",
       justifyContent: "center",
-      marginVertical: 20,
+      marginTop: 15,
+      marginBottom: 25,
       paddingTop: 12,
       paddingBottom: 10,
       paddingHorizontal: 20,

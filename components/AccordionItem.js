@@ -16,7 +16,7 @@ import {
   Ionicons,
   FontAwesome,
 } from "@expo/vector-icons";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import ProgressBar from "./ProgressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
@@ -424,21 +424,19 @@ export default function AccordionItem({
       )}
       <TouchableOpacity onPress={() => setExpanded(!expanded)}>
         <View style={styles(colors).expand}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "flex-end" }}
-          />
+          <View style={{ flexDirection: "row", justifyContent: "flex-end" }} />
           <View style={styles(colors).expandHeader}>
             <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
               {section.title}
             </Text>
-          <View style={{flexDirection: "row", alignItems: "center"}}>
-            <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
-              {average === "N/A" ? average : `${average}%`}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
+                {average === "N/A" ? average : `${average}%`}
+              </Text>
+            </View>
           </View>
-          </View>
-          <View style={{alignSelf: "center"}}>
-            <View style={{flexDirection: "row"}}>
+          <View style={{ alignSelf: "center" }}>
+            <View style={{ flexDirection: "row" }}>
               {edited && !section.deletable && (
                 <View style={styles(colors).editBtn}>
                   <TouchableOpacity
@@ -449,14 +447,20 @@ export default function AccordionItem({
                       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     }}
                   >
-                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                    <Text
+                      style={{
+                        ...GENERAL_STYLES(colors).p,
+                        fontSize: 12,
+                        marginTop: 2,
+                      }}
+                    >
                       Undo
                     </Text>
                     <FontAwesome
                       name="undo"
-                      size={11}
+                      size={12}
                       color={colors.Subtitle}
-                      style={{ marginLeft: 3 }}
+                      style={{ marginLeft: 4 }}
                     />
                   </TouchableOpacity>
                 </View>
@@ -465,10 +469,18 @@ export default function AccordionItem({
                 <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
-                    onPress={() => {setModalVisible(!modalVisible); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
-                    
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    }}
                   >
-                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                    <Text
+                      style={{
+                        ...GENERAL_STYLES(colors).p,
+                        fontSize: 12,
+                        marginTop: 2,
+                      }}
+                    >
                       Edit
                     </Text>
                     <MaterialCommunityIcons
@@ -725,10 +737,7 @@ const styles = (colors) =>
       alignSelf: "center",
     },
     edit: {
-      width: 60,
-      height: 20,
-      paddingLeft: 6,
-      marginLeft: 10,
+      paddingHorizontal: 14,
       flexDirection: "row",
       alignItems: "center",
     },
@@ -860,5 +869,5 @@ const styles = (colors) =>
       borderColor: colors.Border,
       marginHorizontal: 5,
       marginBottom: 6,
-    }
+    },
   });
