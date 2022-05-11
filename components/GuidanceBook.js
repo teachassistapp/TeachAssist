@@ -10,7 +10,6 @@ import {
   Alert,
 } from "react-native";
 import { useTheme } from "../globals/theme";
-import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";

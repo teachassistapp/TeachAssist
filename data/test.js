@@ -422,7 +422,7 @@ export const test_course_data = [
     block: "3",
     id: 453558,
     room: "105",
-    overall_mark: 97.85714285714285,
+    overall_mark: 100,
     cached: true,
   },
   {

@@ -19,7 +19,7 @@ import {
   Platform,
   useColorScheme,
 } from "react-native";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
@@ -77,7 +77,6 @@ export default function Login({ navigation }) {
       navigation.navigate("Home");
       return;
     }
-
     setSearching(true);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -95,15 +94,14 @@ export default function Login({ navigation }) {
     fetch("https://api.pegasis.site/public/yrdsb_ta/getmark_v2", requestOptions)
       .then((response) => {
         if (response.status === 200) {
-          setSearching(false);
           storeAuthData(number, password);
           response.json().then(() => {
             navigation.navigate("Home");
           });
         } else {
-          setSearching(false);
           Alert.alert("Invalid Login.", "Please try again.");
         }
+        setSearching(false);
       })
       .catch(() => {
         Alert.alert(

@@ -151,7 +151,9 @@ export function DisplayProgress({ value, subtitle }) {
             >
               {value === "N/A"
                 ? "N/A"
-                : String(Math.round(value * 10) / 10) + "%"}
+                : value === 100
+                ? "100%"
+                : value.toFixed(1) + "%"}
             </Text>
             {subtitle && (
               <Text style={styles(colors).progressLabel}>{subtitle}</Text>

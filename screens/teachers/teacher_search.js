@@ -32,10 +32,8 @@ const filterTeachers = (teachers) => {
 
 export default function TeacherSearch({ navigation }) {
   const { colors } = useTheme();
-  // state for teacher serach val
   const [teacherName, setTeacherName] = useState("");
-  const [storedTeachers, setStoredTeachers] = useState([]); //starred teachers
-  // loading val
+  const [storedTeachers, setStoredTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [valid, setValid] = useState(null);
@@ -96,6 +94,7 @@ export default function TeacherSearch({ navigation }) {
       setError(true);
       return;
     }
+    if (loading) return;
     setError(false);
     setResults(null);
     setLoading(true);
@@ -113,7 +112,7 @@ export default function TeacherSearch({ navigation }) {
         navigateScreens(result);
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         handleFetchError();
         setLoading(false);
       });
@@ -141,7 +140,10 @@ export default function TeacherSearch({ navigation }) {
             />
             <TouchableOpacity
               style={styles(colors).icon}
-              onPress={() => {searchTeacher(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+              onPress={() => {
+                searchTeacher();
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }}
             >
               <FontAwesome
                 name="search"

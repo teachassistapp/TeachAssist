@@ -3,16 +3,9 @@ import { View, Text } from "react-native";
 
 export function verifyNumber(values) {
   const regex = /^[0-9]*\.?[0-9]*$/;
-  for (let i = 0; i < values.length; i++) {
-    if (
-      (!regex.test(values[i]) && values[i] !== " ") ||
-      values[i] > 100 ||
-      values[i] < 0
-    ) {
-      return false;
-    }
-  }
-  return true;
+  return values.every(
+    (v) => v === " " || (regex.test(v) && values[i] > 100 && values[i] < 0)
+  );
 }
 
 export default function SubmitCheck({ check, colors }) {
@@ -32,7 +25,7 @@ export default function SubmitCheck({ check, colors }) {
       </Text>
     );
   }
-  return <View></View>;
+  return <View />;
 }
 
 export function verifyTitle(title, assignments) {

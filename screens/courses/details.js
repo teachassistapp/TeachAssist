@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import * as Haptics from 'expo-haptics';
+import { SafeAreaView, ScrollView, View } from "react-native";
+import * as Haptics from "expo-haptics";
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
@@ -122,7 +115,7 @@ function DisplayScreen(
       return null;
   }
 }
-export default function Details({ route, navigation }) {
+export default function Details({ route }) {
   const { colors } = useTheme();
   let {
     code,
@@ -174,7 +167,10 @@ export default function Details({ route, navigation }) {
             borderWidth={1}
             hasPadding
             style={{ width: "90%", marginBottom: 10 }}
-            onPress={(value) => {setIsEnabled(value); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);}}
+            onPress={(value) => {
+              setIsEnabled(value);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            }}
             animationDuration={300}
           />
         </View>

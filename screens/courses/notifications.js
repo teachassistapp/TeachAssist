@@ -58,11 +58,11 @@ export default function Notifications({ route }) {
     try {
       let datum = await AsyncStorage.getItem("data");
       datum = JSON.parse(datum);
-      if (datum.length !== 0) {
+      const retrieved = datum.length !== 0;
+      setLoading(!retrieved);
+      if (retrieved) {
         setOldData(datum);
-        setLoading(false);
       } else {
-        setLoading(true);
         getMarks();
       }
     } catch {
@@ -96,15 +96,14 @@ export default function Notifications({ route }) {
           if (status === 200) {
             response.json().then((datum) => {
               setNewData(datum);
-              setLoading(false);
               storeData(datum);
               retrieveData();
               setRefreshing(false);
             });
           } else {
-            setLoading(false);
             Alert.alert("Failed to fetch data.", "Please try again later.");
           }
+          setLoading(false);
         })
         .catch(() =>
           Alert.alert("Failed to fetch data.", "Please try again later.")

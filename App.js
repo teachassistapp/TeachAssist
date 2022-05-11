@@ -38,11 +38,7 @@ export default function App() {
     try {
       const number = await AsyncStorage.getItem("number");
       const pass = await AsyncStorage.getItem("password");
-      if (number !== null && pass !== null) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
+      setLoggedIn(number !== null && pass !== null);
     } catch {}
   };
 

@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import ProgressBar from "../components/ProgressBar";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../globals/theme";
@@ -298,7 +298,7 @@ export default function search() {
           setAssignments(datum);
         }
       }
-    } catch (e) {
+    } catch {
       Alert.alert("Failed to load data.");
     }
   };

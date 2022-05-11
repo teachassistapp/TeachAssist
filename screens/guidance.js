@@ -5,7 +5,6 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   ActivityIndicator,
   ScrollView,
   TouchableOpacity,
@@ -75,6 +74,7 @@ function GuidanceSearch() {
   };
 
   const getAppointment = async () => {
+    if (loading) return;
     setLoading(true);
     setNoApps(false);
     var requestOptions = {
@@ -111,7 +111,7 @@ function GuidanceSearch() {
           setShowResults(true);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         handleFetchError();
         setLoading(false);
       });
@@ -175,7 +175,10 @@ function GuidanceSearch() {
         </Text>
         <TouchableOpacity
           style={[styles(colors).button, { backgroundColor: colors.Primary1 }]}
-          onPress={() => {getAppointment(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+          onPress={() => {
+            getAppointment();
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
         >
           <Text
             style={[styles(colors).buttonText, { color: colors.Background }]}

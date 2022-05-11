@@ -20,7 +20,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
 import { DisplayProgress } from "../../components/charts";
@@ -114,7 +114,11 @@ function DisplayCourse({
       >
         {() => (
           <Text style={styles(colors).marks} key={index + "CircleProgressText"}>
-            {overall_mark === "N/A" ? "N/A" : overall_mark.toString() + "%"}
+            {overall_mark === "N/A"
+              ? "N/A"
+              : overall_mark === 100
+              ? "100%"
+              : overall_mark.toFixed(1) + "%"}
           </Text>
         )}
       </AnimatedCircularProgress>
@@ -176,6 +180,7 @@ export default function Home() {
   const [stored, setStored] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+
   const [notifs, setNotifs] = useState({
     isNotifs: false,
     current: [],
@@ -208,7 +213,7 @@ export default function Home() {
   const initScheme = async () => {
     try {
       const storedScheme = await AsyncStorage.getItem("scheme");
-      if (storedScheme === null) {
+      if (!storedScheme) {
         if (scheme === "dark") {
           setScheme("dark");
         } else {
@@ -217,9 +222,7 @@ export default function Home() {
       } else {
         setScheme(storedScheme);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch {}
   };
 
   const storeData = async (datum) => {
@@ -261,6 +264,7 @@ export default function Home() {
   };
 
   const getMarks = (stored, number, password) => {
+    if (loading) return;
     setLoading(true);
     if (number !== null && password !== null) {
       var myHeaders = new Headers();
@@ -297,7 +301,7 @@ export default function Home() {
             handleFetchError();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           handleFetchError();
         });
       setLoading(false);
@@ -318,13 +322,6 @@ export default function Home() {
     }
   });
 
-  const handleToggle = (x) => {
-    if (x) {
-      setIsEnabled(false);
-    } else {
-      setIsEnabled(true);
-    }
-  };
   useEffect(() => {
     initScheme();
     retrieveData();
@@ -473,8 +470,8 @@ export default function Home() {
             hasPadding
             style={{ width: "65%", marginTop: 1, marginBottom: 17 }}
             animationDuration={300}
-            onPress={(event) => {
-              handleToggle(event);
+            onPress={(e) => {
+              setIsEnabled(!!e);
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             }}
           />

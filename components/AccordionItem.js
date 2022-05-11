@@ -68,12 +68,9 @@ export default function AccordionItem({
             <AntDesign name="close" size={24} color={colors.Header} />
           </TouchableOpacity>
         );
-      } else {
-        return null;
       }
-    } catch {
-      return null;
-    }
+    } catch {}
+    return null;
   }
 
   const [k, setK] = useState(String(Math.round(section.k * 10) / 10));
@@ -370,7 +367,8 @@ export default function AccordionItem({
                       onPress={() => {
                         var cats = [k, kw, t, tw, c, cw, a, aw, f, fw, o, ow];
                         cats = cats.map((i) => i.trim());
-                        if (verifyNumber(cats)) {
+                        const valid = verifyNumber(cats);
+                        if (valid) {
                           const keys = ["k", "t", "c", "a", "f", "o"];
                           const data = {
                             deletable: section.deletable,
@@ -399,12 +397,10 @@ export default function AccordionItem({
                             data[c + "Mark"] = values[2];
                           });
                           updateAssignments(data);
-                          setIsValid(true);
                           setModalVisible(false);
                           setEdited(true);
-                        } else {
-                          setIsValid(false);
                         }
+                        setIsValid(valid);
                       }}
                     >
                       <Ionicons

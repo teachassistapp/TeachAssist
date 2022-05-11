@@ -94,19 +94,20 @@ export default function Websites({ navigation }) {
       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     );
     let tempWebsites = [...websites];
+    var error = "";
     if (tempWebsites.includes([customTitle, customWebsite])) {
-      setShowError("Website is already saved.");
+      error = "Website is already saved.";
     } else if (!customWebsite.match(regex)) {
-      setShowError("Link must be a valid URL\n(e.g. https://www.example.com)");
+      error = "Link must be a valid URL\n(e.g. https://www.example.com)";
     } else if (customTitle.length > 25) {
-      setShowError("Name must be less than 25 characters.");
+      error = "Name must be less than 25 characters.";
     } else {
       tempWebsites.unshift([customTitle, customWebsite]);
       setWebsites(tempWebsites);
-      setShowError("");
       setModalVisible(false);
       storeData(tempWebsites);
     }
+    setShowError(error);
   }
 
   function removeWebsite(name) {
@@ -136,7 +137,10 @@ export default function Websites({ navigation }) {
         <View style={styles(colors).editIcons}>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => {setModalVisible(!modalVisible); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="plus" size={23} color={colors.Primary1} />
@@ -144,7 +148,10 @@ export default function Websites({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => {reset(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+            onPress={() => {
+              reset();
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="undo" size={23} color={colors.Primary1} />
@@ -161,7 +168,10 @@ export default function Websites({ navigation }) {
     if (editable) {
       return (
         <TouchableOpacity
-          onPress={() => {removeWebsite(props.name); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+          onPress={() => {
+            removeWebsite(props.name);
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
           hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           style={{ flex: 1, alignItems: "center", paddingRight: 5 }}
         >
@@ -242,7 +252,10 @@ export default function Websites({ navigation }) {
             </Text>
             <TouchableOpacity
               style={styles(colors).headerIcon}
-              onPress={() => {setEditable(!editable); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}}
+              onPress={() => {
+                setEditable(!editable);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }}
               hitSlop={{
                 top: 20,
                 bottom: 50,

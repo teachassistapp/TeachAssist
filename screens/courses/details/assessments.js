@@ -170,7 +170,8 @@ export default function AssessmentsScreen({
                     onPress={() => {
                       var cats = [k, kw, t, tw, c, cw, a, aw, f, fw, o, ow];
                       cats = cats.map((i) => i.trim());
-                      if (verifyNumber(cats)) {
+                      const valid = verifyNumber(cats);
+                      if (valid) {
                         let temp = [...assessments];
                         const keys = ["k", "t", "c", "a", "f", "o"];
                         const data = {
@@ -203,10 +204,8 @@ export default function AssessmentsScreen({
                         temp.push(data);
                         setAssessments([...temp]);
                         updateAssessments(assessmentsState + 1);
-                        setIsValid(true);
-                      } else {
-                        setIsValid(false);
                       }
+                      setIsValid(valid);
                     }}
                   >
                     <Ionicons
