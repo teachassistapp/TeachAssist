@@ -427,7 +427,7 @@ const styles = (colors) =>
     input: {
       alignSelf: "center",
       backgroundColor: colors.Container,
-      borderColor: colors.Border,
+      borderColor: colors.Placeholder,
       borderRadius: 15,
       borderWidth: 1,
       width: 0.8 * vw,

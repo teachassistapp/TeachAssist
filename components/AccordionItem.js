@@ -268,7 +268,7 @@ export default function AccordionItem({
                 progress={section.f}
                 height={8}
                 trackColor={colors.GraphBackground}
-                backgroundColor={colors.Primary1}
+                backgroundColor={colors.Final}
               />
             </View>
             <Text style={styles(colors).barLabelsText}>F</Text>
@@ -299,7 +299,7 @@ export default function AccordionItem({
                 progress={section.o}
                 height={8}
                 trackColor={colors.GraphBackground}
-                backgroundColor={colors.Primary1}
+                backgroundColor={colors.Other}
               />
             </View>
             <Text style={styles(colors).barLabelsText}>O</Text>
@@ -499,7 +499,7 @@ export default function AccordionItem({
                     progress={section.f}
                     height={8}
                     trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
+                    backgroundColor={colors.Final}
                   />
                 </View>
                 <Text style={styles(colors).barLabelsText} numberOfLines={1}>
@@ -655,7 +655,7 @@ export default function AccordionItem({
                     progress={section.o}
                     height={8}
                     trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
+                    backgroundColor={colors.Other}
                   />
                 </View>
                 <Text style={styles(colors).barLabelsText} numberOfLines={1}>
