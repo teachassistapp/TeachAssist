@@ -302,7 +302,7 @@ export default function Websites({ navigation }) {
                       margin: 5,
                       paddingHorizontal: 25,
                       paddingVertical: 15,
-                      minHeight: 125,
+                      minHeight: 110,
                     }}
                   >
                     <TouchableOpacity
@@ -423,6 +423,7 @@ const styles = (colors) =>
     form: {
       justifyContent: "flex-start",
       paddingBottom: 10,
+      marginTop: 10,
     },
     input: {
       alignSelf: "center",
@@ -443,9 +444,9 @@ const styles = (colors) =>
     button: {
       alignItems: "center",
       justifyContent: "center",
-      marginVertical: 20,
-      paddingTop: 12,
-      paddingBottom: 10,
+      marginTop: 10,
+      paddingTop: 11,
+      paddingBottom: 9,
       paddingHorizontal: 20,
       backgroundColor: colors.Primary1,
       borderRadius: 20,
@@ -455,7 +456,6 @@ const styles = (colors) =>
       shadowOpacity: 0.15,
       shadowRadius: 10,
       elevation: 6,
-      width: 0.3 * vw,
     },
     buttonText: {
       fontFamily: "Poppins_600SemiBold",

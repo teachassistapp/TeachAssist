@@ -71,6 +71,7 @@ export default function Login({ navigation }) {
   }, []);
 
   const handleSubmit = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     if (searching) return;
     if (number == TEST_USER && password == TEST_PASS) {
       storeAuthData(TEST_USER, TEST_PASS);
