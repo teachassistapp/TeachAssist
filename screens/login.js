@@ -75,7 +75,7 @@ export default function Login({ navigation }) {
     if (searching) return;
     if (number === TEST_USER && password === TEST_PASS) {
       storeAuthData(TEST_USER, TEST_PASS);
-      navigation.navigate("Home", { screen: "home", params: { route: "1" } });
+      navigation.navigate("Home", { screen: "home" });
       return;
     }
     setSearching(true);

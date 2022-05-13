@@ -23,6 +23,7 @@ import { handleFetchError } from "../globals/alert";
 import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { encryptRSA } from "../components/RSA";
+import SkeletonGuidanceLoading from "../components/skeletonGuidanceLoading";
 
 const Stack = createNativeStackNavigator();
 
@@ -187,11 +188,12 @@ function GuidanceSearch() {
           </Text>
         </TouchableOpacity>
         {loading && (
-          <ActivityIndicator
-            size="large"
-            color={colors.Primary1}
-            style={{ marginVertical: 30 }}
-          />
+          // <ActivityIndicator
+          //   size="large"
+          //   color={colors.Primary1}
+          //   style={{ marginVertical: 30 }}
+          // />
+          <SkeletonGuidanceLoading />
         )}
         {noApps && (
           <View style={styles(colors).errorContainer}>
