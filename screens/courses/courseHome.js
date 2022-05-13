@@ -172,9 +172,8 @@ function DisplayCourse({
   );
 }
 
-export default function Home() {
+export default function Home({ navigation }) {
   const { isDark, colors, setScheme } = useTheme();
-  const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
   const [stored, setStored] = useState([]);
@@ -238,7 +237,7 @@ export default function Home() {
     try {
       const number = await AsyncStorage.getItem("number");
       const password = await AsyncStorage.getItem("password");
-      if (number == TEST_USER && password == TEST_PASS) {
+      if (number === TEST_USER && password === TEST_PASS) {
         setStored(test_course_data);
         setData(test_course_data);
       } else {
@@ -264,7 +263,7 @@ export default function Home() {
   };
 
   const getMarks = (stored, number, password) => {
-    if (loading) return;
+    if (loading || refreshing) return;
     setLoading(true);
     if (number !== null && password !== null) {
       var myHeaders = new Headers();
@@ -300,12 +299,14 @@ export default function Home() {
           } else {
             handleFetchError();
           }
+          setLoading(false);
+          setRefreshing(false);
         })
         .catch(() => {
+          setLoading(false);
+          setRefreshing(false);
           handleFetchError();
         });
-      setLoading(false);
-      setRefreshing(false);
     }
   };
 
@@ -313,9 +314,12 @@ export default function Home() {
     try {
       const number = await AsyncStorage.getItem("number");
       const password = await AsyncStorage.getItem("password");
-      if (number != TEST_USER && password != TEST_PASS) {
+      if (number !== TEST_USER && password !== TEST_PASS) {
         setRefreshing(true);
         getMarks(stored, number, password);
+      } else {
+        setStored(test_course_data);
+        setData(test_course_data);
       }
     } catch {
       Alert.alert("Failed to refresh.", "Please try again later.");
@@ -323,9 +327,12 @@ export default function Home() {
   });
 
   useEffect(() => {
-    initScheme();
-    retrieveData();
-  }, []);
+    const reLogIn = navigation.addListener("focus", () => {
+      initScheme();
+      retrieveData();
+    });
+    return reLogIn;
+  }, [navigation]);
 
   let displayAverage = []; //format average course data
   let displayBreakdown = []; //format breakdown of course data
@@ -471,14 +478,14 @@ export default function Home() {
             style={{ width: "65%", marginTop: 1, marginBottom: 17 }}
             animationDuration={300}
             onPress={(e) => {
-              setIsEnabled(!!e);
+              setIsEnabled(!e);
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             }}
           />
-          {loading && (
+          {loading && !data && (
             <ActivityIndicator
               size="large"
-              style={{ marginTop: 40 }}
+              style={{ marginTop: 20, marginBottom: 30 }}
               color={colors.Primary1}
             />
           )}

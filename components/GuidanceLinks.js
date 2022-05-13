@@ -10,7 +10,7 @@ export default function GuidanceLinks({ link, time, date }) {
     navigation.navigate("Book", {
       link: link,
       time: time,
-      date: date,
+      date: date.toISOString(),
     });
   };
   return (

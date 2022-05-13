@@ -73,9 +73,9 @@ export default function Login({ navigation }) {
   const handleSubmit = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     if (searching) return;
-    if (number == TEST_USER && password == TEST_PASS) {
+    if (number === TEST_USER && password === TEST_PASS) {
       storeAuthData(TEST_USER, TEST_PASS);
-      navigation.navigate("Home");
+      navigation.navigate("Home", { screen: "home", params: { route: "1" } });
       return;
     }
     setSearching(true);
@@ -97,7 +97,7 @@ export default function Login({ navigation }) {
         if (response.status === 200) {
           storeAuthData(number, password);
           response.json().then(() => {
-            navigation.navigate("Home");
+            navigation.navigate("Home", { screen: "home" });
           });
         } else {
           Alert.alert("Invalid Login.", "Please try again.");

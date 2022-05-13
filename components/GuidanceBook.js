@@ -65,6 +65,7 @@ export default function GuidanceBook({ route }) {
   const { colors } = useTheme();
   const navigation = useNavigation();
   let { link, time, date } = route.params;
+  date = new Date(date);
   const [reason, setReason] = useState(null);
   const [checkBox, setCheckBox] = useState([false, false]);
 
@@ -137,7 +138,7 @@ export default function GuidanceBook({ route }) {
           storeAppointment(appointment);
           navigation.goBack();
         })
-        .catch((error) => {
+        .catch(() => {
           Alert.alert(
             "Failed to book appointment.",
             "Please try again later, or visit the official TeachAssist site to book an appointment."

@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 export function verifyNumber(values) {
   const regex = /^[0-9]*\.?[0-9]*$/;
   return values.every(
-    (v) => v === " " || (regex.test(v) && values[i] > 100 && values[i] < 0)
+    (v, i) => v === " " || (regex.test(v) && values[i] <= 100 && values[i] >= 0)
   );
 }
 

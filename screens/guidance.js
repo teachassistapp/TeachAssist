@@ -210,8 +210,15 @@ function GuidanceSearch() {
                 { fontSize: 12, marginBottom: 0 },
               ]}
             >
-              <Text style={{fontFamily: "Poppins_600SemiBold", color:colors.Primary1}}>Tap on a guidance consellor</Text> to reveal their available
-              appointments.
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  color: colors.Primary1,
+                }}
+              >
+                Tap on a guidance consellor
+              </Text>{" "}
+              to reveal their available appointments.
             </Text>
             <Text
               style={[
@@ -220,14 +227,21 @@ function GuidanceSearch() {
                 { fontSize: 12 },
               ]}
             >
-              <Text style={{fontFamily: "Poppins_600SemiBold", color:colors.Primary1}}>Tap on a time</Text> to book an appointment with them.
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  color: colors.Primary1,
+                }}
+              >
+                Tap on a time
+              </Text>{" "}
+              to book an appointment with them.
             </Text>
             {data.map((item, index) => {
               return <GuidanceTime data={item} date={date} key={index} />;
             })}
           </View>
         )}
-
         {bookedAppointments.length > 0 && (
           <View>
             <View style={styles(colors).hRule} />

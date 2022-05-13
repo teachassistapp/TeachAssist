@@ -37,7 +37,6 @@ export default function Home() {
         },
         tabBarShowLabel: false,
       }}
-      initialRouteName="home"
     >
       <Tab.Screen
         name="home"
