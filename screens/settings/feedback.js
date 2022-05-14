@@ -14,6 +14,7 @@ import {
 import { useTheme } from "../../globals/theme";
 import { sendEmail } from "../../components/SendEmail";
 import * as Linking from "expo-linking";
+import * as Haptics from "expo-haptics";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/BackHeader";
 
@@ -47,6 +48,7 @@ export default function Feedback() {
             style={styles(colors).submit}
             onPress={() => {
               text ? handleEmail(text) : setError(true);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             }}
           >
             <FontAwesome name="send" size={16} color={colors.Primary1} />
