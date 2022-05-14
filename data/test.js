@@ -428,15 +428,139 @@ export const test_course_data = [
   {
     start_time: "2022-02-07",
     code: "ENG3U7",
-    assignments: [],
-    weight_table: null,
+    assignments: [
+      {
+        feedback: null,
+        T: [
+          {
+            total: 30,
+            get: 29,
+            weight: 3,
+            finished: true,
+          },
+        ],
+        name: "Grammar Test",
+        A: [
+          {
+            total: 12,
+            get: 12,
+            weight: 3,
+            finished: true,
+          },
+        ],
+      },
+      {
+        feedback: null,
+        T: [
+          {
+            total: 10,
+            get: 9.3,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        name: "Essay 1",
+        A: [
+          {
+            total: 15,
+            get: 14,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        C: [
+          {
+            total: 10,
+            get: 9.3,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        KU: [
+          {
+            total: 10,
+            get: 9.3,
+            weight: 3,
+            finished: true,
+          },
+        ],
+      },
+      {
+        feedback: null,
+        T: [
+          {
+            total: 10,
+            get: 9.2,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        name: "Essay 2",
+        A: [
+          {
+            total: 10,
+            get: 9,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        C: [
+          {
+            total: 10,
+            get: 9,
+            weight: 4,
+            finished: true,
+          },
+        ],
+        KU: [
+          {
+            total: 10,
+            get: 9.1,
+            weight: 3,
+            finished: true,
+          },
+        ],
+      },
+    ],
+    weight_table: {
+      C: {
+        CW: 12.5,
+        W: 25,
+        SA: 91.7,
+      },
+      KU: {
+        CW: 12.5,
+        W: 25,
+        SA: 92,
+      },
+      A: {
+        CW: 12.5,
+        W: 25,
+        SA: 93.9,
+      },
+      O: {
+        CW: 20.1,
+        W: 20.1,
+        SA: 0,
+      },
+      F: {
+        CW: 30,
+        W: 0,
+        SA: 0,
+      },
+      T: {
+        CW: 12.5,
+        W: 25,
+        SA: 93.6,
+      },
+    },
     end_time: "2022-06-30",
     name: "English",
     block: "4",
     id: null,
     room: "332",
-    overall_mark: null,
-    cached: true,
+    overall_mark: 97,
+    cached: false,
   },
   {
     start_time: "2021-08-30",

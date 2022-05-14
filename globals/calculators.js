@@ -30,7 +30,7 @@ export function calculateAverage(marks, markWeights, weight) {
     ];
     let total = 0;
     for (let i = 0; i < 6; i++) {
-      if (markWeights[i]) {
+      if (!!markWeights[i]) {
         total += weights[i] * markWeights[i];
       } else {
         continue;
@@ -44,9 +44,7 @@ export function calculateAverage(marks, markWeights, weight) {
     marksSum /= total;
     const avg = Math.round(marksSum * 10) / 10;
     return isNaN(avg) ? 0 : avg;
-  } catch (e) {
-    console.log("error:", e);
-  }
+  } catch {}
 }
 
 export function calculateCourseAverage(assignments) {

@@ -40,7 +40,12 @@ export default function AssessmentsScreen({
 
   useEffect(() => {
     if (content.length !== 0) {
-      setTempMark(calculateCourseAverage(assessments));
+      const mark = calculateCourseAverage(assessments);
+      if (JSON.stringify(originalAssessments) !== JSON.stringify(assessments)) {
+        setTempMark(mark);
+      } else {
+        setTempMark(overall_mark);
+      }
     }
   }, [assessments, assessmentsState]);
   const [k, setK] = useState("100");
