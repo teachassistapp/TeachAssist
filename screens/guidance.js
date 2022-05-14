@@ -187,14 +187,7 @@ function GuidanceSearch() {
             Find Appointments
           </Text>
         </TouchableOpacity>
-        {loading && (
-          // <ActivityIndicator
-          //   size="large"
-          //   color={colors.Primary1}
-          //   style={{ marginVertical: 30 }}
-          // />
-          <SkeletonGuidanceLoading />
-        )}
+        {loading && <SkeletonGuidanceLoading />}
         {noApps && (
           <View style={styles(colors).errorContainer}>
             <Text style={styles(colors).errorMessage}>

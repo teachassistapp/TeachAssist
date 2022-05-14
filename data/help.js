@@ -27,7 +27,7 @@ export const courseHelp = [
   {
     header: "What is a cached course?",
     description:
-      "If a course is displayed with an exclamation icon, it means your teacher has cached the course, basically hiding the marks on TeachAssist.\n\nThis may be because they are adding new assignments, or they may purposely not want you to have access to your marks.\nThe marks are hidden on the TeachAssist website, but you can still view any marks saved to your device here in the app.\n\nIf you have questions about your marks, consult your teacher.",
+      "If a course is displayed with an exclamation icon, it means your teacher has cached the course, basically hiding the marks on TeachAssist.\n\nThis may be because they are adding new assignments, or they may purposely not want you to have access to your marks.\nThe marks are hidden on the TeachAssist website, but you can still view any marks saved to your device here in the app.\n\nIf you have questions about your marks, consult your teacher.\n\nNote: in a cached course where the weightings are not available yet, calculations may be inaccurate. Thus, the overall course average from any custom added assignments will not be available for this case.",
   },
   {
     header: "Logging out",

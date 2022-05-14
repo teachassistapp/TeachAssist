@@ -8,7 +8,7 @@ const vw = Dimensions.get("window").width;
 export default function SkeletonLoading() {
   const { colors } = useTheme();
   return (
-    <>
+    <View style={{ paddingBottom: 15 }}>
       <SkeletonAnimation>
         <View style={{ alignSelf: "center", alignItems: "center" }}>
           <View
@@ -31,48 +31,23 @@ export default function SkeletonLoading() {
               backgroundColor: colors.Bone,
             }}
           />
-          <View
-            style={{
-              marginTop: 20,
-              marginBottom: 10,
-              width: 0.9 * vw,
-              height: 95,
-              borderRadius: 20,
-              backgroundColor: colors.Bone,
-            }}
-          />
-          <View
-            style={{
-              marginTop: 10,
-              marginBottom: 10,
-              width: 0.9 * vw,
-              height: 95,
-              borderRadius: 20,
-              backgroundColor: colors.Bone,
-            }}
-          />
-          <View
-            style={{
-              marginTop: 10,
-              marginBottom: 10,
-              width: 0.9 * vw,
-              height: 95,
-              borderRadius: 20,
-              backgroundColor: colors.Bone,
-            }}
-          />
-          <View
-            style={{
-              marginTop: 10,
-              marginBottom: 10,
-              width: 0.9 * vw,
-              height: 95,
-              borderRadius: 20,
-              backgroundColor: colors.Bone,
-            }}
-          />
+          {[20, 10, 10, 10].map((m, i) => {
+            return (
+              <View
+                style={{
+                  marginTop: m,
+                  marginBottom: 10,
+                  width: 0.9 * vw,
+                  height: 95,
+                  borderRadius: 20,
+                  backgroundColor: colors.Bone,
+                }}
+                key={String(i)}
+              />
+            );
+          })}
         </View>
       </SkeletonAnimation>
-    </>
+    </View>
   );
 }
