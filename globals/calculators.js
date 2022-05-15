@@ -66,14 +66,14 @@ export function calculateCourseAverage(assignments) {
 
   const w = assignments[0].weight_table;
 
-  const sum = Math.round(w.KU.W + w.T.W + w.C.W + w.A.W);
+  const sum = Math.round(w.KU.W + w.T.W + w.C.W + w.A.W + w.F.W + w.O.W);
 
   k /= (kw / Math.round(w.KU.CW * sum * 10)) * 10;
   t /= (tw / Math.round(w.T.CW * sum * 10)) * 10;
   c /= (cw / Math.round(w.C.CW * sum * 10)) * 10;
   a /= (aw / Math.round(w.A.CW * sum * 10)) * 10;
-  f /= fw / 100 / w.F.CW;
-  o /= ow / 100 / w.O.CW;
+  f /= (fw / Math.round(w.F.CW * sum * 10)) * 10;
+  o /= (ow / Math.round(w.O.CW * sum * 10)) * 10;
 
   let weights = 0;
   if (k != 0 && !isNaN(k)) {

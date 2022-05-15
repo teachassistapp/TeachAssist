@@ -540,7 +540,7 @@ export const test_course_data = [
       },
       O: {
         CW: 20.1,
-        W: 20.1,
+        W: 0,
         SA: 0,
       },
       F: {
@@ -559,7 +559,7 @@ export const test_course_data = [
     block: "4",
     id: null,
     room: "332",
-    overall_mark: 97,
+    overall_mark: 92.8,
     cached: false,
   },
   {

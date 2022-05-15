@@ -154,10 +154,10 @@ export default function Details({ route }) {
           <SwitchSelector
             options={options}
             initial={0}
-            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
+            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
             selectedTextStyle={{
               fontFamily: "Poppins_600SemiBold",
-              fontSize: 12,
+              fontSize: 11.5,
             }}
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
