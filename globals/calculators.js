@@ -1,11 +1,18 @@
 export function calculateAverage(marks, markWeights, weight) {
-  if (
-    (!marks.some((a) => a !== " ") && !markWeights.some((a) => a !== 0)) ||
-    weight === null
-  ) {
+  if (!marks.some((a) => a !== " ") && !markWeights.some((a) => a !== 0)) {
     return "N/A";
   } //teacher hasn't inputted marks yet
   //recalculate marks based on course weighting
+  if (String(weight) === "null") {
+    weight = {
+      O: { CW: 0, W: 0 },
+      F: { CW: 30, W: 0 },
+      T: { CW: 25, W: 17.5 },
+      KU: { CW: 25, W: 17.5 },
+      A: { CW: 25, W: 17.5 },
+      C: { CW: 25, W: 17.5 },
+    };
+  }
   const cats = ["KU", "T", "C", "A", "F", "O"];
   try {
     for (let i = 0; i < 6; i++) {
@@ -23,7 +30,7 @@ export function calculateAverage(marks, markWeights, weight) {
     ];
     let total = 0;
     for (let i = 0; i < 6; i++) {
-      if (markWeights[i]) {
+      if (!!markWeights[i]) {
         total += weights[i] * markWeights[i];
       } else {
         continue;
@@ -37,9 +44,7 @@ export function calculateAverage(marks, markWeights, weight) {
     marksSum /= total;
     const avg = Math.round(marksSum * 10) / 10;
     return isNaN(avg) ? 0 : avg;
-  } catch (e) {
-    console.log("error:", e);
-  }
+  } catch {}
 }
 
 export function calculateCourseAverage(assignments) {
@@ -61,34 +66,35 @@ export function calculateCourseAverage(assignments) {
 
   const w = assignments[0].weight_table;
 
-  k /= kw / 100 / w.KU.W;
-  t /= tw / 100 / w.T.W;
-  c /= cw / 100 / w.C.W;
-  a /= aw / 100 / w.A.W;
-  f /= fw / 100 / w.F.W;
-  o /= ow / 100 / w.O.W;
+  const sum = Math.round(w.KU.W + w.T.W + w.C.W + w.A.W + w.F.W + w.O.W);
+
+  k /= (kw / Math.round(w.KU.CW * sum * 10)) * 10;
+  t /= (tw / Math.round(w.T.CW * sum * 10)) * 10;
+  c /= (cw / Math.round(w.C.CW * sum * 10)) * 10;
+  a /= (aw / Math.round(w.A.CW * sum * 10)) * 10;
+  f /= (fw / Math.round(w.F.CW * sum * 10)) * 10;
+  o /= (ow / Math.round(w.O.CW * sum * 10)) * 10;
 
   let weights = 0;
-
   if (k != 0 && !isNaN(k)) {
-    weights += w.KU.W;
+    weights += w.KU.CW;
   }
   if (t != 0 && !isNaN(t)) {
-    weights += w.T.W;
+    weights += w.T.CW;
   }
   if (c != 0 && !isNaN(c)) {
-    weights += w.C.W;
+    weights += w.C.CW;
   }
   if (a != 0 && !isNaN(a)) {
-    weights += w.A.W;
+    weights += w.A.CW;
   }
   if (f != 0 && !isNaN(f)) {
-    weights += w.F.W;
+    weights += w.F.CW;
   } else {
     f = 0;
   }
   if (o != 0 && !isNaN(o)) {
-    weights += w.O.W;
+    weights += w.O.CW;
   } else {
     o = 0;
   }

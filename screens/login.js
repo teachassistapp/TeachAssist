@@ -19,6 +19,7 @@ import {
   Platform,
   useColorScheme,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
@@ -70,13 +71,13 @@ export default function Login({ navigation }) {
   }, []);
 
   const handleSubmit = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     if (searching) return;
-    if (number == TEST_USER && password == TEST_PASS) {
+    if (number === TEST_USER && password === TEST_PASS) {
       storeAuthData(TEST_USER, TEST_PASS);
-      navigation.navigate("Home");
+      navigation.navigate("Home", { screen: "home" });
       return;
     }
-
     setSearching(true);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -94,15 +95,14 @@ export default function Login({ navigation }) {
     fetch("https://api.pegasis.site/public/yrdsb_ta/getmark_v2", requestOptions)
       .then((response) => {
         if (response.status === 200) {
-          setSearching(false);
           storeAuthData(number, password);
           response.json().then(() => {
-            navigation.navigate("Home");
+            navigation.navigate("Home", { screen: "home" });
           });
         } else {
-          setSearching(false);
           Alert.alert("Invalid Login.", "Please try again.");
         }
+        setSearching(false);
       })
       .catch(() => {
         Alert.alert(
@@ -148,6 +148,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                   style={styles(colors).show}
                   onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     setHidePass(!hidePass);
                     showIcon === "eye"
                       ? setShowIcon("eye-off")

@@ -13,12 +13,14 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { TEST_USER, TEST_PASS } from "../../data/keys";
 
-const websites_data = [
+var websites_data = [
   ["TeachAssist", "https://ta.yrdsb.ca/yrdsb/"],
   ["MyBlueprint", "https://myblueprint.ca/"],
   ["Google Classroom", "https://classroom.google.com/"],
@@ -26,7 +28,11 @@ const websites_data = [
   ["Moodle", "https://moodle2.yrdsb.ca/"],
   ["YRDSB Website", "https://www2.yrdsb.ca/"],
   ["YRDSB Twitter", "https://twitter.com/YRDSB"],
-  ["Our website", "https://teachassistapp.github.io/"],
+  [
+    "YRDSB Report-It",
+    "https://secure.yrdsb.ca/Forms/ReportIt/_layouts/FormServer.aspx?XsnLocation=https://secure.yrdsb.ca/FormServerTemplates/ReportItv2.xsn&Source=https://secure.yrdsb.ca&DefaultItemOpen=1",
+  ],
+  ["Our Website", "https://teachassistapp.github.io/"],
 ];
 
 export default function Websites({ navigation }) {
@@ -37,6 +43,8 @@ export default function Websites({ navigation }) {
   const [customTitle, setCustomTitle] = useState("");
   const [showError, setShowError] = useState("");
   const [websites, setWebsites] = useState([]);
+  const [number, setNumber] = useState("");
+  const [pass, setPass] = useState("");
 
   const storeData = async (w) => {
     try {
@@ -48,10 +56,15 @@ export default function Websites({ navigation }) {
 
   const retrieveData = async () => {
     try {
-      let w = await AsyncStorage.getItem("websites");
-      if (w !== null) {
-        w = JSON.parse(w);
-        setWebsites(w);
+      const w = await AsyncStorage.getItem("websites");
+      const n = await AsyncStorage.getItem("number");
+      const p = await AsyncStorage.getItem("password");
+      if (n && p && n !== TEST_USER && p !== TEST_PASS) {
+        setNumber(n);
+        setPass(p);
+      }
+      if (w) {
+        setWebsites(JSON.parse(w));
       } else {
         setWebsites(websites_data);
       }
@@ -61,7 +74,14 @@ export default function Websites({ navigation }) {
   };
 
   function openWebsite(link) {
-    Linking.openURL(link).catch((e) => {
+    if (
+      link === "https://ta.yrdsb.ca/yrdsb/" &&
+      number !== TEST_USER &&
+      pass !== TEST_PASS
+    ) {
+      link = `https://ta.yrdsb.ca/yrdsb/index.php?username=${number}&password=${pass}`;
+    }
+    Linking.openURL(link).catch(() => {
       alert.alert(
         "Failed to open website.",
         "Please check that the URL is valid."
@@ -70,23 +90,24 @@ export default function Websites({ navigation }) {
   }
 
   function addWebsite() {
-    regex =
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-    var regex = new RegExp(regex);
+    var regex = new RegExp(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    );
     let tempWebsites = [...websites];
+    var error = "";
     if (tempWebsites.includes([customTitle, customWebsite])) {
-      setShowError("Website is already saved.");
+      error = "Website is already saved.";
     } else if (!customWebsite.match(regex)) {
-      setShowError("Link must be a valid URL\n(e.g. https://www.example.com)");
+      error = "Link must be a valid URL\n(e.g. https://www.example.com)";
     } else if (customTitle.length > 25) {
-      setShowError("Name must be less than 25 characters.");
+      error = "Name must be less than 25 characters.";
     } else {
       tempWebsites.unshift([customTitle, customWebsite]);
       setWebsites(tempWebsites);
-      setShowError("");
       setModalVisible(false);
       storeData(tempWebsites);
     }
+    setShowError(error);
   }
 
   function removeWebsite(name) {
@@ -116,7 +137,10 @@ export default function Websites({ navigation }) {
         <View style={styles(colors).editIcons}>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="plus" size={23} color={colors.Primary1} />
@@ -124,7 +148,10 @@ export default function Websites({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles(colors).addIcon}
-            onPress={() => reset()}
+            onPress={() => {
+              reset();
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
           >
             <View style={styles(colors).addContainer}>
               <FontAwesome name="undo" size={23} color={colors.Primary1} />
@@ -141,7 +168,10 @@ export default function Websites({ navigation }) {
     if (editable) {
       return (
         <TouchableOpacity
-          onPress={() => removeWebsite(props.name)}
+          onPress={() => {
+            removeWebsite(props.name);
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
           hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           style={{ flex: 1, alignItems: "center", paddingRight: 5 }}
         >
@@ -222,7 +252,10 @@ export default function Websites({ navigation }) {
             </Text>
             <TouchableOpacity
               style={styles(colors).headerIcon}
-              onPress={() => setEditable(!editable)}
+              onPress={() => {
+                setEditable(!editable);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }}
               hitSlop={{
                 top: 20,
                 bottom: 50,
@@ -269,7 +302,7 @@ export default function Websites({ navigation }) {
                       margin: 5,
                       paddingHorizontal: 25,
                       paddingVertical: 15,
-                      minHeight: 125,
+                      minHeight: 110,
                     }}
                   >
                     <TouchableOpacity
@@ -390,11 +423,12 @@ const styles = (colors) =>
     form: {
       justifyContent: "flex-start",
       paddingBottom: 10,
+      marginTop: 10,
     },
     input: {
       alignSelf: "center",
       backgroundColor: colors.Container,
-      borderColor: colors.Border,
+      borderColor: colors.Placeholder,
       borderRadius: 15,
       borderWidth: 1,
       width: 0.8 * vw,
@@ -410,9 +444,9 @@ const styles = (colors) =>
     button: {
       alignItems: "center",
       justifyContent: "center",
-      marginVertical: 20,
-      paddingTop: 12,
-      paddingBottom: 10,
+      marginTop: 10,
+      paddingTop: 11,
+      paddingBottom: 9,
       paddingHorizontal: 20,
       backgroundColor: colors.Primary1,
       borderRadius: 20,
@@ -422,7 +456,6 @@ const styles = (colors) =>
       shadowOpacity: 0.15,
       shadowRadius: 10,
       elevation: 6,
-      width: 0.3 * vw,
     },
     buttonText: {
       fontFamily: "Poppins_600SemiBold",

@@ -25,8 +25,8 @@ export default function TeacherHelp() {
                       style={{
                         ...GENERAL_STYLES(colors).p,
                         fontSize: 14,
-                        marginTop: 5,
-                        marginBottom: 5,
+                        marginTop: 15,
+                        marginBottom: 15,
                       }}
                     >
                       {d.description}

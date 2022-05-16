@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import * as Haptics from "expo-haptics";
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
@@ -61,12 +55,12 @@ function parseAssignments(data, weight_table) {
       fWeight: !data[i].F || !data[i].F[0].finished ? 0 : data[i].F[0].weight,
       fMark: !data[i].F ? " " : `(${data[i].F[0].get}/${data[i].F[0].total})`,
       finished: !(
-        (data[i].KU && data[i].KU[0].finished === false) ||
-        (data[i].T && data[i].T[0].finished === false) ||
-        (data[i].C && data[i].C[0].finished === false) ||
-        (data[i].A && data[i].A[0].finished === false) ||
-        (data[i].F && data[i].F[0].finished === false) ||
-        (data[i].O && data[i].O[0].finished === false)
+        (data[i].KU && !data[i].KU[0].finished) ||
+        (data[i].T && !data[i].T[0].finished) ||
+        (data[i].C && !data[i].C[0].finished) ||
+        (data[i].A && !data[i].A[0].finished) ||
+        (data[i].F && !data[i].F[0].finished) ||
+        (data[i].O && !data[i].O[0].finished)
       ),
       weight_table: weight_table,
     });
@@ -121,7 +115,7 @@ function DisplayScreen(
       return null;
   }
 }
-export default function Details({ route, navigation }) {
+export default function Details({ route }) {
   const { colors } = useTheme();
   let {
     code,
@@ -160,10 +154,10 @@ export default function Details({ route, navigation }) {
           <SwitchSelector
             options={options}
             initial={0}
-            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 12 }}
+            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
             selectedTextStyle={{
               fontFamily: "Poppins_600SemiBold",
-              fontSize: 12,
+              fontSize: 11.5,
             }}
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
@@ -173,7 +167,10 @@ export default function Details({ route, navigation }) {
             borderWidth={1}
             hasPadding
             style={{ width: "90%", marginBottom: 10 }}
-            onPress={(value) => setIsEnabled(value)}
+            onPress={(value) => {
+              setIsEnabled(value);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            }}
             animationDuration={300}
           />
         </View>

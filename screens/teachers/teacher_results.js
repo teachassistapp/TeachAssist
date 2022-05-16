@@ -148,7 +148,6 @@ export default function TeacherResults({
     setStoredTeachers(t);
   };
   if (data.length === 0) {
-    //if no teachers were found
     return (
       <View style={{ alignItems: "center", marginTop: 20 }}>
         <Text style={GENERAL_STYLES(colors).p}>No teachers found.</Text>

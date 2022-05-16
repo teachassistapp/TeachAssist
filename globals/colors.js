@@ -1,6 +1,8 @@
 export const lightColors = {
   Primary1: "#69A863",
   Primary2: "#70C269",
+  Final: "#63d959",
+  Other: "#5e7d5b",
   Background: "#FAFAFA", // bg colour
   Header: "#2f2f2f", // main text
   Subtitle: "#888888", // sub text AND unselected bottom navigation icons
@@ -12,12 +14,14 @@ export const lightColors = {
   Shadow: "#ddd",
   Red: "#FF3B30",
   Bone: "#dedede",
-  SwitchBg: "#f7f7f7"
+  SwitchBg: "#f5f5f5"
 };
 
 export const darkColors = {
   Primary1: "#60AA5A",
   Primary2: "#7BE372",
+  Final: "#6efa61",
+  Other: "#678c64",
   Background: "#161818",
   Header: "#fafafa",
   Subtitle: "#D3D3D3",

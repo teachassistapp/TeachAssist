@@ -20,6 +20,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/ProgressBar";
 import { DisplayProgress } from "../../components/charts";
@@ -113,7 +114,11 @@ function DisplayCourse({
       >
         {() => (
           <Text style={styles(colors).marks} key={index + "CircleProgressText"}>
-            {overall_mark === "N/A" ? "N/A" : overall_mark.toString() + "%"}
+            {overall_mark === "N/A"
+              ? "N/A"
+              : overall_mark === 100
+              ? "100%"
+              : overall_mark.toFixed(1) + "%"}
           </Text>
         )}
       </AnimatedCircularProgress>
@@ -167,14 +172,14 @@ function DisplayCourse({
   );
 }
 
-export default function Home() {
+export default function Home({ navigation }) {
   const { isDark, colors, setScheme } = useTheme();
-  const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
   const [stored, setStored] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+
   const [notifs, setNotifs] = useState({
     isNotifs: false,
     current: [],
@@ -207,7 +212,7 @@ export default function Home() {
   const initScheme = async () => {
     try {
       const storedScheme = await AsyncStorage.getItem("scheme");
-      if (storedScheme === null) {
+      if (!storedScheme) {
         if (scheme === "dark") {
           setScheme("dark");
         } else {
@@ -216,9 +221,7 @@ export default function Home() {
       } else {
         setScheme(storedScheme);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch {}
   };
 
   const storeData = async (datum) => {
@@ -234,7 +237,7 @@ export default function Home() {
     try {
       const number = await AsyncStorage.getItem("number");
       const password = await AsyncStorage.getItem("password");
-      if (number == TEST_USER && password == TEST_PASS) {
+      if (number === TEST_USER && password === TEST_PASS) {
         setStored(test_course_data);
         setData(test_course_data);
       } else {
@@ -260,6 +263,7 @@ export default function Home() {
   };
 
   const getMarks = (stored, number, password) => {
+    if (loading || refreshing) return;
     setLoading(true);
     if (number !== null && password !== null) {
       var myHeaders = new Headers();
@@ -295,12 +299,14 @@ export default function Home() {
           } else {
             handleFetchError();
           }
+          setLoading(false);
+          setRefreshing(false);
         })
-        .catch((error) => {
+        .catch(() => {
+          setLoading(false);
+          setRefreshing(false);
           handleFetchError();
         });
-      setLoading(false);
-      setRefreshing(false);
     }
   };
 
@@ -308,26 +314,25 @@ export default function Home() {
     try {
       const number = await AsyncStorage.getItem("number");
       const password = await AsyncStorage.getItem("password");
-      if (number != TEST_USER && password != TEST_PASS) {
+      if (number !== TEST_USER && password !== TEST_PASS) {
         setRefreshing(true);
         getMarks(stored, number, password);
+      } else {
+        setStored(test_course_data);
+        setData(test_course_data);
       }
     } catch {
       Alert.alert("Failed to refresh.", "Please try again later.");
     }
   });
 
-  const handleToggle = (x) => {
-    if (x) {
-      setIsEnabled(false);
-    } else {
-      setIsEnabled(true);
-    }
-  };
   useEffect(() => {
-    initScheme();
-    retrieveData();
-  }, []);
+    const reLogIn = navigation.addListener("focus", () => {
+      initScheme();
+      retrieveData();
+    });
+    return reLogIn;
+  }, [navigation]);
 
   let displayAverage = []; //format average course data
   let displayBreakdown = []; //format breakdown of course data
@@ -472,14 +477,15 @@ export default function Home() {
             hasPadding
             style={{ width: "65%", marginTop: 1, marginBottom: 17 }}
             animationDuration={300}
-            onPress={(event) => {
-              handleToggle(event);
+            onPress={(e) => {
+              setIsEnabled(!e);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             }}
           />
-          {loading && (
+          {loading && !data && (
             <ActivityIndicator
               size="large"
-              style={{ marginTop: 40 }}
+              style={{ marginTop: 20, marginBottom: 30 }}
               color={colors.Primary1}
             />
           )}

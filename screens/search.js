@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import ProgressBar from "../components/ProgressBar";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../globals/theme";
@@ -44,6 +45,14 @@ function parseAssignments(data, weight_table) {
     f: data.F === undefined ? " " : (data.F[0].get * 100) / data.F[0].total,
     fWeight: data.F === undefined ? 0 : data.F[0].weight,
     fMark: data.F === undefined ? " " : `(${data.F[0].get}/${data.F[0].total})`,
+    finished: !(
+      (data.KU && !data.KU[0].finished) ||
+      (data.T && !data.T[0].finished) ||
+      (data.C && !data.C[0].finished) ||
+      (data.A && !data.A[0].finished) ||
+      (data.F && !data.F[0].finished) ||
+      (data.O && !data.O[0].finished)
+    ),
     weight_table: weight_table,
   };
   return content;
@@ -74,7 +83,6 @@ function SearchAssignments({ title, assignments }) {
   title = title.toLowerCase();
   let titles = [];
   for (let i = 0; i < assignments.length; i++) {
-    //get all titles
     for (let j = 0; j < assignments[i].assignments.length; j++) {
       let courseName = assignments[i].name === null ? "" : assignments[i].name;
       let assignmentName =
@@ -100,7 +108,6 @@ function SearchAssignments({ title, assignments }) {
       </View>
     );
   }
-
   let allMatches = [];
   for (let i = 0; i < assignments.length; i++) {
     //find assignments with the matching titles
@@ -136,6 +143,7 @@ function SearchAssignments({ title, assignments }) {
               style={{ flexDirection: "row", flexWrap: "wrap" }}
               onPress={() => {
                 navigation.navigate("Details", assignments[i]);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
               }}
             >
               <Text style={styles(colors).p1}>
@@ -290,7 +298,7 @@ export default function search() {
           setAssignments(datum);
         }
       }
-    } catch (e) {
+    } catch {
       Alert.alert("Failed to load data.");
     }
   };

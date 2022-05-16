@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
-import AnimatedCollapsible from "../../components/AnimatedCollapsible"; //add this
+import AnimatedCollapsible from "../../components/AnimatedCollapsible";
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
 import { GENERAL_STYLES } from "../../globals/styles";
 
@@ -119,7 +119,7 @@ export default function TeacherDetails({ route, navigation }) {
       } else {
         getTeacherData();
       }
-    } catch (e) {
+    } catch {
       Alert.alert("Failed to load stored teachers.");
     }
   };
@@ -140,7 +140,7 @@ export default function TeacherDetails({ route, navigation }) {
         onLoad(id, result, starred);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         handleFetchError();
         setLoading(false);
       });

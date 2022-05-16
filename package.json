@@ -1,6 +1,6 @@
 {
   "name": "teachassist",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -23,6 +23,7 @@
     "big-integer": "^1.6.51",
     "css-select": "^4.2.1",
     "expo": "^44.0.6",
+    "expo-haptics": "~11.1.0",
     "expo-linking": "3.0.0",
     "expo-status-bar": "1.2.0",
     "isomorphic-fetch": "^3.0.0",

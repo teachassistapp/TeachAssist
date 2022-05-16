@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../globals/theme";
@@ -25,7 +26,7 @@ export default function SettingsHome() {
       await AsyncStorage.clear();
       await AsyncStorage.setItem("scheme", isDark ? "dark" : "light");
       navigation.navigate("Login");
-    } catch (e) {
+    } catch {
       Alert.alert("Failed to logout.");
     }
   };
@@ -99,7 +100,10 @@ export default function SettingsHome() {
         <View style={styles(colors).logOut}>
           <TouchableOpacity
             style={styles(colors).button}
-            onPress={() => logOut()}
+            onPress={() => {
+              logOut();
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            }}
           >
             <Ionicons
               name="log-out-outline"

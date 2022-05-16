@@ -5,12 +5,12 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
   ActivityIndicator,
   ScrollView,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,6 +23,7 @@ import { handleFetchError } from "../globals/alert";
 import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { encryptRSA } from "../components/RSA";
+import SkeletonGuidanceLoading from "../components/skeletonGuidanceLoading";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +75,7 @@ function GuidanceSearch() {
   };
 
   const getAppointment = async () => {
+    if (loading) return;
     setLoading(true);
     setNoApps(false);
     var requestOptions = {
@@ -110,7 +112,7 @@ function GuidanceSearch() {
           setShowResults(true);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         handleFetchError();
         setLoading(false);
       });
@@ -174,7 +176,10 @@ function GuidanceSearch() {
         </Text>
         <TouchableOpacity
           style={[styles(colors).button, { backgroundColor: colors.Primary1 }]}
-          onPress={() => getAppointment()}
+          onPress={() => {
+            getAppointment();
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
         >
           <Text
             style={[styles(colors).buttonText, { color: colors.Background }]}
@@ -182,13 +187,7 @@ function GuidanceSearch() {
             Find Appointments
           </Text>
         </TouchableOpacity>
-        {loading && (
-          <ActivityIndicator
-            size="large"
-            color={colors.Primary1}
-            style={{ marginVertical: 30 }}
-          />
-        )}
+        {loading && <SkeletonGuidanceLoading />}
         {noApps && (
           <View style={styles(colors).errorContainer}>
             <Text style={styles(colors).errorMessage}>
@@ -203,18 +202,41 @@ function GuidanceSearch() {
               style={[
                 GENERAL_STYLES(colors).p,
                 styles(colors).p,
+                { fontSize: 12, marginBottom: 0 },
+              ]}
+            >
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  color: colors.Primary1,
+                }}
+              >
+                Tap on a guidance consellor
+              </Text>{" "}
+              to reveal their available appointments.
+            </Text>
+            <Text
+              style={[
+                GENERAL_STYLES(colors).p,
+                styles(colors).p,
                 { fontSize: 12 },
               ]}
             >
-              Tap on a guidance consellor to reveal their available
-              appointments. Tap on a time to book an appointment with them.
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  color: colors.Primary1,
+                }}
+              >
+                Tap on a time
+              </Text>{" "}
+              to book an appointment with them.
             </Text>
             {data.map((item, index) => {
               return <GuidanceTime data={item} date={date} key={index} />;
             })}
           </View>
         )}
-
         {bookedAppointments.length > 0 && (
           <View>
             <View style={styles(colors).hRule} />
@@ -280,7 +302,7 @@ const styles = (colors) =>
       fontFamily: "Poppins_500Medium",
       textAlign: "center",
       color: colors.Red,
-      marginTop: 20,
+      marginVertical: 10,
       fontSize: 15,
     },
   });

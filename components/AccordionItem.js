@@ -16,6 +16,7 @@ import {
   Ionicons,
   FontAwesome,
 } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import ProgressBar from "./ProgressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
@@ -62,30 +63,28 @@ export default function AccordionItem({
           <TouchableOpacity
             onPress={() => updateAssignments(null)}
             hitSlop={{ top: 30, right: 10, bottom: 30, left: 10 }}
+            style={{ flex: 1 }}
           >
             <AntDesign name="close" size={24} color={colors.Header} />
           </TouchableOpacity>
         );
-      } else {
-        return null;
       }
-    } catch {
-      return null;
-    }
+    } catch {}
+    return null;
   }
 
-  const [k, setK] = useState(100);
-  const [kw, setKW] = useState(10);
-  const [t, setT] = useState(100);
-  const [tw, setTW] = useState(10);
-  const [c, setC] = useState(100);
-  const [cw, setCW] = useState(10);
-  const [a, setA] = useState(100);
-  const [aw, setAW] = useState(10);
-  const [f, setF] = useState(0);
-  const [fw, setFW] = useState(0);
-  const [o, setO] = useState(0);
-  const [ow, setOW] = useState(0);
+  const [k, setK] = useState(String(Math.round(section.k * 10) / 10));
+  const [kw, setKW] = useState(String(Math.round(section.kWeight * 10) / 10));
+  const [t, setT] = useState(String(Math.round(section.t * 10) / 10));
+  const [tw, setTW] = useState(String(Math.round(section.tWeight * 10) / 10));
+  const [c, setC] = useState(String(Math.round(section.c * 10) / 10));
+  const [cw, setCW] = useState(String(Math.round(section.cWeight * 10) / 10));
+  const [a, setA] = useState(String(Math.round(section.a * 10) / 10));
+  const [aw, setAW] = useState(String(Math.round(section.aWeight * 10) / 10));
+  const [f, setF] = useState(String(Math.round(section.f * 10) / 10));
+  const [fw, setFW] = useState(String(Math.round(section.fWeight * 10) / 10));
+  const [o, setO] = useState(String(Math.round(section.o * 10) / 10));
+  const [ow, setOW] = useState(String(Math.round(section.oWeight * 10) / 10));
 
   const categories = [
     [
@@ -175,7 +174,7 @@ export default function AccordionItem({
       style={styles(colors).inactive}
     >
       <CheckCustom section={section} />
-      <View>
+      <View style={{ flex: section.deletable ? 4 : 5 }}>
         <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
           {section.title}
         </Text>
@@ -183,72 +182,48 @@ export default function AccordionItem({
           {average === "N/A" ? average : `${average}%`}
         </Text>
       </View>
-      <View style={ASSIGNMENT_STYLES(colors).assignmentBarChart}>
+      <View
+        style={{ ...ASSIGNMENT_STYLES(colors).assignmentBarChart, flex: 3 }}
+      >
         {section.finished ? (
-          section.f == " " &&
-          (section.k != " " ||
-            section.t != " " ||
-            section.c != " " ||
-            section.a != " ") && (
-            <>
-              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-                <Text style={styles(colors).barLabelsText}>
-                  {section.k === " " ? section.k : Math.round(section.k)}
-                </Text>
-                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-                  <ProgressBar
-                    progress={section.k}
-                    height={8}
-                    trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
-                  />
+          ["k", "t", "c", "a"].map((i) => {
+            return (
+              ((section.f === " " && section.o === " ") ||
+                section[i] !== " ") && (
+                <View style={ASSIGNMENT_STYLES(colors).assignmentBar} key={i}>
+                  <Text
+                    style={{
+                      ...styles(colors).barLabelsText,
+                      fontSize:
+                        [
+                          section.k,
+                          section.t,
+                          section.c,
+                          section.a,
+                          section.f,
+                          section.o,
+                        ].filter((i) => i !== " ").length *
+                          -1 +
+                        14,
+                    }}
+                  >
+                    {section[i] === " " ? section[i] : Math.round(section[i])}
+                  </Text>
+                  <View style={ASSIGNMENT_STYLES(colors).progressBar}>
+                    <ProgressBar
+                      progress={section[i]}
+                      height={8}
+                      trackColor={colors.GraphBackground}
+                      backgroundColor={colors.Primary2}
+                    />
+                  </View>
+                  <Text style={styles(colors).barLabelsText}>
+                    {i.toUpperCase()}
+                  </Text>
                 </View>
-                <Text style={styles(colors).barLabelsText}>K</Text>
-              </View>
-              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-                <Text style={styles(colors).barLabelsText}>
-                  {section.t === " " ? section.t : Math.round(section.t)}
-                </Text>
-                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-                  <ProgressBar
-                    progress={section.t}
-                    height={8}
-                    trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary1}
-                  />
-                </View>
-                <Text style={styles(colors).barLabelsText}>T</Text>
-              </View>
-              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-                <Text style={styles(colors).barLabelsText}>
-                  {section.c === " " ? section.c : Math.round(section.c)}
-                </Text>
-                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-                  <ProgressBar
-                    progress={section.c}
-                    height={8}
-                    trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
-                  />
-                </View>
-                <Text style={styles(colors).barLabelsText}>C</Text>
-              </View>
-              <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-                <Text style={styles(colors).barLabelsText}>
-                  {section.a === " " ? section.a : Math.round(section.a)}
-                </Text>
-                <View style={ASSIGNMENT_STYLES(colors).progressBar}>
-                  <ProgressBar
-                    progress={section.a}
-                    height={8}
-                    trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary1}
-                  />
-                </View>
-                <Text style={styles(colors).barLabelsText}>A</Text>
-              </View>
-            </>
-          )
+              )
+            );
+          })
         ) : (
           <View style={{ width: "100%" }}>
             <Text
@@ -270,7 +245,22 @@ export default function AccordionItem({
         )}
         {section.f != " " && (
           <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-            <Text style={styles(colors).barLabelsText}>
+            <Text
+              style={{
+                ...styles(colors).barLabelsText,
+                fontSize:
+                  [
+                    section.k,
+                    section.t,
+                    section.c,
+                    section.a,
+                    section.f,
+                    section.o,
+                  ].filter((i) => i !== " ").length *
+                    -1 +
+                  14,
+              }}
+            >
               {section.f === " " ? section.f : Math.round(section.f)}
             </Text>
             <View style={ASSIGNMENT_STYLES(colors).progressBar}>
@@ -278,7 +268,7 @@ export default function AccordionItem({
                 progress={section.f}
                 height={8}
                 trackColor={colors.GraphBackground}
-                backgroundColor={colors.Primary1}
+                backgroundColor={colors.Final}
               />
             </View>
             <Text style={styles(colors).barLabelsText}>F</Text>
@@ -286,7 +276,22 @@ export default function AccordionItem({
         )}
         {section.o != " " && (
           <View style={ASSIGNMENT_STYLES(colors).assignmentBar}>
-            <Text style={styles(colors).barLabelsText}>
+            <Text
+              style={{
+                ...styles(colors).barLabelsText,
+                fontSize:
+                  [
+                    section.k,
+                    section.t,
+                    section.c,
+                    section.a,
+                    section.f,
+                    section.o,
+                  ].filter((i) => i !== " ").length *
+                    -1 +
+                  14,
+              }}
+            >
               {section.f === " " ? section.o : Math.round(section.o)}
             </Text>
             <View style={ASSIGNMENT_STYLES(colors).progressBar}>
@@ -294,7 +299,7 @@ export default function AccordionItem({
                 progress={section.o}
                 height={8}
                 trackColor={colors.GraphBackground}
-                backgroundColor={colors.Primary1}
+                backgroundColor={colors.Other}
               />
             </View>
             <Text style={styles(colors).barLabelsText}>O</Text>
@@ -360,54 +365,42 @@ export default function AccordionItem({
                     <TouchableOpacity
                       style={styles(colors).button}
                       onPress={() => {
-                        if (
-                          verifyNumber([
-                            k,
-                            kw,
-                            t,
-                            tw,
-                            c,
-                            cw,
-                            a,
-                            aw,
-                            f,
-                            fw,
-                            o,
-                            ow,
-                          ])
-                        ) {
+                        var cats = [k, kw, t, tw, c, cw, a, aw, f, fw, o, ow];
+                        cats = cats.map((i) => i.trim());
+                        const valid = verifyNumber(cats);
+                        if (valid) {
+                          const keys = ["k", "t", "c", "a", "f", "o"];
                           const data = {
                             deletable: section.deletable,
                             title: section.title,
                             comments: null,
-                            k: parseFloat(k),
-                            kWeight: parseFloat(kw),
-                            kMark: "",
-                            t: parseFloat(t),
-                            tWeight: parseFloat(tw),
-                            tMark: "",
-                            c: parseFloat(c),
-                            cWeight: parseFloat(cw),
-                            cMark: "",
-                            a: parseFloat(a),
-                            aWeight: parseFloat(aw),
-                            aMark: "",
-                            f: parseFloat(f),
-                            fWeight: parseFloat(fw),
-                            fMark: "",
-                            o: parseFloat(o),
-                            oWeight: parseFloat(ow),
-                            oMark: "",
                             finished: true,
                             weight_table: section.weight_table,
                           };
+                          keys.forEach((c, i) => {
+                            var values = [];
+                            if (
+                              cats[i * 2].length === 0 ||
+                              cats[i * 2 + 1].length === 0 ||
+                              cats[i * 2 + 1] === "0"
+                            ) {
+                              values = [" ", 0, " "];
+                            } else {
+                              values = [
+                                parseFloat(cats[i * 2]),
+                                parseFloat(cats[i * 2 + 1]),
+                                "",
+                              ];
+                            }
+                            data[c] = values[0];
+                            data[c + "Weight"] = values[1];
+                            data[c + "Mark"] = values[2];
+                          });
                           updateAssignments(data);
-                          setIsValid(true);
                           setModalVisible(false);
                           setEdited(true);
-                        } else {
-                          setIsValid(false);
                         }
+                        setIsValid(valid);
                       }}
                     >
                       <Ionicons
@@ -417,7 +410,7 @@ export default function AccordionItem({
                       />
                       <Text style={styles(colors).buttonText}>Edit</Text>
                     </TouchableOpacity>
-                    <SubmitCheck check={isValid} />
+                    <SubmitCheck check={isValid} colors={colors} />
                   </View>
                 </View>
               </TouchableWithoutFeedback>
@@ -427,39 +420,63 @@ export default function AccordionItem({
       )}
       <TouchableOpacity onPress={() => setExpanded(!expanded)}>
         <View style={styles(colors).expand}>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-          </View>
+          <View style={{ flexDirection: "row", justifyContent: "flex-end" }} />
           <View style={styles(colors).expandHeader}>
             <Text style={ASSIGNMENT_STYLES(colors).assignmentTitle}>
               {section.title}
             </Text>
-            <View style={styles(colors).editWrapper}>
-              <View style={styles(colors).editOptions}>
-                {edited && !section.deletable && (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
+                {average === "N/A" ? average : `${average}%`}
+              </Text>
+            </View>
+          </View>
+          <View style={{ alignSelf: "center" }}>
+            <View style={{ flexDirection: "row" }}>
+              {edited && !section.deletable && (
+                <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
                     onPress={() => {
                       updateAssignments(originalAssignment);
                       setEdited(false);
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     }}
                   >
-                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                    <Text
+                      style={{
+                        ...GENERAL_STYLES(colors).p,
+                        fontSize: 12,
+                        marginTop: 2,
+                      }}
+                    >
                       Undo
                     </Text>
                     <FontAwesome
                       name="undo"
-                      size={11}
+                      size={12}
                       color={colors.Subtitle}
-                      style={{ marginLeft: 5 }}
+                      style={{ marginLeft: 4 }}
                     />
                   </TouchableOpacity>
-                )}
-                {editable && (
+                </View>
+              )}
+              {editable && (
+                <View style={styles(colors).editBtn}>
                   <TouchableOpacity
                     style={styles(colors).edit}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    }}
                   >
-                    <Text style={{ ...GENERAL_STYLES(colors).p, fontSize: 12 }}>
+                    <Text
+                      style={{
+                        ...GENERAL_STYLES(colors).p,
+                        fontSize: 12,
+                        marginTop: 2,
+                      }}
+                    >
                       Edit
                     </Text>
                     <MaterialCommunityIcons
@@ -469,14 +486,11 @@ export default function AccordionItem({
                       style={{ marginLeft: 5 }}
                     />
                   </TouchableOpacity>
-                )}
-              </View>
-              <Text style={ASSIGNMENT_STYLES(colors).assignmentMark}>
-                {average === "N/A" ? average : `${average}%`}
-              </Text>
+                </View>
+              )}
             </View>
           </View>
-          {section.f != " " && (
+          {section.f !== " " && (
             <>
               <View style={styles(colors).expandBar}>
                 <Text style={styles(colors).barLabelsText}>F</Text>
@@ -485,7 +499,7 @@ export default function AccordionItem({
                     progress={section.f}
                     height={8}
                     trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
+                    backgroundColor={colors.Final}
                   />
                 </View>
                 <Text style={styles(colors).barLabelsText} numberOfLines={1}>
@@ -507,142 +521,132 @@ export default function AccordionItem({
               </View>
             </>
           )}
-          {section.f == " " &&
-            (section.kMark != " " ||
-              section.tMark != " " ||
-              section.cMark != " " ||
-              section.aMark != " ") && (
-              <>
-                {section.kMark != " " && (
-                  <>
-                    <View style={styles(colors).expandBar}>
-                      <Text style={styles(colors).barLabelsText}>K</Text>
-                      <View style={styles(colors).expandProgress}>
-                        <ProgressBar
-                          progress={section.k}
-                          height={8}
-                          trackColor={colors.GraphBackground}
-                          backgroundColor={colors.Primary1}
-                        />
-                      </View>
-                      <Text style={styles(colors).barLabelsText}>
-                        {Math.round(section.k * 10) / 10}%
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text style={styles(colors).expandBarMarks}>
-                        (Weight: {section.kWeight})
-                      </Text>
-                      <Text style={styles(colors).expandBarMarks}>
-                        {section.kMark}
-                      </Text>
-                    </View>
-                  </>
-                )}
-                {section.tMark != " " && (
-                  <>
-                    <View style={styles(colors).expandBar}>
-                      <Text style={styles(colors).barLabelsText}>T</Text>
-                      <View style={styles(colors).expandProgress}>
-                        <ProgressBar
-                          progress={section.t}
-                          height={8}
-                          trackColor={colors.GraphBackground}
-                          backgroundColor={colors.Primary2}
-                        />
-                      </View>
-                      <Text style={styles(colors).barLabelsText}>
-                        {Math.round(section.t * 10) / 10}%
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text style={styles(colors).expandBarMarks}>
-                        (Weight: {section.tWeight})
-                      </Text>
-                      <Text style={styles(colors).expandBarMarks}>
-                        {section.tMark}
-                      </Text>
-                    </View>
-                  </>
-                )}
-                {section.cMark != " " && (
-                  <>
-                    <View style={styles(colors).expandBar}>
-                      <Text style={styles(colors).barLabelsText}>C</Text>
-                      <View style={styles(colors).expandProgress}>
-                        <ProgressBar
-                          progress={section.c}
-                          height={8}
-                          trackColor={colors.GraphBackground}
-                          backgroundColor={colors.Primary1}
-                        />
-                      </View>
-                      <Text style={styles(colors).barLabelsText}>
-                        {Math.round(section.c * 10) / 10}%
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text style={styles(colors).expandBarMarks}>
-                        (Weight: {section.cWeight})
-                      </Text>
-                      <Text style={styles(colors).expandBarMarks}>
-                        {section.cMark}
-                      </Text>
-                    </View>
-                  </>
-                )}
-                {section.aMark != " " && (
-                  <>
-                    <View style={styles(colors).expandBar}>
-                      <Text style={styles(colors).barLabelsText}>A</Text>
-                      <View style={styles(colors).expandProgress}>
-                        <ProgressBar
-                          progress={section.a}
-                          height={8}
-                          trackColor={colors.GraphBackground}
-                          backgroundColor={colors.Primary2}
-                        />
-                      </View>
-                      <Text
-                        style={styles(colors).barLabelsText}
-                        numberOfLines={1}
-                      >
-                        {Math.round(section.a * 10) / 10}%
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text style={styles(colors).expandBarMarks}>
-                        (Weight: {section.aWeight})
-                      </Text>
-                      <Text style={styles(colors).expandBarMarks}>
-                        {section.aMark}
-                      </Text>
-                    </View>
-                  </>
-                )}
-              </>
-            )}
-          {section.o != " " && (
+
+          {section.kMark !== " " && (
+            <>
+              <View style={styles(colors).expandBar}>
+                <Text style={styles(colors).barLabelsText}>K</Text>
+                <View style={styles(colors).expandProgress}>
+                  <ProgressBar
+                    progress={section.k}
+                    height={8}
+                    trackColor={colors.GraphBackground}
+                    backgroundColor={colors.Primary1}
+                  />
+                </View>
+                <Text style={styles(colors).barLabelsText}>
+                  {Math.round(section.k * 10) / 10}%
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles(colors).expandBarMarks}>
+                  (Weight: {section.kWeight})
+                </Text>
+                <Text style={styles(colors).expandBarMarks}>
+                  {section.kMark}
+                </Text>
+              </View>
+            </>
+          )}
+          {section.tMark !== " " && (
+            <>
+              <View style={styles(colors).expandBar}>
+                <Text style={styles(colors).barLabelsText}>T</Text>
+                <View style={styles(colors).expandProgress}>
+                  <ProgressBar
+                    progress={section.t}
+                    height={8}
+                    trackColor={colors.GraphBackground}
+                    backgroundColor={colors.Primary2}
+                  />
+                </View>
+                <Text style={styles(colors).barLabelsText}>
+                  {Math.round(section.t * 10) / 10}%
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles(colors).expandBarMarks}>
+                  (Weight: {section.tWeight})
+                </Text>
+                <Text style={styles(colors).expandBarMarks}>
+                  {section.tMark}
+                </Text>
+              </View>
+            </>
+          )}
+          {section.cMark !== " " && (
+            <>
+              <View style={styles(colors).expandBar}>
+                <Text style={styles(colors).barLabelsText}>C</Text>
+                <View style={styles(colors).expandProgress}>
+                  <ProgressBar
+                    progress={section.c}
+                    height={8}
+                    trackColor={colors.GraphBackground}
+                    backgroundColor={colors.Primary1}
+                  />
+                </View>
+                <Text style={styles(colors).barLabelsText}>
+                  {Math.round(section.c * 10) / 10}%
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles(colors).expandBarMarks}>
+                  (Weight: {section.cWeight})
+                </Text>
+                <Text style={styles(colors).expandBarMarks}>
+                  {section.cMark}
+                </Text>
+              </View>
+            </>
+          )}
+          {section.aMark !== " " && (
+            <>
+              <View style={styles(colors).expandBar}>
+                <Text style={styles(colors).barLabelsText}>A</Text>
+                <View style={styles(colors).expandProgress}>
+                  <ProgressBar
+                    progress={section.a}
+                    height={8}
+                    trackColor={colors.GraphBackground}
+                    backgroundColor={colors.Primary2}
+                  />
+                </View>
+                <Text style={styles(colors).barLabelsText} numberOfLines={1}>
+                  {Math.round(section.a * 10) / 10}%
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles(colors).expandBarMarks}>
+                  (Weight: {section.aWeight})
+                </Text>
+                <Text style={styles(colors).expandBarMarks}>
+                  {section.aMark}
+                </Text>
+              </View>
+            </>
+          )}
+          {section.o !== " " && (
             <>
               <View style={styles(colors).expandBar}>
                 <Text style={styles(colors).barLabelsText}>O</Text>
@@ -651,7 +655,7 @@ export default function AccordionItem({
                     progress={section.o}
                     height={8}
                     trackColor={colors.GraphBackground}
-                    backgroundColor={colors.Primary2}
+                    backgroundColor={colors.Other}
                   />
                 </View>
                 <Text style={styles(colors).barLabelsText} numberOfLines={1}>
@@ -729,10 +733,7 @@ const styles = (colors) =>
       alignSelf: "center",
     },
     edit: {
-      width: 60,
-      height: 20,
-      paddingLeft: 14,
-      marginLeft: 10,
+      paddingHorizontal: 14,
       flexDirection: "row",
       alignItems: "center",
     },
@@ -857,11 +858,12 @@ const styles = (colors) =>
       paddingVertical: 8,
       margin: 5,
     },
-    editOptions: {
-      marginRight: 13,
+    editBtn: {
+      padding: 2,
+      borderRadius: 50,
+      borderWidth: 2,
+      borderColor: colors.Border,
+      marginHorizontal: 5,
+      marginBottom: 6,
     },
-    editWrapper: {
-      flexDirection: "row",
-      alignItems: "center",
-    }
   });

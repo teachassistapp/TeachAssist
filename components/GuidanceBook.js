@@ -10,7 +10,6 @@ import {
   Alert,
 } from "react-native";
 import { useTheme } from "../globals/theme";
-import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
@@ -67,6 +66,7 @@ export default function GuidanceBook({ route }) {
   const { colors } = useTheme();
   const navigation = useNavigation();
   let { link, time, date } = route.params;
+  date = new Date(date);
   const [reason, setReason] = useState(null);
   const [checkBox, setCheckBox] = useState([false, false]);
 
@@ -139,7 +139,7 @@ export default function GuidanceBook({ route }) {
           storeAppointment(appointment);
           navigation.goBack();
         })
-        .catch((error) => {
+        .catch(() => {
           Alert.alert(
             "Failed to book appointment.",
             "Please try again later, or visit the official TeachAssist site to book an appointment."
@@ -179,7 +179,6 @@ export default function GuidanceBook({ route }) {
               ...GENERAL_STYLES(colors).p,
               fontSize: 14,
               marginTop: 9,
-              marginBottom: 5,
               flexWrap: "wrap",
             }}
           >
@@ -200,17 +199,15 @@ export default function GuidanceBook({ route }) {
               minHeight: 120,
               paddingHorizontal: 20,
               paddingVertical: 18,
-              marginVertical: 10,
             }}
           >
             <Text
               style={{
-                ...GENERAL_STYLES(colors).p,
+                color: colors.Subtitle,
                 fontFamily: "Poppins_600SemiBold",
                 fontSize: 16,
                 textAlign: "center",
-                marginTop: 7,
-                marginBottom: 10,
+                marginVertical: 5,
                 alignSelf: "center",
                 flexWrap: "wrap",
               }}
@@ -286,15 +283,15 @@ const styles = (colors) =>
     hRule: {
       borderBottomColor: colors.GraphBackground,
       borderBottomWidth: 2,
-      marginVertical: 10,
+      marginVertical: 15,
       alignSelf: "center",
-      width: "95%",
-      maxWidth: 0.9 * vw,
+      width: 0.9 * vw,
     },
     button: {
       alignItems: "center",
       justifyContent: "center",
-      marginVertical: 20,
+      marginTop: 15,
+      marginBottom: 25,
       paddingTop: 12,
       paddingBottom: 10,
       paddingHorizontal: 20,

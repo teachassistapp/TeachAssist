@@ -1,8 +1,8 @@
-var bigInt = require("big-integer");
-
 import { N, E } from "../data/keys";
 
-function hex_encode(str) {
+var bigInt = require("big-integer");
+
+function hexEncode(str) {
   var hex_array = [];
   for (var n = 0, l = str.length; n < l; n++) {
     var hex = Number(str.charCodeAt(n)).toString(16);
@@ -12,7 +12,7 @@ function hex_encode(str) {
 }
 
 export const encryptRSA = (msg) => {
-  var m = hex_encode(msg);
+  var m = hexEncode(msg);
   m = bigInt(m, 16);
   const c = m.modPow(E, N);
   return String(c);
