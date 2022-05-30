@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { 
+  SafeAreaView, 
+  ScrollView, 
+  View,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+  TouchableWithoutFeedback
+} from "react-native";
 import * as Haptics from "expo-haptics";
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
@@ -148,46 +156,55 @@ export default function Details({ route }) {
 
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
-      <ScrollView style={GENERAL_STYLES(colors).scrollview}>
-        <View style={GENERAL_STYLES(colors).container}>
-          <BackHeader header={name} subtitle={code} colors={colors} />
-          <SwitchSelector
-            options={options}
-            initial={0}
-            textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
-            selectedTextStyle={{
-              fontFamily: "Poppins_600SemiBold",
-              fontSize: 11.5,
-            }}
-            textColor={colors.Subtitle}
-            selectedColor={colors.Primary1}
-            buttonColor={colors.Selected}
-            backgroundColor={colors.SwitchBg}
-            borderColor={colors.Border}
-            borderWidth={1}
-            hasPadding
-            style={{ width: "90%", marginBottom: 10 }}
-            onPress={(value) => {
-              setIsEnabled(value);
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            }}
-            animationDuration={300}
-          />
-        </View>
-        {DisplayScreen(
-          code,
-          block,
-          room,
-          name,
-          overall_mark,
-          assignments,
-          weight_table,
-          start_time,
-          end_time,
-          cached,
-          isEnabled
-        )}
-      </ScrollView>
+      <KeyboardAvoidingView
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={"position"}
+      // style={{flex: 1}}
+      // keyboardVerticalOffset={100}
+    >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView style={GENERAL_STYLES(colors).scrollView}>
+            <View style={GENERAL_STYLES(colors).container}>
+              <BackHeader header={name} subtitle={code} colors={colors} />
+              <SwitchSelector
+                options={options}
+                initial={0}
+                textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
+                selectedTextStyle={{
+                  fontFamily: "Poppins_600SemiBold",
+                  fontSize: 11.5,
+                }}
+                textColor={colors.Subtitle}
+                selectedColor={colors.Primary1}
+                buttonColor={colors.Selected}
+                backgroundColor={colors.SwitchBg}
+                borderColor={colors.Border}
+                borderWidth={1}
+                hasPadding
+                style={{ width: "90%", marginBottom: 10 }}
+                onPress={(value) => {
+                  setIsEnabled(value);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }}
+                animationDuration={300}
+              />
+            </View>
+            {DisplayScreen(
+              code,
+              block,
+              room,
+              name,
+              overall_mark,
+              assignments,
+              weight_table,
+              start_time,
+              end_time,
+              cached,
+              isEnabled
+            )}
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
