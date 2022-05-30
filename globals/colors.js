@@ -14,7 +14,12 @@ export const lightColors = {
   Shadow: "#ddd",
   Red: "#FF3B30",
   Bone: "#dedede",
-  SwitchBg: "#f5f5f5"
+  SwitchBg: "#f5f5f5",
+  Alt1: "#69A863",
+  Alt2: "#63a8a1",
+  Alt3: "#637da8",
+  Alt4: "#9a63a8",
+  Alt5: "#a86388"
 };
 
 export const darkColors = {
@@ -33,5 +38,10 @@ export const darkColors = {
   Shadow: "#202323",
   Red: "#FF3B30",
   Bone: "#2a2c2c",
-  SwitchBg: "#202323"
+  SwitchBg: "#202323",
+  Alt1: "#69A863",
+  Alt2: "#63a8a1",
+  Alt3: "#637da8",
+  Alt4: "#9a63a8",
+  Alt5: "#a86388"
 };
