@@ -45,9 +45,9 @@ export default function SettingsHome() {
     }
   };
 
-  const labels = ["About", "Support & Feedback", "Help & FAQ"];
-  const navs = ["About", "Feedback", "HelpHome"];
-  const icons = ["info", "message", "help"];
+  const labels = ["Change Colours", "About", "Support & Feedback", "Help & FAQ"];
+  const navs = ["ColorPicker", "About", "Feedback", "HelpHome"];
+  const icons = ["format-color-fill", "info", "message", "help"];
 
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>

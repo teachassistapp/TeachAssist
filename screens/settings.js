@@ -1,6 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SettingsHome from "./settings/settingsHome";
+import ColorPicker from "./settings/colorPicker";
 import About from "./settings/about";
 import Feedback from "./settings/feedback";
 import HelpHome from "./settings/help/helpHome";
@@ -14,6 +15,7 @@ export default function courses() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SettingsHome" component={SettingsHome} />
+      <Stack.Screen name="ColorPicker" component={ColorPicker} />
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Feedback" component={Feedback} />
       <Stack.Screen name="HelpHome" component={HelpHome} />
