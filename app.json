@@ -2,7 +2,7 @@
   "expo": {
     "name": "TeachAssist",
     "slug": "teachassistapp",
-    "version": "1.0.7",
+    "version": "1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,7 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "io.github.teachassistapp",
       "buildNumber": "1"
     },
