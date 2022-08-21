@@ -186,7 +186,7 @@ export default function AccordionItem({
         style={{ ...ASSIGNMENT_STYLES(colors).assignmentBarChart, flex: 3 }}
       >
         {section.finished ? (
-          ["k", "t", "c", "a"].map((i) => {
+          ["k", "t", "c", "a"].map((i, index) => {
             return (
               ((section.f === " " && section.o === " ") ||
                 section[i] !== " ") && (
@@ -214,7 +214,7 @@ export default function AccordionItem({
                       progress={section[i]}
                       height={8}
                       trackColor={colors.GraphBackground}
-                      backgroundColor={colors.Primary2}
+                      backgroundColor={index % 2 === 0 ? colors.Primary1 : colors.Primary2}
                     />
                   </View>
                   <Text style={styles(colors).barLabelsText}>
