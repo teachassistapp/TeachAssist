@@ -214,7 +214,7 @@ export default function AccordionItem({
                       progress={section[i]}
                       height={8}
                       trackColor={colors.GraphBackground}
-                      backgroundColor={index % 2 === 0 ? colors.Primary1 : colors.Primary2}
+                      backgroundColor={index % 2 === 0 ? colors.Primary2 : colors.Primary1}
                     />
                   </View>
                   <Text style={styles(colors).barLabelsText}>
@@ -405,7 +405,7 @@ export default function AccordionItem({
                     >
                       <Ionicons
                         name="calculator"
-                        size={24}
+                        size={20}
                         color={colors.Background}
                       />
                       <Text style={styles(colors).buttonText}>Edit</Text>
@@ -821,7 +821,7 @@ const styles = (colors) =>
     },
     input: {
       borderRadius: 10,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: colors.Border,
       padding: 5,
       width: "45%",
@@ -861,7 +861,7 @@ const styles = (colors) =>
     editBtn: {
       padding: 2,
       borderRadius: 50,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: colors.Border,
       marginHorizontal: 5,
       marginBottom: 6,
