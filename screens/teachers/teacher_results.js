@@ -229,8 +229,10 @@ const styles = (colors) =>
     },
     teacherContainer: {
       padding: 12,
+      paddingLeft: 16,
       margin: 12,
       width: "90%",
+      alignSelf: "center"
     },
     titles: {
       flexDirection: "row",
