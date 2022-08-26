@@ -861,8 +861,7 @@ const styles = (colors) =>
     editBtn: {
       padding: 2,
       borderRadius: 50,
-      borderWidth: 1,
-      borderColor: colors.Border,
+      backgroundColor: colors.Placeholder,
       marginHorizontal: 5,
       marginBottom: 6,
     },
