@@ -215,7 +215,7 @@ export default function AssessmentsScreen({
                   >
                     <Ionicons
                       name="calculator"
-                      size={22}
+                      size={20}
                       color={colors.Background}
                     />
                     <Text style={styles(colors).buttonText}>Create</Text>
@@ -291,7 +291,7 @@ const styles = (colors) =>
     },
     input: {
       borderRadius: 10,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: colors.Border,
       padding: 5,
       width: "45%",

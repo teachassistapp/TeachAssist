@@ -13,6 +13,7 @@ import { useTheme } from "../globals/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
+import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
 import { BackHeader } from "./BackHeader";
 
@@ -113,7 +114,7 @@ export default function GuidanceBook({ route }) {
       isOnline: checkBox[1],
     };
 
-    if (number == "dXNlcnRlc3Q" && password == "dGVzdGFjY291bnQ") {
+    if (number == TEST_USER && password == TEST_PASS) {
       storeAppointment(appointment);
       navigation.goBack();
       return;
@@ -124,9 +125,9 @@ export default function GuidanceBook({ route }) {
       myHeaders.append("Content-Type", "application/json");
 
       const enc_number = encryptRSA(number);
-      const enc_pass = encryptRSA(pass);
+      const enc_pass = encryptRSA(password);
 
-      var url = `https://oct-api.herokuapp.com/make-guidance-appointments?url=${link}&parents=${checkBox[0]}&isOnline=${checkBox[1]}&type=${reasons[reason]}&number=${enc_number}&password=${enc_pass}`;
+      var url = `https://oct-api.herokuapp.com/make-guidance-appointments?url=${link}&parents=${checkBox[0]}&isOnline=${checkBox[1]}&type=${reasons[reason]}&number=${enc_number}&password=${enc_pass}&rsa=True`;
 
       var requestOptions = {
         method: "GET",

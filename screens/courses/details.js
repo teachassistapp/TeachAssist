@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { 
-  SafeAreaView, 
-  ScrollView, 
+import {
+  SafeAreaView,
+  ScrollView,
   View,
   KeyboardAvoidingView,
-  Keyboard,
+  TouchableWithoutFeedback,
   Platform,
-  TouchableWithoutFeedback
+  Keyboard,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import SwitchSelector from "react-native-switch-selector";
@@ -157,19 +157,20 @@ export default function Details({ route }) {
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <KeyboardAvoidingView
-      // behavior={Platform.OS === "ios" ? "padding" : "height"}
-      behavior={"position"}
-      // style={{flex: 1}}
-      // keyboardVerticalOffset={100}
-    >
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView style={GENERAL_STYLES(colors).scrollView}>
+          <ScrollView style={GENERAL_STYLES(colors).scrollview}>
             <View style={GENERAL_STYLES(colors).container}>
               <BackHeader header={name} subtitle={code} colors={colors} />
               <SwitchSelector
                 options={options}
                 initial={0}
-                textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
+                textStyle={{
+                  fontFamily: "Poppins_600SemiBold",
+                  fontSize: 11.5,
+                }}
                 selectedTextStyle={{
                   fontFamily: "Poppins_600SemiBold",
                   fontSize: 11.5,

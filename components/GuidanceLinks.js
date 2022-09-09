@@ -14,7 +14,11 @@ export default function GuidanceLinks({ link, time, date }) {
     });
   };
   return (
-    <View>
+    <View
+    style={{
+      width: "30%",
+    }}
+    >
       <TouchableOpacity onPress={() => navigateToBookScreen()}>
         <Text
           style={{
