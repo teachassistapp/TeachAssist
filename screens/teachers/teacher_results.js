@@ -205,8 +205,6 @@ export default function TeacherResults({
   );
 }
 
-const vw = Dimensions.get("window").width;
-
 const styles = (colors) =>
   StyleSheet.create({
     button: {

@@ -14,6 +14,5 @@ function hexEncode(str) {
 export const encryptRSA = (msg) => {
   var m = hexEncode(msg);
   m = bigInt(m, 16);
-  const c = m.modPow(E, N);
-  return String(c);
+  return String(m.modPow(E, N));
 };

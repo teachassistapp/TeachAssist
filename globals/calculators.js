@@ -98,6 +98,5 @@ export function calculateCourseAverage(assignments) {
   } else {
     o = 0;
   }
-  let avg = Math.round((k + t + c + a + f + o) / weights / 10) / 10;
-  return avg;
+  return Math.round((k + t + c + a + f + o) / weights / 10) / 10;
 }
