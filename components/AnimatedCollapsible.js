@@ -36,8 +36,8 @@ function AnimatedCollapsible({ header, description, colors }) {
         animation={expanded ? "fadeInDown" : "fadeOutUp"}
         style={{
           ...GENERAL_STYLES(colors).expand,
-          paddingTop: expanded ? "auto" : 8,
-          paddingBottom: expanded ? "auto" : 12,
+          paddingTop: expanded ? 15 : 8,
+          paddingBottom: expanded ? 15 : 12,
           height: expanded ? "auto" : 0,
         }}
       >

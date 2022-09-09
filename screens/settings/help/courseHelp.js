@@ -25,8 +25,6 @@ export default function CourseHelp() {
                       style={{
                         ...GENERAL_STYLES(colors).p,
                         fontSize: 14,
-                        marginTop: 15,
-                        marginBottom: 15,
                       }}
                     >
                       {d.description}
