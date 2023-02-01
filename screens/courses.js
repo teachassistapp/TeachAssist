@@ -7,7 +7,7 @@ import Details from "./courses/details";
 
 const Stack = createNativeStackNavigator();
 
-export default function Courses() {
+export default function courses() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />

@@ -3,11 +3,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
-import Guidance from "./guidance";
-import Search from "./search";
-import Teachers from "./teachers";
-import Settings from "./settings";
-import Courses from "./courses";
+import guidance from "./guidance";
+import search from "./search";
+import teachers from "./teachers";
+import settings from "./settings";
+import courses from "./courses";
 import { useTheme } from "../globals/theme";
 
 const Tab = createBottomTabNavigator();
@@ -40,7 +40,7 @@ export default function Home() {
     >
       <Tab.Screen
         name="home"
-        component={Courses}
+        component={courses}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="school" size={size} color={color} />
@@ -49,7 +49,7 @@ export default function Home() {
       />
       <Tab.Screen
         name="search"
-        component={Search}
+        component={search}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="search" size={size - 2} color={color} />
@@ -58,7 +58,7 @@ export default function Home() {
       />
       <Tab.Screen
         name="guidance"
-        component={Guidance}
+        component={guidance}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="people" size={size + 2} color={color} />
@@ -67,7 +67,7 @@ export default function Home() {
       />
       <Tab.Screen
         name="teachers"
-        component={Teachers}
+        component={teachers}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5
@@ -80,7 +80,7 @@ export default function Home() {
       />
       <Tab.Screen
         name="settings"
-        component={Settings}
+        component={settings}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings-sharp" size={size} color={color} />

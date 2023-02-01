@@ -36,7 +36,7 @@ const displayDate = (date) => {
   return `${months[parseInt(date[1]) - 1]} ${date[2]}, ${date[0]}`;
 };
 
-export function parseAssignments(data, weight_table) {
+function parseAssignments(data, weight_table) {
   let content = [];
   for (let i = 0; i < data.length; i++) {
     content.push({

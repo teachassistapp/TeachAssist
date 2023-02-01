@@ -24,11 +24,10 @@ import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { encryptRSA } from "../components/RSA";
 import SkeletonGuidanceLoading from "../components/skeletonGuidanceLoading";
-import * as Device from "expo-device";
 
 const Stack = createNativeStackNavigator();
 
-export default function Guidance() {
+export default function guidance() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Search" component={GuidanceSearch} />
@@ -121,7 +120,7 @@ function GuidanceSearch() {
 
   const onChange = (selectedDate) => {
     const newDate = selectedDate || date;
-    setShow(Device.osName === "iOS");
+    setShow(Platform.OS === "ios");
     setDate(newDate);
     setShowResults(false);
   };

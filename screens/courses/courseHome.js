@@ -26,8 +26,6 @@ import ProgressBar from "../../components/ProgressBar";
 import { DisplayProgress } from "../../components/charts";
 import { useTheme } from "../../globals/theme";
 
-import { calculateCourseAverage } from "../../globals/calculators";
-import { parseAssignments } from "../../components/DisplayMarkUpdates";
 import { handleFetchError } from "../../globals/alert";
 import { test_course_data } from "../../data/test";
 import { TEST_PASS, TEST_USER } from "../../data/keys";
@@ -268,55 +266,36 @@ export default function Home({ navigation }) {
     if (loading || refreshing) return;
     setLoading(true);
     if (number !== null && password !== null) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        number: number,
+        password: password,
+      });
+
       var requestOptions = {
-        headers: {
-          accept: "*/*",
-          "accept-language": "en-US,en;q=0.9",
-          "content-type": "application/json",
-          "sec-ch-ua":
-            '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"Windows"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-origin",
-        },
-        referrer: "https://ta-api.vercel.app/",
-        referrerPolicy: "strict-origin-when-cross-origin",
-        body: `{"username":"${number}","password":"${password}"}`,
         method: "POST",
-        mode: "cors",
-        credentials: "omit",
+        headers: myHeaders,
+        body: raw,
       };
 
-      fetch("https://ta-api.vercel.app/api/getCourses", requestOptions)
+      fetch(
+        "https://api.pegasis.site/public/yrdsb_ta/getmark_v2",
+        requestOptions
+      )
         .then((response) => {
           const status = response.status;
           if (status === 200) {
-            response
-              .json()
-              .then((datum) => {
-                datum = datum.response;
-                datum = checkNull(stored, datum);
-                if (JSON.stringify(datum) !== JSON.stringify(stored)) {
-                  setNotifs({
-                    isNotifs: true,
-                    current: stored,
-                    updated: datum,
-                  });
-                  setData(datum);
-                  storeData(datum);
-                } else {
-                  setNotifs({
-                    isNotifs: false,
-                    current: stored,
-                    updated: datum,
-                  });
-                }
-              })
-              .catch((err) => {
-                console.log("error:", err);
-              });
+            response.json().then((datum) => {
+              datum = checkNull(stored, datum);
+              if (JSON.stringify(datum) !== JSON.stringify(stored)) {
+                setNotifs({ isNotifs: true, current: stored, updated: datum });
+                setData(datum);
+                storeData(datum);
+              } else {
+                setNotifs({ isNotifs: false, current: stored, updated: datum });
+              }
+            });
           } else {
             handleFetchError();
           }
@@ -359,19 +338,20 @@ export default function Home({ navigation }) {
   let displayBreakdown = []; //format breakdown of course data
   let averages = [];
   for (let i = 0; i < data.length; i++) {
-    let code = !data[i].code ? "Unknown Code" : data[i].code;
-    let block = !data[i].block ? "Unknown Period" : data[i].block;
-    let room = !data[i].room ? "Unknown Room" : data[i].room;
-    let name = !data[i].name ? "Unnamed Course" : data[i].name;
-
-    let weight_table_exists =
-      data[i].weight_table && Object.keys(data[i].weight_table).length !== 0;
-    let k = weight_table_exists ? data[i].weight_table.KU.SA : "null";
-    let t = weight_table_exists ? data[i].weight_table.T.SA : "null";
-    let c = weight_table_exists ? data[i].weight_table.C.SA : "null";
-    let a = weight_table_exists ? data[i].weight_table.A.SA : "null";
-    let overall = data[i].overall_mark;
-    let weight_table = weight_table_exists ? data[i].weight_table : {};
+    let code = data[i].code === null ? "Unknown Code" : data[i].code;
+    let block = data[i].block === null ? "Unknown Period" : data[i].block;
+    let room = data[i].room === null ? "Unknown Room" : data[i].room;
+    let name = data[i].name === null ? "Unnamed Course" : data[i].name;
+    let k = data[i].weight_table === null ? "null" : data[i].weight_table.KU.SA;
+    let t = data[i].weight_table === null ? "null" : data[i].weight_table.T.SA;
+    let c = data[i].weight_table === null ? "null" : data[i].weight_table.C.SA;
+    let a = data[i].weight_table === null ? "null" : data[i].weight_table.A.SA;
+    let overall =
+      data[i].overall_mark === null
+        ? "N/A"
+        : Math.round(data[i].overall_mark * 10) / 10;
+    let weight_table =
+      data[i].weight_table === null ? "null" : data[i].weight_table;
     let assignments = data[i].assignments === [] ? "null" : data[i].assignments;
     let start_time = data[i].start_time;
     let end_time = data[i].end_time;

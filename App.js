@@ -4,12 +4,12 @@ import {
   DarkTheme,
   DefaultTheme,
 } from "@react-navigation/native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import { AppearanceProvider } from "react-native-appearance";
-//import { ThemeProvider } from "./globals/theme";
-//import { useColorScheme } from "react-native";
+import { AppearanceProvider } from "react-native-appearance";
+import { ThemeProvider } from "./globals/theme";
+import { useColorScheme } from "react-native";
 import {
   useFonts,
   Poppins_400Regular,
@@ -25,7 +25,7 @@ import Login from "./screens/login";
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const Stack = createNativeStackNavigator();
-  //const scheme = useColorScheme();
+  const scheme = useColorScheme();
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -52,21 +52,27 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <NavigationContainer theme={DarkTheme}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {loggedIn ? (
-              <>
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="Login" component={Login} />
-              </>
-            ) : (
-              <>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Home" component={Home} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppearanceProvider>
+          <ThemeProvider>
+            <NavigationContainer
+              theme={scheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {loggedIn ? (
+                  <>
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen name="Login" component={Login} />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Home" component={Home} />
+                  </>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ThemeProvider>
+        </AppearanceProvider>
       </SafeAreaProvider>
     );
   }
