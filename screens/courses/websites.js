@@ -19,6 +19,7 @@ import * as Linking from "expo-linking";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { TEST_USER, TEST_PASS } from "../../data/keys";
+import * as Device from "expo-device";
 
 var websites_data = [
   ["TeachAssist", "https://ta.yrdsb.ca/yrdsb/"],
@@ -287,7 +288,7 @@ export default function Websites({ navigation }) {
               }}
             >
               <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                behavior={Device.osName === "iOS" ? "padding" : "height"}
                 style={{
                   flex: 1,
                   alignItems: "center",

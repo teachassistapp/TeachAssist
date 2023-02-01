@@ -25,6 +25,7 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
+import * as Device from "expo-device";
 
 export default function Login({ navigation }) {
   const { colors, isDark, setScheme } = useTheme();
@@ -79,20 +80,28 @@ export default function Login({ navigation }) {
       return;
     }
     setSearching(true);
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      number: number,
-      password: password,
-    });
-
     var requestOptions = {
+      headers: {
+        accept: "*/*",
+        "accept-language": "en-US,en;q=0.9",
+        "content-type": "application/json",
+        "sec-ch-ua":
+          '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+      },
+      referrer: "https://ta-api.vercel.app/",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      body: `{"username":"${number}","password":"${password}"}`,
       method: "POST",
-      headers: myHeaders,
-      body: raw,
+      mode: "cors",
+      credentials: "omit",
     };
 
-    fetch("https://api.pegasis.site/public/yrdsb_ta/getmark_v2", requestOptions)
+    fetch("https://ta-api.vercel.app/api/getCourses", requestOptions)
       .then((response) => {
         if (response.status === 200) {
           storeAuthData(number, password);
@@ -116,7 +125,7 @@ export default function Login({ navigation }) {
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Device.osName === "iOS" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

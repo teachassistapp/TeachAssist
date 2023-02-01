@@ -10,7 +10,7 @@ import TeacherHelp from "./settings/help/teacherHelp";
 import GuidanceHelp from "./settings/help/guidanceHelp";
 
 const Stack = createNativeStackNavigator();
-export default function courses() {
+export default function Settings() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SettingsHome" component={SettingsHome} />

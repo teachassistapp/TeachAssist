@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
+} from "react-native";
 import * as Haptics from "expo-haptics";
 import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
@@ -8,13 +16,15 @@ import AboutScreen from "./details/about";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/BackHeader";
+import * as Device from "expo-device";
 
 function parseAssignments(data, weight_table) {
   let content = [];
+  //console.log(data);
   for (let i = 0; i < data.length; i++) {
     content.push({
       title: data[i].name,
-      comments: data[i].feedback,
+      comments: data[i].feedback ? data[i].feedback : null,
       k:
         !data[i].KU || !data[i].KU[0].finished
           ? " "
@@ -148,20 +158,21 @@ export default function Details({ route }) {
 
   return (
     <SafeAreaView style={GENERAL_STYLES(colors).safeView}>
-      <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+      <KeyboardAvoidingView
+        behavior={Device.osName === "iOS" ? "padding" : "height"}
+        style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView 
-          style={GENERAL_STYLES(colors).scrollview}
-          >
+          <ScrollView style={GENERAL_STYLES(colors).scrollview}>
             <View style={GENERAL_STYLES(colors).container}>
               <BackHeader header={name} subtitle={code} colors={colors} />
               <SwitchSelector
                 options={options}
                 initial={0}
-                textStyle={{ fontFamily: "Poppins_600SemiBold", fontSize: 11.5 }}
+                textStyle={{
+                  fontFamily: "Poppins_600SemiBold",
+                  fontSize: 11.5,
+                }}
                 selectedTextStyle={{
                   fontFamily: "Poppins_600SemiBold",
                   fontSize: 11.5,

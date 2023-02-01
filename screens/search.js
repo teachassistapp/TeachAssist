@@ -281,7 +281,7 @@ function DisplayCourseMatches({ matches }) {
   return <View>{assignments}</View>;
 }
 
-export default function search() {
+export default function Search() {
   const { colors } = useTheme();
   const [assignments, setAssignments] = useState([]);
   const [search, setSearch] = useState(null);

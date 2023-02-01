@@ -22,6 +22,7 @@ import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
 import { useTheme } from "../globals/theme";
 import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../globals/styles";
+import * as Device from "expo-device";
 
 export default function AccordionItem({
   data,
@@ -214,7 +215,9 @@ export default function AccordionItem({
                       progress={section[i]}
                       height={8}
                       trackColor={colors.GraphBackground}
-                      backgroundColor={index % 2 === 0 ? colors.Primary2 : colors.Primary1}
+                      backgroundColor={
+                        index % 2 === 0 ? colors.Primary2 : colors.Primary1
+                      }
                     />
                   </View>
                   <Text style={styles(colors).barLabelsText}>
@@ -329,7 +332,7 @@ export default function AccordionItem({
             }}
           >
             <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              behavior={Device.osName === "iOS" ? "padding" : "height"}
               style={{
                 flex: 1,
                 alignItems: "center",
