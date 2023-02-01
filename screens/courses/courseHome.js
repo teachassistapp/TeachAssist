@@ -314,9 +314,7 @@ export default function Home({ navigation }) {
                   });
                 }
               })
-              .catch((err) => {
-                console.log("error:", err);
-              });
+              .catch((err) => {});
           } else {
             handleFetchError();
           }
@@ -371,6 +369,19 @@ export default function Home({ navigation }) {
     let c = weight_table_exists ? data[i].weight_table.C.SA : "null";
     let a = weight_table_exists ? data[i].weight_table.A.SA : "null";
     let overall = data[i].overall_mark;
+    if (
+      overall == "N/A" &&
+      weight_table_exists &&
+      data[i].assignments.length > 0
+    ) {
+      const parsed = parseAssignments(
+        data[i].assignments,
+        data[i].weight_table
+      );
+      if (parsed.length > 0) {
+        overall = calculateCourseAverage(parsed);
+      }
+    }
     let weight_table = weight_table_exists ? data[i].weight_table : {};
     let assignments = data[i].assignments === [] ? "null" : data[i].assignments;
     let start_time = data[i].start_time;
@@ -559,7 +570,7 @@ const styles = (colors) =>
       height: 20,
       width: 20,
       marginLeft: 10,
-      marginTop: 5,
+      marginTop: 0,
       justifyContent: "center",
       alignItems: "center",
     },

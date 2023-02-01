@@ -4,7 +4,7 @@ import { lightColors, darkColors } from "./colors";
 
 export const ThemeContext = React.createContext({
   isDark: true,
-  colors: lightColors,
+  colors: darkColors,
   setScheme: () => {},
 });
 
