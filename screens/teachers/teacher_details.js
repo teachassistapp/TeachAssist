@@ -33,125 +33,112 @@ function parseData(data) {
 
 export default function TeacherDetails({ route, navigation }) {
   const { colors } = useTheme();
-  let { id, data, name, status, isStarred, starrable } = route.params;
+  let { id, name, status } = route.params;
   name = name.toLowerCase();
-  const [starred, setStarred] = useState(isStarred);
-  const [loading, setLoading] = useState(false);
-  const [res, setRes] = useState(data);
-  const storeData = async (tc, stored) => {
-    try {
-      if (
-        stored.filter((t) => {
-          t.id === tc.id;
-        }).length === 0
-      ) {
-        await AsyncStorage.setItem("teacher", JSON.stringify(tc));
-      }
-    } catch {
-      Alert.alert("Failed to store data.");
-    }
-  };
+  const [loading, setLoading] = useState(true);
+  const [res, setRes] = useState({});
 
-  const onLoad = async (id, result, starred) => {
-    try {
-      let datum = await AsyncStorage.getItem("teacher");
-      datum = JSON.parse(datum);
-      if (starred) {
-        let newTeachers = [];
-        let thisTeacher;
-        for (let i = 0; i < datum.length; i++) {
-          if (datum[i].id !== id) {
-            newTeachers.push(datum[i]);
-          } else {
-            thisTeacher = datum[i];
-          }
-        }
-        thisTeacher.raw_data = { ...result };
-        newTeachers.push(thisTeacher);
-        setRes(result);
-        storeData(newTeachers, datum);
-      }
-    } catch (e) {
-      Alert.alert("Failed to load saved teachers.");
-    }
-  };
-
-  const handleStar = async () => {
-    try {
-      let datum = await AsyncStorage.getItem("teacher");
-      if (datum === null) {
-        datum = [];
-      } else {
-        datum = JSON.parse(datum);
-      }
-      let newTeachers = [...datum];
-      if (!starred) {
-        //starred
-        let newTeacher = {
-          id: id,
-          name: name,
-          raw_data: { ...data },
-          status: status,
-        };
-        newTeachers.push(newTeacher);
-      } else {
-        //unstarred
-        newTeachers = newTeachers.filter((t) => {
-          return t.id !== data.id;
-        });
-      }
-      setStarred(!starred);
-      storeData(newTeachers, datum);
-    } catch (e) {
-      Alert.alert("Failed to save teacher.");
-    }
-  };
-
-  const checkStarredData = async (id) => {
-    try {
-      let datum = await AsyncStorage.getItem("teacher");
-      datum = JSON.parse(datum);
-      let thisTeacher = datum.find((t) => {
-        return t.id === id;
-      });
-      if (thisTeacher.raw_data) {
-        setRes(thisTeacher.raw_data);
-      } else {
-        getTeacherData();
-      }
-    } catch {
-      Alert.alert("Failed to load stored teachers.");
-    }
-  };
   const getTeacherData = () => {
     setLoading(true);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
     };
-    fetch(
-      "https://oct-api.herokuapp.com/fetch-teacher-id?id=" + id,
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => {
-        result = JSON.parse(result);
-        setRes(result);
-        onLoad(id, result, starred);
-        setLoading(false);
-      })
-      .catch(() => {
-        handleFetchError();
+
+    const url =
+      "https://apps.oct.ca/FindATeacherWebApiWrapper/api/publicregister/";
+    const params =
+      "guid=814fd225-0c8b-eb11-b1ac-000d3a09d306&csid=f41uk_O3QGF1Mo0.tf_sTdl_EUedR6pksz";
+    fetch(`${url}basicQualification?id=${id}&${params}`, requestOptions)
+      .then((response) =>
+        response
+          .json()
+          .then((basicQualifications) => {
+            fetch(`${url}degreeCredentials?id=${id}&${params}`)
+              .then((response) =>
+                response
+                  .json()
+                  .then((degreeCredentials) => {
+                    const result = {
+                      id: id,
+                      name: name,
+                      status: status,
+                      content: {
+                        degrees: {
+                          property: "Education",
+                          content: [],
+                        },
+                        teaching: {
+                          property: "Teaching Qualifications",
+                          content: [],
+                        },
+                        additional: {
+                          property: "Additional Qualifications",
+                          content: [],
+                        },
+                      },
+                    };
+                    basicQualifications.forEach((item) => {
+                      let type = "teaching";
+                      if (
+                        item.phoenix_qualificationtypename ===
+                        "Additional Qualification"
+                      ) {
+                        type = "additional";
+                      }
+                      result.content[type].content.push({
+                        name: item.phoenix_name,
+                        institution: item.phoenix_institution_name,
+                        date: item.phoenix_validfrom,
+                        subject: item.phoenix_subject,
+                      });
+                    });
+                    degreeCredentials.value.forEach((item) => {
+                      result.content.degrees.content.push({
+                        name: item.phoenix_degree_name,
+                        institution: item.phoenix_institution_name,
+                        date: item.phoenix_issueddate,
+                      });
+                    });
+                    setRes(result);
+                    setLoading(false);
+                  })
+                  .catch((err) => {
+                    throw err;
+                  })
+              )
+              .catch((err) => {
+                throw err;
+              });
+          })
+          .catch((err) => {
+            throw err;
+          })
+      )
+      .catch((err) => {
+        console.log(err);
         setLoading(false);
       });
+
+    // fetch(
+    //   "https://oct-api.herokuapp.com/fetch-teacher-id?id=" + id,
+    //   requestOptions
+    // )
+    //   .then((response) => response.text())
+    //   .then((result) => {
+    //     result = JSON.parse(result);
+    //     setRes(result);
+    //     onLoad(id, result, starred);
+    //     setLoading(false);
+    //   })
+    //   .catch(() => {
+    //     handleFetchError();
+    //     setLoading(false);
+    //   });
   };
 
   useEffect(() => {
-    if (starred) {
-      checkStarredData(id);
-    } else if (!data) {
-      getTeacherData();
-    }
+    getTeacherData();
   }, []);
 
   return (
@@ -187,33 +174,10 @@ export default function TeacherDetails({ route, navigation }) {
             >
               {name}
             </Text>
-            {starrable ? (
-              <TouchableOpacity
-                style={{ flex: 1, alignItems: "center" }}
-                onPress={() => handleStar()}
-                hitSlop={{
-                  top: 10,
-                  bottom: 10,
-                  left: 10,
-                  right: 10,
-                }}
-              >
-                {starred ? (
-                  <FontAwesome name="star" size={24} color={colors.Subtitle} />
-                ) : (
-                  <FontAwesome
-                    name="star-o"
-                    size={24}
-                    color={colors.Subtitle}
-                  />
-                )}
-              </TouchableOpacity>
-            ) : (
-              <View style={{ flex: 1 }} />
-            )}
+            <View style={{ flex: 1 }} />
           </View>
           {loading && <SkeletonTeacherDetails />}
-          {res && (
+          {res && !loading && (
             <View>
               <View
                 style={[
@@ -222,16 +186,14 @@ export default function TeacherDetails({ route, navigation }) {
                 ]}
               >
                 <View style={styles(colors).generalInfo}>
-                  <Text style={styles(colors).generalText}>
-                    Registration #:{" "}
-                  </Text>
+                  <Text style={styles(colors).generalText}>ID: </Text>
                   <Text
                     style={[
                       styles(colors).generalText,
                       { fontFamily: "Poppins_600SemiBold" },
                     ]}
                   >
-                    {res.registration_number}
+                    {res.id}
                   </Text>
                 </View>
                 <View style={styles(colors).generalInfo}>
@@ -264,34 +226,28 @@ export default function TeacherDetails({ route, navigation }) {
                     )}
                   </Text>
                 </View>
-                <View style={styles(colors).generalInfo}>
-                  <Text style={styles(colors).generalText}>Date Issued: </Text>
-                  <Text
-                    style={[
-                      styles(colors).generalText,
-                      { fontFamily: "Poppins_600SemiBold" },
-                    ]}
-                  >
-                    {res.date}
-                  </Text>
-                </View>
               </View>
               <View>
-                {parseData(res).map((d, i) => {
-                  if (d.content.length > 0) {
+                {Object.values(res.content).map((detail, i) => {
+                  if (detail.content.length > 0) {
                     return (
                       <AnimatedCollapsible
-                        header={d.property}
-                        description={d.content.map((e, i) => {
+                        header={detail.property}
+                        description={detail.content.map((e, i) => {
                           return (
-                            <View key={String(i)}>
+                            <View
+                              key={String(i)}
+                              style={{
+                                paddingVertical: 10,
+                              }}
+                            >
                               <Text
                                 style={[
                                   GENERAL_STYLES(colors).p,
                                   styles(colors).p,
                                 ]}
                               >
-                                {e.slice(0, e.indexOf("/") + 1).trim()}
+                                {e.subject} @ {e.institution}
                                 <Text
                                   style={{
                                     ...GENERAL_STYLES(colors).p,
@@ -299,7 +255,8 @@ export default function TeacherDetails({ route, navigation }) {
                                     fontFamily: "Poppins_600SemiBold",
                                   }}
                                 >
-                                  {e.slice(e.indexOf("/") + 1)}
+                                  {" / "}
+                                  {e.date}
                                 </Text>
                               </Text>
                             </View>
@@ -323,7 +280,7 @@ export default function TeacherDetails({ route, navigation }) {
 const styles = (colors) =>
   StyleSheet.create({
     generalContainer: {
-      minHeight: 126,
+      minHeight: 60,
       color: colors.Header,
       justifyContent: "space-between",
       alignItems: "flex-start",

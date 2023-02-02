@@ -13,58 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GENERAL_STYLES } from "../../globals/styles";
 
 // component for the teacher overview we map through, (id,name, and status)
-function TeacherOverview({
-  teacher,
-  navigation,
-  colors,
-  initialStored,
-  setStoredTeachers,
-}) {
-  if (initialStored === null) {
-    initialStored = [];
-  }
-  const find_starred = initialStored.find((t) => {
-    return t.id === teacher.id;
-  });
-  const [starred, setStarred] = useState(find_starred === true);
-  const storeData = async (tc, stored) => {
-    try {
-      if (
-        stored.filter((t) => {
-          t.id === tc.id;
-        }).length === 0
-      ) {
-        await AsyncStorage.setItem("teacher", JSON.stringify(tc));
-      }
-    } catch (error) {
-      Alert.alert("Failed to store data.");
-    }
-  };
-  const handleStar = async () => {
-    try {
-      let datum = await AsyncStorage.getItem("teacher");
-      if (datum === null) {
-        datum = [];
-      } else {
-        datum = JSON.parse(datum);
-      }
-      let newTeachers = [...datum];
-      if (!starred) {
-        //starred
-        newTeachers.push(teacher);
-      } else {
-        //unstarred
-        newTeachers = newTeachers.filter((t) => {
-          return t.id !== teacher.id;
-        });
-      }
-      setStarred(!starred);
-      storeData(newTeachers, datum);
-      setStoredTeachers(newTeachers);
-    } catch (e) {
-      Alert.alert("Failed to save teacher.");
-    }
-  };
+function TeacherOverview({ teacher, navigation, colors }) {
   let name = teacher.name;
   if (name.includes(", OCT")) {
     name = name.slice(0, -5);
@@ -73,24 +22,14 @@ function TeacherOverview({
     name = name.slice(0, Dimensions.get("window").width / 23) + "...";
   }
 
-  useEffect(() => {
-    setStarred(
-      initialStored.filter((t) => {
-        return t.id === teacher.id;
-      }).length > 0
-    );
-  }, [initialStored]);
   return (
     <TouchableOpacity
       style={styles(colors).teacher}
       onPress={() => {
         navigation.navigate("Teacher Details", {
           id: teacher.id,
-          data: find_starred ? find_starred.raw_data : null, //find_starred.raw_data
           name: teacher.name,
           status: teacher.status,
-          isStarred: starred,
-          starrable: false,
         });
       }}
     >
@@ -106,22 +45,6 @@ function TeacherOverview({
           }
         />
       </View>
-      <TouchableOpacity
-        style={{ flex: 2, alignItems: "center" }}
-        onPress={() => handleStar()}
-        hitSlop={{
-          top: 10,
-          bottom: 10,
-          left: 10,
-          right: 10,
-        }}
-      >
-        {starred ? (
-          <FontAwesome name="star" size={20} color={colors.Subtitle} />
-        ) : (
-          <FontAwesome name="star-o" size={20} color={colors.Subtitle} />
-        )}
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -131,8 +54,6 @@ export default function TeacherResults({
   valid,
   navigation,
   colors,
-  storedTeachers,
-  setStoredTeachers,
   actives,
 }) {
   // method for rendering teachers onto screen
@@ -144,9 +65,6 @@ export default function TeacherResults({
     setGreen(!green);
   };
 
-  const setStoredTeachersChild = (t) => {
-    setStoredTeachers(t);
-  };
   if (data.length === 0) {
     return (
       <View style={{ alignItems: "center", marginTop: 20 }}>
@@ -163,8 +81,6 @@ export default function TeacherResults({
           key={teacherData.id}
           navigation={navigation}
           colors={colors}
-          initialStored={storedTeachers}
-          setStoredTeachers={setStoredTeachersChild}
         />
       );
     });
@@ -232,7 +148,7 @@ const styles = (colors) =>
       paddingLeft: 16,
       margin: 12,
       width: "90%",
-      alignSelf: "center"
+      alignSelf: "center",
     },
     titles: {
       flexDirection: "row",

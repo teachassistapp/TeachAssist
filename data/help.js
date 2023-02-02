@@ -98,18 +98,8 @@ export const teacherHelp = [
       "Search for teachers by name, or by their numerical ID.\n\nIf multiple results are found, tap the one you are interested in.",
   },
   {
-    header: "Why isn't it loading?",
-    description:
-      "Due to limited server resources, this functionality is currently a little unstable.\n\nWe are working on improving its performance.\n\nIf you notice that the search has been failing for a long time, please let us know through the Support and Feedback page in Settings!",
-  },
-  {
     header: "Where is the data from?",
     description:
       "The data is collected from the official Ontario College of Teachers website.",
-  },
-  {
-    header: "Starring teachers",
-    description:
-      "To compensate for the slow search, you are able to save teacher data that has successfully loaded.\n\nTo save data, tap the star next to a teacher's name. This will save the data to your device, so next time the app will simply load the data from your device.\n\nStarred teachers are displayed at the bottom of the screen.\n\nTo remove a saved teacher, tap the star again.",
   },
 ];

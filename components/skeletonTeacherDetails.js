@@ -6,7 +6,7 @@ import SkeletonAnimation from "./skeletonAnimation";
 export default function SkeletonTeacherDetails() {
   const { colors } = useTheme();
   const margins_heights = [
-    [2, 135],
+    [2, 80],
     [22, 80],
     [5, 80],
     [5, 80],

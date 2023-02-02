@@ -30,63 +30,52 @@ const filterTeachers = (teachers) => {
   return validTeachers;
 };
 
+const parseResults = (res) => {
+  if (res.length === 0) {
+    return "NONE";
+  }
+  if (Array.isArray(res)) {
+    let parsed = [];
+    res.forEach((t) => {
+      let name = t.phoenix_firstname;
+      if (t.phoenix_middlename) {
+        name += " " + t.phoenix_middlename;
+      }
+      name += " " + t.phoenix_surname;
+      parsed.push({
+        id: t.phoenix_regid,
+        name: name,
+        status: t.phoenix_fullstatusdescriptionml,
+      });
+    });
+    return parsed;
+  } else {
+    return res;
+  }
+};
+
 export default function TeacherSearch({ navigation }) {
   const { colors } = useTheme();
   const [teacherName, setTeacherName] = useState("");
-  const [storedTeachers, setStoredTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [valid, setValid] = useState(null);
   const [error, setError] = useState(false);
-  const setStoredTeachersChild = (t) => {
-    setStoredTeachers(t);
-  };
-
-  const retrieveData = async () => {
-    try {
-      let datum = await AsyncStorage.getItem("teacher");
-      datum = JSON.parse(datum);
-      if (datum !== null) {
-        setStoredTeachers(datum);
-      }
-    } catch (e) {
-      Alert.alert("Failed to load saved teachers.");
-    }
-  };
-
-  useEffect(() => {
-    retrieveData();
-  }, []);
 
   const navigateScreens = (res) => {
     if (res === "NONE") {
       setResults(res);
       return;
     }
-    try {
-      res = JSON.parse(res);
-    } catch (e) {
-      handleFetchError();
-      return null;
+    if (res.length === 1) {
+      navigation.navigate("Teacher Details", {
+        id: res[0].id,
+        name: res[0].name,
+        status: res[0].status,
+      });
     }
-    if (res.length !== 0) {
-      if (Array.isArray(res)) {
-        setResults(res);
-        setValid(filterTeachers(res));
-      } else if (typeof res === "object" && res !== null) {
-        navigation.navigate("Teacher Details", {
-          id: res.registration_number,
-          data: res,
-          name: res.full_name,
-          status: res.status,
-          isStarred:
-            storedTeachers.filter((t) => {
-              return res.full_name === t.name;
-            }).length > 0,
-          starrable: true,
-        });
-      }
-    }
+    setResults(res);
+    setValid(filterTeachers(res));
   };
   // sends api req
   const searchTeacher = () => {
@@ -100,22 +89,59 @@ export default function TeacherSearch({ navigation }) {
     setLoading(true);
     var requestOptions = {
       method: "GET",
+      Accept: "application/json, text/plain, */*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Accept-Language": "en-US,en;q=0.9",
+      Connection: "keep-alive",
+      Host: "apps.oct.ca",
+      "Sec-Fetch-Dest": "empty",
+      "Sec-Fetch-Mode": "cors",
+      "Sec-Fetch-Site": "same-origin",
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+      "sec-ch-ua":
+        '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "Windows",
     };
 
     fetch(
-      "https://oct-api.herokuapp.com/fetch-teacher?teacher=" +
-        teacherName.replace(" ", "%20"),
+      `https://apps.oct.ca/FindATeacherWebApiWrapper/api/publicregister/search?parameter=${teacherName.replaceAll(
+        " ",
+        "%20"
+      )}&csid=f41uk_O3QGF1Mo0.tf_sTdl_EUedR6pksz`,
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => {
-        navigateScreens(result);
-        setLoading(false);
-      })
-      .catch(() => {
-        handleFetchError();
+      .then((response) =>
+        response
+          .json()
+          .then((result) => {
+            navigateScreens(parseResults(result.value));
+            setLoading(false);
+          })
+          .catch((e) => {
+            throw e;
+          })
+      )
+      .catch((e) => {
+        console.log("error", e);
         setLoading(false);
       });
+
+    // fetch(
+    //   "https://oct-api.herokuapp.com/fetch-teacher?teacher=" +
+    //     teacherName.replace(" ", "%20"),
+    //   requestOptions
+    // )
+    //   .then((response) => response.text())
+    //   .then((result) => {
+    //     navigateScreens(result);
+    //     setLoading(false);
+    //   })
+    //   .catch(() => {
+    //     handleFetchError();
+    //     setLoading(false);
+    //   });
   };
 
   return (
@@ -194,8 +220,6 @@ export default function TeacherSearch({ navigation }) {
                 valid={valid}
                 navigation={navigation}
                 colors={colors}
-                storedTeachers={storedTeachers}
-                setStoredTeachers={setStoredTeachersChild}
                 actives={true}
               />
               <Text style={styles(colors).greenText}>
@@ -204,30 +228,6 @@ export default function TeacherSearch({ navigation }) {
             </>
           )
         )}
-        <View style={{ marginBottom: 50 }}>
-          <View style={styles(colors).hRule} />
-          <Text style={styles(colors).h}>Saved Teachers</Text>
-          {storedTeachers && storedTeachers.length > 0 ? (
-            <TeacherResults
-              data={storedTeachers}
-              valid={valid}
-              navigation={navigation}
-              colors={colors}
-              storedTeachers={storedTeachers}
-              setStoredTeachers={setStoredTeachersChild}
-              actives={false}
-            />
-          ) : (
-            <Text
-              style={[
-                GENERAL_STYLES(colors).p,
-                { textAlign: "center", marginTop: 10 },
-              ]}
-            >
-              No saved teachers
-            </Text>
-          )}
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
