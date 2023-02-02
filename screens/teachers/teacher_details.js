@@ -5,31 +5,15 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  Alert,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
 import AnimatedCollapsible from "../../components/AnimatedCollapsible";
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
 import { GENERAL_STYLES } from "../../globals/styles";
-
-function parseData(data) {
-  const keys = ["degrees", "education", "qualifications"];
-  const properties = [
-    "Qualifications",
-    "Teacher Education",
-    "Teacher Qualifications",
-  ];
-  let content = [];
-  for (let i = 0; i < 3; i++) {
-    content.push({ property: properties[i], content: data[keys[i]] });
-  }
-  return content;
-}
 
 export default function TeacherDetails({ route, navigation }) {
   const { colors } = useTheme();
@@ -42,7 +26,6 @@ export default function TeacherDetails({ route, navigation }) {
     setLoading(true);
     var requestOptions = {
       method: "GET",
-      redirect: "follow",
     };
 
     const url =
@@ -116,25 +99,9 @@ export default function TeacherDetails({ route, navigation }) {
           })
       )
       .catch((err) => {
-        console.log(err);
+        handleFetchError();
         setLoading(false);
       });
-
-    // fetch(
-    //   "https://oct-api.herokuapp.com/fetch-teacher-id?id=" + id,
-    //   requestOptions
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => {
-    //     result = JSON.parse(result);
-    //     setRes(result);
-    //     onLoad(id, result, starred);
-    //     setLoading(false);
-    //   })
-    //   .catch(() => {
-    //     handleFetchError();
-    //     setLoading(false);
-    //   });
   };
 
   useEffect(() => {

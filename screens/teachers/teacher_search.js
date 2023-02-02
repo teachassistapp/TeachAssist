@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
 import SkeletonTeacherLoading from "../../components/skeletonTeacherLoading";
@@ -124,24 +123,9 @@ export default function TeacherSearch({ navigation }) {
           })
       )
       .catch((e) => {
-        console.log("error", e);
         setLoading(false);
+        handleFetchError();
       });
-
-    // fetch(
-    //   "https://oct-api.herokuapp.com/fetch-teacher?teacher=" +
-    //     teacherName.replace(" ", "%20"),
-    //   requestOptions
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => {
-    //     navigateScreens(result);
-    //     setLoading(false);
-    //   })
-    //   .catch(() => {
-    //     handleFetchError();
-    //     setLoading(false);
-    //   });
   };
 
   return (

@@ -1,15 +1,13 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Dimensions,
 } from "react-native";
-import { Octicons, FontAwesome } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Octicons } from "@expo/vector-icons";
 import { GENERAL_STYLES } from "../../globals/styles";
 
 // component for the teacher overview we map through, (id,name, and status)
