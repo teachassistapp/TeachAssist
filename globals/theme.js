@@ -1,11 +1,10 @@
-// import createContext and useState
 import { createContext, useState } from 'react';
-// Initiate context
+import { useColorScheme } from 'react-native';
 const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
-    // Manage theme state
-    const [theme, setTheme] = useState('light');
+  const colorScheme = useColorScheme();
+    const [theme, setTheme] = useState(colorScheme);
     return (
         <ThemeContext.Provider
             value={{ theme, setTheme }}>
