@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import {
   View,
@@ -57,7 +57,7 @@ export default function SettingsHome() {
         <View style={{ ...GENERAL_STYLES(colors).header, marginBottom: 32 }}>
           <Text style={GENERAL_STYLES(colors).headerTitle}>Settings</Text>
         </View>
-        
+
         <View style={styles(colors).settingBox}>
           <Ionicons
             name="ios-moon"
@@ -75,7 +75,7 @@ export default function SettingsHome() {
               value={theme === "dark"}
             />
           </View>
-  </View>
+        </View>
         {labels.map((label, i) => {
           return (
             <TouchableOpacity

@@ -180,7 +180,7 @@ function GuidanceSearch() {
         <TouchableOpacity
           style={[styles(colors).button, { backgroundColor: colors.Primary1 }]}
           onPress={() => {
-            getAppointment();
+            //getAppointment();
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           }}
         >
@@ -190,6 +190,10 @@ function GuidanceSearch() {
             Find Appointments
           </Text>
         </TouchableOpacity>
+        <Text style={[styles(colors).errorMessage]}>
+          Note: Guidance Booking is not supported at this time. We are working
+          on fixing it!{"\n\n"}Sorry for the inconvenience :(
+        </Text>
         {loading && <SkeletonGuidanceLoading />}
         {noApps && (
           <View style={styles(colors).errorContainer}>
@@ -272,8 +276,7 @@ const styles = (colors) =>
     button: {
       alignSelf: "center",
       marginVertical: 20,
-      paddingTop: 10,
-      paddingBottom: 8,
+      paddingVertical: 8,
       paddingHorizontal: 20,
       backgroundColor: colors.Background,
       borderColor: colors.Border,

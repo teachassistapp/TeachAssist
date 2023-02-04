@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -24,6 +24,7 @@ import { StatusBar } from "expo-status-bar";
 import { ThemeContext } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
+import { lightColors, darkColors } from "../globals/colors";
 import * as Device from "expo-device";
 
 export default function Login({ navigation }) {
@@ -31,9 +32,10 @@ export default function Login({ navigation }) {
   const colors = theme === "light" ? lightColors : darkColors;
   const scheme = useColorScheme();
 
-  const img = theme === "dark"
-    ? require("../assets/logo-dark.png")
-    : require("../assets/logo-light.png");
+  const img =
+    theme === "dark"
+      ? require("../assets/logo-dark.png")
+      : require("../assets/logo-light.png");
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const [hidePass, setHidePass] = useState(true);
@@ -50,6 +52,13 @@ export default function Login({ navigation }) {
         "You may be asked to login again next time."
       );
     }
+  };
+
+  const storeData = async (datum) => {
+    try {
+      await AsyncStorage.setItem("data", JSON.stringify(datum));
+      setStored(datum);
+    } catch (error) {}
   };
 
   const initScheme = async () => {
@@ -92,7 +101,8 @@ export default function Login({ navigation }) {
       .then((response) => {
         if (response.status === 200) {
           storeAuthData(number, password);
-          response.json().then(() => {
+          response.json().then((data) => {
+            storeData(data.response);
             navigation.navigate("Home", { screen: "home" });
           });
         } else {
