@@ -1,18 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, Image, Dimensions } from "react-native";
 import {
   calculateAverage,
   calculateCourseAverage,
 } from "../../../globals/calculators";
 import { DisplayLineChart, DisplayTable } from "../../../components/charts";
-import { useTheme } from "../../../globals/theme";
+import { ThemeContext } from "../../../globals/theme";
 import { GENERAL_STYLES } from "../../../globals/styles";
 
 const vw = Dimensions.get("window").width;
 
 export default function StatisticsScreen({ assignments, weight_table }) {
-  const { colors, isDark } = useTheme();
-  const img = isDark
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
+  const img = theme === "dark"
     ? require("../../../assets/empty_graphic2.png")
     : require("../../../assets/empty_graphic1.png");
   if (assignments.length === 0 || weight_table === null) {

@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
-import { useTheme } from "../../../globals/theme";
+import { ThemeContext } from "../../../globals/theme";
 import { teacherHelp } from "../../../data/help";
 import AnimatedCollapsible from "../../../components/animatedCollapsible";
 import { GENERAL_STYLES } from "../../../globals/styles";
 import { BackHeader } from "../../../components/backHeader";
+import { lightColors, darkColors } from "../../../globals/colors";
 
 export default function TeacherHelp() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   return (
     <SafeAreaView
       style={{ ...GENERAL_STYLES(colors).safeView, alignItems: "center" }}

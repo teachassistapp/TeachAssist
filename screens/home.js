@@ -1,5 +1,5 @@
 // navbar
-import React from "react";
+import React, {useContext} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
@@ -8,12 +8,14 @@ import Search from "./search";
 import Teachers from "./teachers";
 import Settings from "./settings";
 import Courses from "./courses";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
+import { lightColors, darkColors } from "../globals/colors";
 
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const vh = Dimensions.get("window").height;
   return (
     <Tab.Navigator

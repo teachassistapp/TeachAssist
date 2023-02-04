@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from "react-native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
+import { lightColors, darkColors } from "../globals/colors";
 
 export default function GuidanceLinks({ link, time, date }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
   const navigateToBookScreen = () => {
     navigation.navigate("Book", {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -13,10 +13,11 @@ import SwitchSelector from "react-native-switch-selector";
 import AssessmentsScreen from "./details/assessments";
 import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/backHeader";
 import * as Device from "expo-device";
+import { lightColors, darkColors } from "../../globals/colors";
 
 function parseAssignments(data, weight_table) {
   let content = [];
@@ -126,7 +127,8 @@ function DisplayScreen(
   }
 }
 export default function Details({ route }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   let {
     code,
     block,

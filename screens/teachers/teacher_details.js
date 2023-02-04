@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState, useEffect } from "react";
 import {
   View,
@@ -8,15 +8,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
 import AnimatedCollapsible from "../../components/animatedCollapsible";
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { lightColors, darkColors } from "../../globals/colors";
 
 export default function TeacherDetails({ route, navigation }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   let { id, name, status } = route.params;
   name = name.toLowerCase();
   const [loading, setLoading] = useState(true);

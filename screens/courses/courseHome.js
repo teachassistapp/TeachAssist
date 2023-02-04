@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
@@ -24,7 +24,7 @@ import * as Haptics from "expo-haptics";
 import { StatusBar } from "expo-status-bar";
 import ProgressBar from "../../components/progressBar";
 import { DisplayProgress } from "../../components/charts";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 
 import { calculateCourseAverage } from "../../globals/calculators";
 import { parseAssignments } from "../../components/displayMarkUpdates";
@@ -32,6 +32,7 @@ import { handleFetchError } from "../../globals/alert";
 import { test_course_data } from "../../data/test";
 import { TEST_PASS, TEST_USER } from "../../data/keys";
 import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../../globals/styles";
+import { lightColors, darkColors } from "../../globals/colors";
 
 function DisplayCourse({
   breakdown,
@@ -53,7 +54,8 @@ function DisplayCourse({
   cached,
   index,
 }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
 
   if (k === "null") {
@@ -182,7 +184,8 @@ function DisplayCourse({
 }
 
 export default function Home({ navigation }) {
-  const { isDark, colors, setScheme } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const [isEnabled, setIsEnabled] = useState(true);
   const [data, setData] = useState([]);
   const [stored, setStored] = useState([]);
@@ -223,12 +226,12 @@ export default function Home({ navigation }) {
       const storedScheme = await AsyncStorage.getItem("scheme");
       if (!storedScheme) {
         if (scheme === "dark") {
-          setScheme("dark");
+          setTheme("dark");
         } else {
-          setScheme("light");
+          setTheme("light");
         }
       } else {
-        setScheme(storedScheme);
+        setTheme(storedScheme);
       }
     } catch {}
   };
@@ -523,7 +526,7 @@ export default function Home({ navigation }) {
             {isEnabled ? displayAverage : displayBreakdown}
           </View>
         </View>
-        <StatusBar style={isDark ? "light" : "dark"} />
+        <StatusBar style={theme === "dark" ? "light" : "dark"} />
       </ScrollView>
     </SafeAreaView>
   );

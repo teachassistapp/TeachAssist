@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -16,8 +16,9 @@ import SubmitCheck, {
 } from "../../../globals/inputValidation";
 import { calculateCourseAverage } from "../../../globals/calculators";
 import { DisplayProgress } from "../../../components/charts";
-import { useTheme } from "../../../globals/theme";
+import { ThemeContext } from "../../../globals/theme";
 import { GENERAL_STYLES } from "../../../globals/styles";
+import { lightColors, darkColors } from "../../../globals/colors";
 
 export default function AssessmentsScreen({
   content,
@@ -25,7 +26,8 @@ export default function AssessmentsScreen({
   weight_table,
   cached,
 }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const [tempMark, setTempMark] = useState(overall_mark);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [assessments, setAssessments] = useState([...content]);

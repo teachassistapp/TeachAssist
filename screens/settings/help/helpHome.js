@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Ionicons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import {
   View,
@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useTheme } from "../../../globals/theme";
+import { ThemeContext } from "../../../globals/theme";
 import { GENERAL_STYLES } from "../../../globals/styles";
 import { BackHeader } from "../../../components/backHeader";
+import { lightColors, darkColors } from "../../../globals/colors";
 
 export default function HelpHome({ navigation }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   return (
     <SafeAreaView
       style={{ ...GENERAL_STYLES(colors).safeView, alignItems: "center" }}

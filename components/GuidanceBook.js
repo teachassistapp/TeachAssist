@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -9,16 +9,18 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
 import { BackHeader } from "./backHeader";
+import { lightColors, darkColors } from "../globals/colors";
 
 function RadioButton({ options, choice, setChoice, box }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   return (
     <View>
       {options.map((d, i) => {
@@ -63,7 +65,8 @@ function RadioButton({ options, choice, setChoice, box }) {
 }
 
 export default function GuidanceBook({ route }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
   let { link, time, date } = route.params;
   date = new Date(date);

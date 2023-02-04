@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import {
   View,
@@ -13,18 +13,20 @@ import {
 import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { lightColors, darkColors } from "../../globals/colors";
 
 export default function SettingsHome() {
   const navigation = useNavigation();
-  const { setScheme, isDark, colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
 
   const logOut = async () => {
     try {
       await AsyncStorage.clear();
-      await AsyncStorage.setItem("scheme", isDark ? "dark" : "light");
+      await AsyncStorage.setItem("scheme", theme === "dark" ? "dark" : "light");
       navigation.navigate("Login");
     } catch {
       Alert.alert("Failed to logout.");
@@ -32,8 +34,8 @@ export default function SettingsHome() {
   };
 
   const toggleScheme = () => {
-    const newScheme = isDark ? "light" : "dark";
-    setScheme(newScheme);
+    const newScheme = theme === "dark" ? "light" : "dark";
+    setTheme(newScheme);
     storeScheme(newScheme);
   };
 
@@ -69,8 +71,8 @@ export default function SettingsHome() {
               trackColor={{ false: colors.Subtitle, true: colors.Primary1 }}
               thumbColor={"#fff"}
               activeThumbColor={"white"}
-              // onValueChange={toggleScheme}
-              // value={isDark}
+              onValueChange={toggleScheme}
+              value={theme === "dark"}
             />
           </View>
   </View>
@@ -114,7 +116,7 @@ export default function SettingsHome() {
             <Text style={styles(colors).buttonText}>Log Out</Text>
           </TouchableOpacity>
         </View>
-        <ExpoStatusBar style={isDark ? "light" : "dark"} />
+        <ExpoStatusBar style={theme === "dark" ? "light" : "dark"} />
       </View>
     </SafeAreaView>
   );

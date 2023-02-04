@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, Dimensions, StyleSheet } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { LineChart } from "react-native-chart-kit";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import { GENERAL_STYLES } from "../globals/styles";
+import { lightColors, darkColors } from "../globals/colors";
 
 const vw = Dimensions.get("window").width;
 
 export function DisplayTable({ weight_table }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   function DisplayRow({ name, mark, weight }) {
     return (
       <View style={styles(colors).row}>
@@ -63,7 +65,8 @@ export function DisplayTable({ weight_table }) {
 }
 
 export function DisplayLineChart({ marks, color, title }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   marks = marks.filter((el) => {
     return !isNaN(el) && typeof el === "number"; //filters out NaN and whitespace strings
   });
@@ -131,7 +134,8 @@ export function DisplayLineChart({ marks, color, title }) {
 }
 
 export function DisplayProgress({ value, subtitle }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   return (
     <View style={{ marginTop: 16, marginBottom: 20 }}>
       <AnimatedCircularProgress

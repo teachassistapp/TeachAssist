@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState } from "react";
 import {
   View,
@@ -11,13 +11,14 @@ import {
   Dimensions,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import TeacherResults from "./teacher_results";
 import SkeletonTeacherLoading from "../../components/skeletonTeacherLoading";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { handleFetchError } from "../../globals/alert";
 import { GENERAL_STYLES } from "../../globals/styles";
+import { lightColors, darkColors } from "../../globals/colors";
 
 const filterTeachers = (teachers) => {
   let validTeachers = [];
@@ -54,7 +55,8 @@ const parseResults = (res) => {
 };
 
 export default function TeacherSearch({ navigation }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const [teacherName, setTeacherName] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);

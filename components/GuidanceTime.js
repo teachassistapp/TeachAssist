@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import GuidanceLinks from "./guidanceLinks";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import * as Animatable from "react-native-animatable";
 import { GENERAL_STYLES } from "../globals/styles";
+import { lightColors, darkColors } from "../globals/colors";
 
 export default function GuidanceTime({ data, date }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const [expanded, setExpanded] = useState(false);
   return (
     <TouchableOpacity

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState, useEffect } from "react";
 import {
   View,
@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import GuidanceBook from "../components/guidanceBook";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import GuidanceTime from "../components/guidanceTime";
 import BookedAppointments from "../components/bookedAppointments";
 import { GENERAL_STYLES } from "../globals/styles";
@@ -25,6 +25,7 @@ import { TEST_USER, TEST_PASS } from "../data/keys";
 import { encryptRSA } from "../components/RSA";
 import SkeletonGuidanceLoading from "../components/skeletonGuidanceLoading";
 import * as Device from "expo-device";
+import { lightColors, darkColors } from "../globals/colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,8 @@ export default function Guidance() {
 }
 
 function GuidanceSearch() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const [date, setDate] = useState(new Date());
   const [data, setData] = useState(null);
   const [show, setShow] = useState(false);

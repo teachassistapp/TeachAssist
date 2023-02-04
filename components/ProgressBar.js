@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { Animated, StyleSheet, View } from "react-native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
+import { lightColors, darkColors } from "../globals/colors";
 
 const ProgressBar = (props) => {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   let {
     height,
     progress,

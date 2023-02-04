@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View } from "react-native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import SkeletonAnimation from "./skeletonAnimation";
+import { lightColors, darkColors } from "../globals/colors";
 
 export default function SkeletonTeacherDetails() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const margins_heights = [
     [2, 80],
     [22, 80],

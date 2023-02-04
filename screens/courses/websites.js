@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesome, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import {
   SafeAreaView,
@@ -16,10 +16,11 @@ import {
 import * as Haptics from "expo-haptics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { TEST_USER, TEST_PASS } from "../../data/keys";
 import * as Device from "expo-device";
+import { lightColors, darkColors } from "../../globals/colors";
 
 var websites_data = [
   ["TeachAssist", "https://ta.yrdsb.ca/yrdsb/"],
@@ -37,7 +38,8 @@ var websites_data = [
 ];
 
 export default function Websites({ navigation }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const [modalVisible, setModalVisible] = useState(false);
   const [editable, setEditable] = useState(false);
   const [customWebsite, setCustomWebsite] = useState("");

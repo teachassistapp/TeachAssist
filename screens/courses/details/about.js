@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text } from "react-native";
 import { GENERAL_STYLES } from "../../../globals/styles";
-import { useTheme } from "../../../globals/theme";
+import { ThemeContext } from "../../../globals/theme";
+import { lightColors, darkColors } from "../../../globals/colors";
 
 export default function AboutScreen({
   code,
@@ -11,7 +12,8 @@ export default function AboutScreen({
   start_time,
   end_time,
 }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
 
   const displayDate = (date) => {
     const months = [

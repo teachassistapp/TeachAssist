@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -16,22 +16,22 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
   useColorScheme,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
 import * as Device from "expo-device";
 
 export default function Login({ navigation }) {
-  const { colors, isDark, setScheme } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const scheme = useColorScheme();
 
-  const img = isDark
+  const img = theme === "dark"
     ? require("../assets/logo-dark.png")
     : require("../assets/logo-light.png");
   const [number, setNumber] = useState("");
@@ -57,12 +57,12 @@ export default function Login({ navigation }) {
       const storedScheme = await AsyncStorage.getItem("scheme");
       if (storedScheme === null) {
         if (scheme === "dark") {
-          setScheme("dark");
+          setTheme("dark");
         } else {
-          setScheme("light");
+          setTheme("light");
         }
       } else {
-        setScheme(storedScheme);
+        setTheme(storedScheme);
       }
     } catch {}
   };
@@ -176,7 +176,7 @@ export default function Login({ navigation }) {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-      <StatusBar style={isDark ? "light" : "dark"} />
+      <StatusBar style={theme === "dark" ? "light" : "dark"} />
     </SafeAreaView>
   );
 }

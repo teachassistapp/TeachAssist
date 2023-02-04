@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import {
@@ -11,15 +11,17 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { sendEmail } from "../../components/sendEmail";
 import * as Linking from "expo-linking";
 import * as Haptics from "expo-haptics";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/backHeader";
+import { lightColors, darkColors } from "../../globals/colors";
 
 export default function Feedback() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const [error, setError] = useState(false);
   const [text, onChangeText] = useState(null);
 

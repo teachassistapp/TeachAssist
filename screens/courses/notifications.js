@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView,
@@ -12,9 +12,10 @@ import {
   RefreshControl,
 } from "react-native";
 import DisplayMarkUpdates from "../../components/displayMarkUpdates";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 import { BackHeader } from "../../components/backHeader";
+import { lightColors, darkColors } from "../../globals/colors"
 
 const vw = Dimensions.get("window").width;
 
@@ -36,8 +37,9 @@ function join_arrays(a1, a2) {
   return combined_array;
 }
 export default function Notifications({ route }) {
-  const { colors, isDark } = useTheme();
-  const img = isDark
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
+  const img = theme === "dark"
     ? require("../../assets/notif_graphic2.png")
     : require("../../assets/notif_graphic1.png");
   const { isNotifs, current, updated } = route.params;

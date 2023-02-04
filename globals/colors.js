@@ -3,13 +3,13 @@ export const lightColors = {
   Primary2: "#6ebf67",
   Final: "#6efa61",
   Other: "#6efa61",
-  Background: "#FEFEFE", // bg colour
+  Background: "#FFFFFF", // bg colour
   Header: "#2f2f2f", // main text
   Subtitle: "#777", // sub text AND unselected bottom navigation icons
   Placeholder: "#CECECE", // placeholder for log in text boxes / search bar
   Container: "#fafafa", // bg colour for boxes that are everywhere
   Border: "#EEEEEE", // border for boxes that are everywhere
-  Selected: "#FEFEFE", // for sliders (i.e. assignments/statistics/details)
+  Selected: "#FFFFFF", // for sliders (i.e. assignments/statistics/details)
   GraphBackground: "#EEEEEE", // background for circle / bar graphs
   Shadow: "#ddd",
   Red: "#FF3B30",

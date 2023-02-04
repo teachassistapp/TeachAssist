@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome, Foundation } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -6,8 +6,9 @@ import {
   calculateCourseAverage,
   calculateAverage,
 } from "../globals/calculators";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import { GENERAL_STYLES } from "../globals/styles";
+import { lightColors, darkColors } from "../globals/colors";
 
 const months = [
   "Jan.",
@@ -157,7 +158,8 @@ const getAverages = (newAssignment, oldAssignment, newData, oldData) => {
 
 export default function DisplayMarkUpdates({ oldData, newData }) {
   const navigation = useNavigation();
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   let display = [];
   if (!oldData || !newData) {
     let data = newData ? { ...newData } : { ...oldData };

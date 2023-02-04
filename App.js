@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 //import { AppearanceProvider } from "react-native-appearance";
-//import { ThemeProvider } from "./globals/theme";
+import { ThemeProvider } from "./globals/theme";
 //import { useColorScheme } from "react-native";
 import {
   useFonts,
@@ -51,23 +51,25 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <NavigationContainer theme={DarkTheme}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {loggedIn ? (
-              <>
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="Login" component={Login} />
-              </>
-            ) : (
-              <>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Home" component={Home} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <NavigationContainer theme={DarkTheme}>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {loggedIn ? (
+                <>
+                  <Stack.Screen name="Home" component={Home} />
+                  <Stack.Screen name="Login" component={Login} />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen name="Login" component={Login} />
+                  <Stack.Screen name="Home" component={Home} />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </ThemeProvider>
     );
   }
 }

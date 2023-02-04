@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import {
   View,
@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useTheme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
 
 export default function About({ navigation }) {
-  const { colors, isDark } = useTheme();
-  const img = isDark
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
+  const img = theme === "dark"
     ? require("../../assets/logo-dark.png")
     : require("../../assets/logo-light.png");
   return (

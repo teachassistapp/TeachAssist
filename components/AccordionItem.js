@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -20,9 +20,10 @@ import * as Haptics from "expo-haptics";
 import ProgressBar from "./progressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../globals/styles";
 import * as Device from "expo-device";
+import { lightColors, darkColors } from "../globals/colors";
 
 export default function AccordionItem({
   data,
@@ -31,7 +32,8 @@ export default function AccordionItem({
   originalAssignment,
   editable,
 }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const [section, setSection] = useState(data);
   const [expanded, setExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);

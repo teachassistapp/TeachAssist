@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View } from "react-native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import SkeletonTeacherLine from "./skeletonTeacherLine";
 import SkeletonAnimation from "./skeletonAnimation";
+import { lightColors, darkColors } from "../globals/colors";
 
 export default function SkeletonLoading() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   return (
     <>
       <SkeletonAnimation>

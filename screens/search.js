@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -16,11 +16,12 @@ import {
 import * as Haptics from "expo-haptics";
 import ProgressBar from "../components/progressBar";
 import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "../globals/theme";
+import { ThemeContext } from "../globals/theme";
 import { calculateAverage } from "../globals/calculators";
 import { test_course_data } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { ASSIGNMENT_STYLES, GENERAL_STYLES } from "../globals/styles";
+import { lightColors, darkColors } from "../globals/colors";
 
 function parseAssignments(data, weight_table) {
   let content = {
@@ -59,9 +60,10 @@ function parseAssignments(data, weight_table) {
 }
 
 function SearchAssignments({ title, assignments }) {
-  const { colors, isDark } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
-  const img = isDark
+  const img = theme === "dark"
     ? require("../assets/search_graphic2.png")
     : require("../assets/search_graphic1.png");
 
@@ -174,7 +176,8 @@ function SearchAssignments({ title, assignments }) {
 }
 
 function DisplayCourseMatches({ matches }) {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   let assignments = [];
   for (let i = 0; i < matches.length; i++) {
     const section = matches[i];
@@ -282,7 +285,8 @@ function DisplayCourseMatches({ matches }) {
 }
 
 export default function Search() {
-  const { colors } = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
+const colors = theme === "light" ? lightColors : darkColors;
   const [assignments, setAssignments] = useState([]);
   const [search, setSearch] = useState(null);
   const retrieveData = async () => {
