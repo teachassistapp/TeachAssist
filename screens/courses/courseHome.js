@@ -40,6 +40,8 @@ function DisplayCourse({
   room,
   name,
   overall_mark,
+  isFinal,
+  isMidterm,
   assignments,
   weight_table,
   k,
@@ -168,6 +170,11 @@ function DisplayCourse({
           Period {block} — Room {room}
         </Text>
         <Text style={styles(colors).subtitle}>{name}</Text>
+        {isFinal ? (
+          <Text style={styles(colors).markType}>Final</Text>
+        ) : (
+          isMidterm && <Text style={styles(colors).markType}>Midterm</Text>
+        )}
       </View>
       {displayMethod}
     </TouchableOpacity>
@@ -270,23 +277,10 @@ export default function Home({ navigation }) {
     if (number !== null && password !== null) {
       var requestOptions = {
         headers: {
-          accept: "*/*",
-          "accept-language": "en-US,en;q=0.9",
           "content-type": "application/json",
-          "sec-ch-ua":
-            '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"Windows"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-origin",
         },
-        referrer: "https://ta-api.vercel.app/",
-        referrerPolicy: "strict-origin-when-cross-origin",
         body: `{"username":"${number}","password":"${password}"}`,
         method: "POST",
-        mode: "cors",
-        credentials: "omit",
       };
 
       fetch("https://ta-api.vercel.app/api/getCourses", requestOptions)
@@ -382,6 +376,8 @@ export default function Home({ navigation }) {
         overall = calculateCourseAverage(parsed);
       }
     }
+    let isFinal = data[i].isFinal ? data[i].isFinal : false;
+    let isMidterm = data[i].isMidterm ? data[i].isMidterm : false;
     let weight_table = weight_table_exists ? data[i].weight_table : {};
     let assignments = data[i].assignments === [] ? "null" : data[i].assignments;
     let start_time = data[i].start_time;
@@ -403,6 +399,8 @@ export default function Home({ navigation }) {
         overall_mark={overall}
         assignments={assignments}
         weight_table={weight_table}
+        isFinal={isFinal}
+        isMidterm={isMidterm}
         start_time={start_time}
         end_time={end_time}
         cached={cached}
@@ -422,6 +420,8 @@ export default function Home({ navigation }) {
         c={c}
         a={a}
         overall_mark={overall}
+        isFinal={isFinal}
+        isMidterm={isMidterm}
         assignments={assignments}
         weight_table={weight_table}
         start_time={start_time}
@@ -494,10 +494,9 @@ export default function Home({ navigation }) {
           <SwitchSelector
             options={options}
             initial={0}
-            textStyle={{ fontFamily: "Poppins_500Medium", paddingTop: 3 }}
+            textStyle={{ fontFamily: "Poppins_500Medium" }}
             selectedTextStyle={{
               fontFamily: "Poppins_600SemiBold",
-              paddingTop: 3,
             }}
             textColor={colors.Subtitle}
             selectedColor={colors.Primary1}
@@ -578,6 +577,12 @@ const styles = (colors) =>
       fontFamily: "Poppins_400Regular",
       fontSize: vw < 300 ? 12 : 13,
       color: colors.Subtitle,
+    },
+    markType: {
+      fontFamily: "Poppins_600SemiBold",
+      textTransform: "uppercase",
+      fontSize: vw < 300 ? 14 : 16,
+      color: colors.Primary1,
     },
     marks: {
       fontFamily: "Poppins_600SemiBold",

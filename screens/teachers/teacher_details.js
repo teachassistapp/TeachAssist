@@ -78,7 +78,7 @@ export default function TeacherDetails({ route, navigation }) {
                     });
                     degreeCredentials.value.forEach((item) => {
                       result.content.degrees.content.push({
-                        name: item.phoenix_degree_name,
+                        subject: item.phoenix_degree_name,
                         institution: item.phoenix_institution_name,
                         date: item.phoenix_issueddate,
                       });

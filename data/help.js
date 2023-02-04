@@ -17,7 +17,7 @@ export const courseHelp = [
   {
     header: "Is my data being collected?",
     description:
-      "No. Your credentials are securely encrypted and sent to TeachAssist, which returns the data directly to the app. It is not being collected/stored anywhere aside from your own device.",
+      "No. Your credentials are sent securly and directly to TeachAssist, which returns the data directly to the app. A middleware API is used, but it is open-source and publicly available (https://ta-api.vercel.app). Your data are not being collected/stored anywhere aside from your own device.",
   },
   {
     header: "How accurate are the marks?",
@@ -100,6 +100,6 @@ export const teacherHelp = [
   {
     header: "Where is the data from?",
     description:
-      "The data is collected from the official Ontario College of Teachers website.",
+      "The data are collected from the official Ontario College of Teachers website.",
   },
 ];

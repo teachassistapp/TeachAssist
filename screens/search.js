@@ -278,7 +278,7 @@ function DisplayCourseMatches({ matches }) {
       </View>
     );
   }
-  return <View>{assignments}</View>;
+  return <View style={{ marginBottom: 20 }}>{assignments}</View>;
 }
 
 export default function Search() {

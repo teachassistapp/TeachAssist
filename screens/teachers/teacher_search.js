@@ -272,6 +272,7 @@ const styles = (colors) =>
       textAlign: "center",
       width: 0.8 * vw,
       marginTop: 20,
+      marginBottom: 40,
       fontFamily: "Poppins_400Regular",
       color: colors.Primary1,
     },

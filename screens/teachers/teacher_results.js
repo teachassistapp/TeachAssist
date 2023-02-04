@@ -16,8 +16,8 @@ function TeacherOverview({ teacher, navigation, colors }) {
   if (name.includes(", OCT")) {
     name = name.slice(0, -5);
   }
-  if (name.length * 23 > Dimensions.get("window").width) {
-    name = name.slice(0, Dimensions.get("window").width / 23) + "...";
+  if (name.length * 15 > Dimensions.get("window").width) {
+    name = name.slice(0, Dimensions.get("window").width / 15) + "...";
   }
 
   return (
@@ -32,9 +32,9 @@ function TeacherOverview({ teacher, navigation, colors }) {
       }}
     >
       <Text style={styles(colors).teacherName}>{name.toLowerCase()}</Text>
-      <View style={{ flex: 2, alignItems: "center" }}>
+      <View style={{ flex: 4, alignItems: "center" }}>
         <Octicons
-          name="primitive-dot"
+          name="dot-fill"
           size={20}
           color={
             teacher.status.includes("Good Standing")
@@ -109,10 +109,9 @@ export default function TeacherResults({
       )}
       <View style={styles(colors).titles}>
         <Text style={[GENERAL_STYLES(colors).p, { flex: 8 }]}>Name</Text>
-        <View style={{ flex: 2, alignText: "center", alignItems: "center" }}>
+        <View style={{ flex: 4, alignText: "center", alignItems: "center" }}>
           <Text style={GENERAL_STYLES(colors).p}>Status</Text>
         </View>
-        <View style={{ flex: 2 }} />
       </View>
       {renderTeachers()}
     </View>

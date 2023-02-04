@@ -266,7 +266,7 @@ const styles = (colors) =>
       color: colors.Subtitle,
       fontSize: 14,
       marginLeft: 15,
-      marginTop: 3,
+      marginTop: 0,
     },
     calculator: {
       width: "90%",

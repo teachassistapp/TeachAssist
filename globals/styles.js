@@ -16,7 +16,7 @@ export const GENERAL_STYLES = (colors) =>
       alignItems: "center",
       justifyContent: "flex-start",
       backgroundColor: colors.Background,
-      paddingTop: 15,
+      paddingVertical: 15,
       width: vw,
     },
     blockContainer: {
