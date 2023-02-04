@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import {
   View,
@@ -22,7 +22,7 @@ import { GENERAL_STYLES } from "../globals/styles";
 import { handleFetchError } from "../globals/alert";
 import { test_guidance_times } from "../data/test";
 import { TEST_USER, TEST_PASS } from "../data/keys";
-import { encryptRSA } from "../components/RSA";
+import { encryptRSA } from "../components/rsa";
 import SkeletonGuidanceLoading from "../components/skeletonGuidanceLoading";
 import * as Device from "expo-device";
 import { lightColors, darkColors } from "../globals/colors";
@@ -40,7 +40,7 @@ export default function Guidance() {
 
 function GuidanceSearch() {
   const { theme, setTheme } = useContext(ThemeContext);
-const colors = theme === "light" ? lightColors : darkColors;
+  const colors = theme === "light" ? lightColors : darkColors;
   const [date, setDate] = useState(new Date());
   const [data, setData] = useState(null);
   const [show, setShow] = useState(false);

@@ -12,7 +12,7 @@ import {
 import { ThemeContext } from "../globals/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { encryptRSA } from "./RSA.js";
+import { encryptRSA } from "./rsa";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
 import { BackHeader } from "./backHeader";
@@ -66,7 +66,7 @@ function RadioButton({ options, choice, setChoice, box }) {
 
 export default function GuidanceBook({ route }) {
   const { theme, setTheme } = useContext(ThemeContext);
-const colors = theme === "light" ? lightColors : darkColors;
+  const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
   let { link, time, date } = route.params;
   date = new Date(date);

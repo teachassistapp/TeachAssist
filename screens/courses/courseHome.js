@@ -55,7 +55,7 @@ function DisplayCourse({
   index,
 }) {
   const { theme, setTheme } = useContext(ThemeContext);
-const colors = theme === "light" ? lightColors : darkColors;
+  const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
 
   if (k === "null") {

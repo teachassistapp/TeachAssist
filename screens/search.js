@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -63,9 +63,10 @@ function SearchAssignments({ title, assignments }) {
   const { theme, setTheme } = useContext(ThemeContext);
   const colors = theme === "light" ? lightColors : darkColors;
   const navigation = useNavigation();
-  const img = theme === "dark"
-    ? require("../assets/search_graphic2.png")
-    : require("../assets/search_graphic1.png");
+  const img =
+    theme === "dark"
+      ? require("../assets/search_graphic2.png")
+      : require("../assets/search_graphic1.png");
 
   if (title === null || title === "" || assignments.length === 0) {
     return (
@@ -177,7 +178,7 @@ function SearchAssignments({ title, assignments }) {
 
 function DisplayCourseMatches({ matches }) {
   const { theme, setTheme } = useContext(ThemeContext);
-const colors = theme === "light" ? lightColors : darkColors;
+  const colors = theme === "light" ? lightColors : darkColors;
   let assignments = [];
   for (let i = 0; i < matches.length; i++) {
     const section = matches[i];
@@ -286,7 +287,7 @@ const colors = theme === "light" ? lightColors : darkColors;
 
 export default function Search() {
   const { theme, setTheme } = useContext(ThemeContext);
-const colors = theme === "light" ? lightColors : darkColors;
+  const colors = theme === "light" ? lightColors : darkColors;
   const [assignments, setAssignments] = useState([]);
   const [search, setSearch] = useState(null);
   const retrieveData = async () => {
@@ -359,7 +360,6 @@ const styles = (colors) =>
       width: 0.9 * vw,
       height: 50,
       paddingHorizontal: 17,
-      paddingTop: 5,
       margin: 5,
       marginBottom: 15,
       color: colors.Subtitle,
