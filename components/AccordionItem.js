@@ -17,7 +17,7 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "./progressBar";
 import { calculateAverage } from "../globals/calculators";
 import SubmitCheck, { verifyNumber } from "../globals/inputValidation";
 import { useTheme } from "../globals/theme";

@@ -7,8 +7,8 @@ import {
   TextInput,
   Dimensions,
 } from "react-native";
-import Accordion from "../../../components/Accordion";
-import Collapsible from "../../../components/Collapsible";
+import Accordion from "../../../components/accordion";
+import Collapsible from "../../../components/collapsible";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import SubmitCheck, {
   verifyNumber,

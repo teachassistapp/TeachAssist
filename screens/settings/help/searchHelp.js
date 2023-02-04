@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { useTheme } from "../../../globals/theme";
-import AnimatedCollapsible from "../../../components/AnimatedCollapsible";
+import AnimatedCollapsible from "../../../components/animatedCollapsible";
 import { searchHelp } from "../../../data/help";
 import { GENERAL_STYLES } from "../../../globals/styles";
-import { BackHeader } from "../../../components/BackHeader";
+import { BackHeader } from "../../../components/backHeader";
 
 export default function SearchHelp() {
   const { colors } = useTheme();

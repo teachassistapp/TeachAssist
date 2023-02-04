@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { useTheme } from "../../../globals/theme";
 import { courseHelp } from "../../../data/help";
-import AnimatedCollapsible from "../../../components/AnimatedCollapsible";
+import AnimatedCollapsible from "../../../components/animatedCollapsible";
 import { GENERAL_STYLES } from "../../../globals/styles";
-import { BackHeader } from "../../../components/BackHeader";
+import { BackHeader } from "../../../components/backHeader";
 
 export default function CourseHelp() {
   const { colors } = useTheme();

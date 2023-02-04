@@ -12,11 +12,11 @@ import {
   Dimensions,
 } from "react-native";
 import { useTheme } from "../../globals/theme";
-import { sendEmail } from "../../components/SendEmail";
+import { sendEmail } from "../../components/sendEmail";
 import * as Linking from "expo-linking";
 import * as Haptics from "expo-haptics";
 import { GENERAL_STYLES } from "../../globals/styles";
-import { BackHeader } from "../../components/BackHeader";
+import { BackHeader } from "../../components/backHeader";
 
 export default function Feedback() {
   const { colors } = useTheme();

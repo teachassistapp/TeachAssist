@@ -55,7 +55,7 @@ export default function SettingsHome() {
         <View style={{ ...GENERAL_STYLES(colors).header, marginBottom: 32 }}>
           <Text style={GENERAL_STYLES(colors).headerTitle}>Settings</Text>
         </View>
-        {/*
+        
         <View style={styles(colors).settingBox}>
           <Ionicons
             name="ios-moon"
@@ -69,11 +69,11 @@ export default function SettingsHome() {
               trackColor={{ false: colors.Subtitle, true: colors.Primary1 }}
               thumbColor={"#fff"}
               activeThumbColor={"white"}
-              onValueChange={toggleScheme}
-              value={isDark}
+              // onValueChange={toggleScheme}
+              // value={isDark}
             />
           </View>
-  </View>*/}
+  </View>
         {labels.map((label, i) => {
           return (
             <TouchableOpacity

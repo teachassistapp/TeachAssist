@@ -11,10 +11,10 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import DisplayMarkUpdates from "../../components/DisplayMarkUpdates";
+import DisplayMarkUpdates from "../../components/displayMarkUpdates";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
-import { BackHeader } from "../../components/BackHeader";
+import { BackHeader } from "../../components/backHeader";
 
 const vw = Dimensions.get("window").width;
 

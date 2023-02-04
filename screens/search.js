@@ -14,7 +14,7 @@ import {
   Dimensions,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "../components/progressBar";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../globals/theme";
 import { calculateAverage } from "../globals/calculators";

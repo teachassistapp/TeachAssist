@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { encryptRSA } from "./RSA.js";
 import { TEST_USER, TEST_PASS } from "../data/keys";
 import { GENERAL_STYLES } from "../globals/styles";
-import { BackHeader } from "./BackHeader";
+import { BackHeader } from "./backHeader";
 
 function RadioButton({ options, choice, setChoice, box }) {
   const { colors } = useTheme();

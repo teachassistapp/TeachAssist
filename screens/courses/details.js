@@ -15,7 +15,7 @@ import StatisticsScreen from "./details/statistics";
 import AboutScreen from "./details/about";
 import { useTheme } from "../../globals/theme";
 import { GENERAL_STYLES } from "../../globals/styles";
-import { BackHeader } from "../../components/BackHeader";
+import { BackHeader } from "../../components/backHeader";
 import * as Device from "expo-device";
 
 function parseAssignments(data, weight_table) {

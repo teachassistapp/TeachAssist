@@ -11,7 +11,7 @@ import {
 import { useTheme } from "../../globals/theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { handleFetchError } from "../../globals/alert";
-import AnimatedCollapsible from "../../components/AnimatedCollapsible";
+import AnimatedCollapsible from "../../components/animatedCollapsible";
 import SkeletonTeacherDetails from "../../components/skeletonTeacherDetails";
 import { GENERAL_STYLES } from "../../globals/styles";
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AccordionItem from "./AccordionItem";
+import AccordionItem from "./accordionItem";
 
 export default function Accordion({
   assessments,

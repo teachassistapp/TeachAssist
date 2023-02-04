@@ -22,12 +22,12 @@ import {
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import { StatusBar } from "expo-status-bar";
-import ProgressBar from "../../components/ProgressBar";
+import ProgressBar from "../../components/progressBar";
 import { DisplayProgress } from "../../components/charts";
 import { useTheme } from "../../globals/theme";
 
 import { calculateCourseAverage } from "../../globals/calculators";
-import { parseAssignments } from "../../components/DisplayMarkUpdates";
+import { parseAssignments } from "../../components/displayMarkUpdates";
 import { handleFetchError } from "../../globals/alert";
 import { test_course_data } from "../../data/test";
 import { TEST_PASS, TEST_USER } from "../../data/keys";

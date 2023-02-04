@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useTheme } from "../../../globals/theme";
 import { GENERAL_STYLES } from "../../../globals/styles";
-import { BackHeader } from "../../../components/BackHeader";
+import { BackHeader } from "../../../components/backHeader";
 
 export default function HelpHome({ navigation }) {
   const { colors } = useTheme();

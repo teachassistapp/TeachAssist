@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import GuidanceLinks from "./GuidanceLinks";
+import GuidanceLinks from "./guidanceLinks";
 import { useTheme } from "../globals/theme";
 import * as Animatable from "react-native-animatable";
 import { GENERAL_STYLES } from "../globals/styles";
