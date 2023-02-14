@@ -2,7 +2,7 @@
   "expo": {
     "name": "TeachAssist",
     "slug": "teachassistapp",
-    "version": "1.1",
+    "version": "1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -33,6 +33,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "userInterfaceStyle": "automatic"
+    "userInterfaceStyle": "automatic",
+    "extra": {
+      "eas": {
+        "projectId": "dc88c3fc-2190-4ce2-8f2f-3679338a2d9e"
+      }
+    }
   }
 }

@@ -1,10 +1,13 @@
 {
   "cli": {
-    "version": ">= 0.48.1"
+    "version": ">= 0.48.1",
+    "promptToConfigurePushNotifications": false
   },
   "build": {
     "development": {
-      "ios": {"image": "latest"},
+      "ios": {
+        "image": "latest"
+      },
       "developmentClient": true,
       "distribution": "internal"
     },
